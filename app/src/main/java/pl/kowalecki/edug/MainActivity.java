@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +31,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
     MD5Cipher md5Cipher = new MD5Cipher();
     ArrayList<String> listOfGames = new ArrayList<>();
     UserService userService;
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    Handler handler = new Handler(Looper.getMainLooper());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mQueue = Volley.newRequestQueue(this);
         gamesList = new ArrayList<>();
         spinner=(Spinner) findViewById(R.id.spinner);
@@ -57,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         passwordText=(EditText) findViewById(R.id.passwordField);
         submit=(Button)findViewById(R.id.loginButton);
         userService = ApiUtils.getUserService();
+        getGamesTest();
 
-        new GetGames().execute();
+
         submit.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -76,46 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//        submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String url = "https://www.edug.pl/_webservices/user_login.php";
-//                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String s) {
-//                        if(s.equals("true")){
-//                            Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_LONG).show();
-//                            startActivity(new Intent(MainActivity.this, Home.class));
-//                        }else{
-//                            Toast.makeText(MainActivity.this, "Wrong details", Toast.LENGTH_LONG).show();
-//                        }
-//
-//                    }}, new Response.ErrorListener(){
-//                        @Override
-//                                public void onErrorResponse(VolleyError volleyError){
-//                            Toast.makeText(MainActivity.this, "Some error occurred" + volleyError, Toast.LENGTH_LONG).show();
-//                        }
-//                }){
-//                    String sysinfo = "wp";
-//                    String lang = "pl";
-//                    String game = spinner.getSelectedItem().toString();
-//                    String passwordGame = "grauman";
-//                    @Override
-//                    protected Map<String, String> getParams() throws AuthFailureError{
-//                        Map<String, String> params = new HashMap<>();
-//                        params.put("sys", sysinfo);
-//                        params.put("lang", lang);
-//                        params.put("game", game);
-//                        params.put("login", login.getText().toString());
-//                        params.put("hash", md5Cipher.md5(password.getText().toString()));
-//                        params.put("crc", md5Cipher.md5(passwordGame+sysinfo+lang+game+login+password));
-//                        return params;
-//                    }
-//                };
-//                RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-//                requestQueue.add(request);
-//            }
-//        });
     }
 
     private boolean validateLogin(String login, String hash){
@@ -157,15 +126,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private class GetGames extends AsyncTask<Void, Void, Void>{
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-           }
-        @Override
-        protected Void doInBackground(Void... agr0) {
-            HttpHandler sh = new HttpHandler();
+    private void getGamesTest(){
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                HttpHandler sh = new HttpHandler();
 
             String url = "https://www.edug.pl/_webservices/list_games.php";
             String jsonStr = sh.makeServiceCall(url);
@@ -208,25 +175,21 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Couldnt get json from server. Check logcat", Toast.LENGTH_LONG).show();
                 }
             });
-            }
-        return null;
+
         }
-
-        @Override
-        protected void onPostExecute(Void result){
-            super.onPostExecute(result);
-
-//            SpinnerAdapter spinnerAdapter = new SimpleAdapter(MainActivity.this, gamesList, R.layout.list_item, new String[]{"idg"},
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+// SpinnerAdapter spinnerAdapter = new SimpleAdapter(MainActivity.this, gamesList, R.layout.list_item, new String[]{"idg"},
 //                    new int[]{R.id.idg});
 //            spinner.setAdapter(spinnerAdapter);
 
             ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listOfGames);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(arrayAdapter);
-        }
-
-
-    }
-
-
+                    }
+                });
+            }
+        });
+}
 }
