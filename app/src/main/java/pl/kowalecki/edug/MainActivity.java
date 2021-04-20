@@ -3,9 +3,11 @@ package pl.kowalecki.edug;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +42,7 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextViewResult;
+    SwipeRefreshLayout swipeRefreshLayout;
    // private RequestQueue mQueue;
     ArrayList<HashMap<String, String>> gamesList;
     private String TAG = MainActivity.class.getSimpleName();
@@ -66,10 +69,17 @@ public class MainActivity extends AppCompatActivity {
         passwordInputField=(TextInputLayout) findViewById(R.id.passwordField);
         submit=(Button)findViewById(R.id.loginButton);
         userService = ApiUtils.getUserService();
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshLayout);
         getGames();
 
 
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getGames();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener(){
 

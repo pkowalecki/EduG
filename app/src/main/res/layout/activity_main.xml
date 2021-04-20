@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/refreshLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +12,6 @@
     android:layout_height="match_parent"
     android:background="#ecedf0"
     tools:context=".MainActivity">
-
 
        <ImageView
            android:layout_marginTop="40dp"
@@ -79,13 +83,14 @@
            android:layout_below="@+id/loginView"
            android:layout_centerHorizontal="true"
            android:layout_marginTop="0dp"
-           android:paddingTop="20dp"
+           android:paddingTop="30dp"
            android:paddingStart="20dp"
            android:paddingEnd="20dp"
            android:layout_marginEnd="40dp"
            android:layout_marginBottom="40dp"
-           android:background="@android:color/white"
-           android:paddingBottom="10dp">
+           android:background="@drawable/white_window_background"
+           android:paddingBottom="10dp"
+           >
 
               <com.google.android.material.textfield.TextInputLayout
                   android:id="@+id/loginField"
@@ -158,3 +163,5 @@
            android:visibility="invisible"/>
 
 </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
