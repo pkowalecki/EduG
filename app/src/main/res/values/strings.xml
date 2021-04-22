@@ -9,4 +9,7 @@
     <string name="edugLogo">edugLogo</string>
     <string name="login_pl">LOGOWANIE</string>
     <string name="login_eng">LOGIN FORM</string>
+    <string name="navbar_open_pl">OTWRÓRZ</string>
+    <string name="navbar_close_pl">ZAMKNIJ</string>
+    <string name="logout_pl">WYLOGUJ</string>
 </resources>

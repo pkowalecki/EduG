@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private TextView mTextViewResult;
     SwipeRefreshLayout swipeRefreshLayout;
    // private RequestQueue mQueue;
@@ -72,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshLayout);
         getGames();
 
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -92,15 +94,31 @@ public class MainActivity extends AppCompatActivity {
                 String login = loginInputField.getEditText().getText().toString();
                 String hash = md5Cipher.md5(passwordInputField.getEditText().getText().toString());
                 String crc = md5Cipher.md5(passwordGame+sys+lang+game+login+hash);
+
                if(validateLogin() && validatePassword()){
                     doLogin(sys, lang, game, login, hash, crc);
-                }else{
-
-               }
+                }
 
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkSession();
+    }
+
+    private void checkSession() {
+        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+        String userCRC = sessionManagement.getSession();
+        if (!userCRC.equals("false")){
+            Intent intent = new Intent(MainActivity.this, Home.class);
+            startActivity(intent);
+        }else{
+
+        }
     }
 
     private boolean validateLogin(){
@@ -114,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else{
             loginInputField.setError(null);
-            //loginInputField.setErrorEnabled(false);
             return true;
         }
 
@@ -126,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }else{
             passwordInputField.setError(null);
-            //passwordInputField.setErrorEnabled(false);
             return true;
         }
     }
@@ -151,8 +167,12 @@ public class MainActivity extends AppCompatActivity {
                             String comment = user_login.getString("comment");
 
                             if (result.equals("true")) {
+                        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
+                        sessionManagement.saveSession(crc);
+
                         Intent intent = new Intent(MainActivity.this, Home.class);
-                        intent.putExtra("username", login);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //intent.putExtra("username", login);
                         startActivity(intent);
                             } else{
                                 runOnUiThread(new Runnable() {
