@@ -5,12 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,26 +15,27 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import pl.kowalecki.edug.Data.ListGames;
+import pl.kowalecki.edug.Data.UserAccount;
+import pl.kowalecki.edug.Data.UserLogin;
+import pl.kowalecki.edug.Data.WebServiceData;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,13 +55,16 @@ public class MainActivity extends AppCompatActivity {
     UserService userService;
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Handler handler = new Handler(Looper.getMainLooper());
-
+    WebServiceData webServiceData = new WebServiceData();
+    UserLogin userLogin = new UserLogin();
+    UserAccount userAccount = new UserAccount();
+    ListGames listGames = new ListGames();
+    SessionManagement sessionManagement;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //mQueue = Volley.newRequestQueue(this);
-        gamesList = new ArrayList<>();
         spinner=(Spinner) findViewById(R.id.spinner);
         loginInputField=(TextInputLayout) findViewById(R.id.loginField);
         emailaddress=(TextInputEditText) findViewById(R.id.emailaddress);
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         submit=(Button)findViewById(R.id.loginButton);
         userService = ApiUtils.getUserService();
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshLayout);
+        sessionManagement = new SessionManagement(getApplicationContext());
         getGames();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -88,18 +89,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String passwordGame = "grauman";
-                String sys = "wp";
-                String lang = "pl";
-                String game = spinner.getSelectedItem().toString();
-                String login = loginInputField.getEditText().getText().toString();
-                String hash = md5Cipher.md5(passwordInputField.getEditText().getText().toString());
-                String crc = md5Cipher.md5(passwordGame+sys+lang+game+login+hash);
+                userLogin.setSys("wp");
+                userLogin.setLang("pl");
+                userLogin.setGame(spinner.getSelectedItem().toString());
+                userLogin.setLogin(loginInputField.getEditText().getText().toString());
+                userLogin.setHash(md5Cipher.md5(passwordInputField.getEditText().getText().toString()));
+                userLogin.setCrc(md5Cipher.md5(passwordGame+ userLogin.getSys()+ userLogin.getLang()+ userLogin.getGame()+ userLogin.getLogin()+ userLogin.getHash()));
 
                if(validateLogin() && validatePassword()){
-                    doLogin(sys, lang, game, login, hash, crc);
+                    doLogin(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
+                   webServiceData.userAccountData(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
+
                 }
-
-
             }
         });
     }
@@ -111,13 +112,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkSession() {
-        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
-        String userCRC = sessionManagement.getSession();
-        if (!userCRC.equals("false")){
-            Intent intent = new Intent(MainActivity.this, Home.class);
-            startActivity(intent);
-        }else{
-
+        if (sessionManagement.getLoginToEdug()){
+            startActivity(new Intent(getApplicationContext(), Home.class));
         }
     }
 
@@ -167,13 +163,15 @@ public class MainActivity extends AppCompatActivity {
                             String comment = user_login.getString("comment");
 
                             if (result.equals("true")) {
-                        SessionManagement sessionManagement = new SessionManagement(MainActivity.this);
-                        sessionManagement.saveSession(crc);
-
-                        Intent intent = new Intent(MainActivity.this, Home.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        //intent.putExtra("username", login);
-                        startActivity(intent);
+                        sessionManagement.setLoginToEdug(true);
+                        sessionManagement.setSys(sys);
+                        sessionManagement.setLang(lang);
+                        sessionManagement.setGame(game);
+                        sessionManagement.setLogin(login);
+                        sessionManagement.setHash(hash);
+                        sessionManagement.setCRC(crc);
+                        startActivity(new Intent(getApplicationContext(),Home.class));
+                        finish();
                             } else{
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -229,16 +227,14 @@ public class MainActivity extends AppCompatActivity {
 
                         for(int i = 0; i < list_games.length(); i++){
                             JSONObject g = list_games.getJSONObject(i);
-                            JSONObject game = g.getJSONObject("game");
-                            String idg = game.getString("idg");
-                            String active = game.getString("active");
+                            JSONObject gameObj = g.getJSONObject("game");
+                            listGames.setIdg(gameObj.getString("idg"));
+                            listGames.setActive(gameObj.getString("active"));
+                            listGames.setMissions(gameObj.getString("missions"));
 
-                            // HashMap<String, String> hashMapActiveGames = new HashMap<>();
 
-                            if (active.equals("Y")) {
-                                listOfGames.add(idg);
-                                //hashMapActiveGames.put("idg", idg);
-                                //gamesList.add(hashMapActiveGames);
+                            if (listGames.getActive().equals("Y")) {
+                                listOfGames.add(listGames.getIdg());
                             }
                         }
                     } catch (final JSONException e){
@@ -274,40 +270,5 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-//    private void doLogin(final String sys,final String lang,final String game,final String login,final String hash,final String crc){
-//
-//        Call call = userService.login(sys, lang, game, login, hash, crc);
-//        Call callMovies = testService.allMovies();
-//        callMovies.enqueue(new Callback() {
-//            @Override
-//            public void onResponse(Call call, Response response) {
-//                Log.d("Call request", call.request().toString());
-//                Log.d("Call request header", call.request().headers().toString());
-//                Log.d("Response raw header", response.headers().toString());
-//                Log.e(TAG, "response url: "+new Gson().toJson(response.body()) );
-////                Log.d("Response raw", String.valueOf(response.raw().body()));
-////                Log.d("Response code", String.valueOf(response.code()));
-//                if (response.isSuccessful()){
-//                    ResObj resObj = (ResObj) response.body();
-//                    String result = resObj.getMessage();
-//                    System.out.println("Odpowiedź result: " + result);
-//                    if (resObj.getMessage().equals("true")){
-//                        Intent intent = new Intent(MainActivity.this, Home.class);
-//                        intent.putExtra("username", login);
-//                        startActivity(intent);
-//                    }else{
-//                        Toast.makeText(MainActivity.this, "Wprowadziłeś niepoprawne dane", Toast.LENGTH_SHORT).show();
-//                    }
-//                }else{
-//                    Toast.makeText(MainActivity.this, "Coś poszło nie tak", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t) {
-//            Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
 
 
