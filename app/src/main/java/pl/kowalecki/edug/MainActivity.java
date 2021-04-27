@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkSession() {
         if (sessionManagement.getLoginToEdug()){
-            startActivity(new Intent(getApplicationContext(), Home.class));
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         }
     }
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         sessionManagement.setLogin(login);
                         sessionManagement.setHash(hash);
                         sessionManagement.setCRC(crc);
-                        startActivity(new Intent(getApplicationContext(),Home.class));
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         finish();
                             } else{
                                 runOnUiThread(new Runnable() {

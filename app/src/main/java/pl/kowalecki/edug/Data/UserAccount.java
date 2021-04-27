@@ -1,15 +1,55 @@
 package pl.kowalecki.edug.Data;
 
-public class UserAccount {
-    String result, agentNumber, agentName, agentEmail, groupName, countBitcoin, countAvatar, countExacoin, countMission, countPoint, countBadges_style, lang;
-    public UserAccount() {
-    }
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public String getResult() {
+import javax.annotation.Generated;
+
+@Generated("jsonschema2pojo")
+public class UserAccount {
+
+    @SerializedName("result")
+    @Expose
+    private Boolean result;
+    @SerializedName("agent_number")
+    @Expose
+    private String agentNumber;
+    @SerializedName("agent_name")
+    @Expose
+    private String agentName;
+    @SerializedName("agent_email")
+    @Expose
+    private String agentEmail;
+    @SerializedName("group_name")
+    @Expose
+    private String groupName;
+    @SerializedName("count_bitcoin")
+    @Expose
+    private Integer countBitcoin;
+    @SerializedName("count_avatar")
+    @Expose
+    private Integer countAvatar;
+    @SerializedName("count_exacoin")
+    @Expose
+    private Integer countExacoin;
+    @SerializedName("count_mission")
+    @Expose
+    private Integer countMission;
+    @SerializedName("count_point")
+    @Expose
+    private Integer countPoint;
+    @SerializedName("count_badges_style")
+    @Expose
+    private Integer countBadgesStyle;
+    @SerializedName("lang")
+    @Expose
+    private String lang;
+
+    public Boolean getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Boolean result) {
         this.result = result;
     }
 
@@ -45,52 +85,52 @@ public class UserAccount {
         this.groupName = groupName;
     }
 
-    public String getCountBitcoin() {
+    public Integer getCountBitcoin() {
         return countBitcoin;
     }
 
-    public void setCountBitcoin(String countBitcoin) {
+    public void setCountBitcoin(Integer countBitcoin) {
         this.countBitcoin = countBitcoin;
     }
 
-    public String getCountAvatar() {
+    public Integer getCountAvatar() {
         return countAvatar;
     }
 
-    public void setCountAvatar(String countAvatar) {
+    public void setCountAvatar(Integer countAvatar) {
         this.countAvatar = countAvatar;
     }
 
-    public String getCountExacoin() {
+    public Integer getCountExacoin() {
         return countExacoin;
     }
 
-    public void setCountExacoin(String countExacoin) {
+    public void setCountExacoin(Integer countExacoin) {
         this.countExacoin = countExacoin;
     }
 
-    public String getCountMission() {
+    public Integer getCountMission() {
         return countMission;
     }
 
-    public void setCountMission(String countMission) {
+    public void setCountMission(Integer countMission) {
         this.countMission = countMission;
     }
 
-    public String getCountPoint() {
+    public Integer getCountPoint() {
         return countPoint;
     }
 
-    public void setCountPoint(String countPoint) {
+    public void setCountPoint(Integer countPoint) {
         this.countPoint = countPoint;
     }
 
-    public String getCountBadges_style() {
-        return countBadges_style;
+    public Integer getCountBadgesStyle() {
+        return countBadgesStyle;
     }
 
-    public void setCountBadges_style(String countBadges_style) {
-        this.countBadges_style = countBadges_style;
+    public void setCountBadgesStyle(Integer countBadgesStyle) {
+        this.countBadgesStyle = countBadgesStyle;
     }
 
     public String getLang() {
@@ -100,4 +140,5 @@ public class UserAccount {
     public void setLang(String lang) {
         this.lang = lang;
     }
+
 }

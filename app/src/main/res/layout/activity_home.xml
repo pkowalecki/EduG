@@ -9,7 +9,7 @@
 <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home">
+    tools:context=".HomeActivity">
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
@@ -17,6 +17,111 @@
         android:text="@string/logout_pl"
         android:onClick="logout"
         android:layout_centerHorizontal="true"/>
+
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/bottomToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#F1EDED"
+    android:layout_alignParentBottom="true"
+    android:minHeight="?attr/actionBarSize"
+    >
+    <LinearLayout
+        android:id="@+id/linearLayoutBottomMenu"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:minWidth="?attr/actionBarSize"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="15dp"
+
+        android:weightSum="5">
+
+
+        <ru.nikartm.support.ImageBadgeView
+            android:layout_marginTop="10dp"
+            android:id="@+id/missionsToolbar"
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:src="@drawable/ic_toolbar_missions"
+            android:layout_weight="1"
+            app:ibv_badgeTextSize="12sp"
+            app:ibv_fixedBadgeRadius="9dp"
+            app:ibv_badgeTextStyle="bold"
+            app:ibv_badgeTextColor="#ffffff"
+            app:ibv_badgeColor="@android:color/holo_red_dark"
+            app:ibv_badgeLimitValue="false"
+            app:ibv_badgePosition="top_right"/>
+
+
+
+        <ru.nikartm.support.ImageBadgeView
+            android:layout_marginTop="10dp"
+            android:id="@+id/avatarsToolbar"
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:src="@drawable/ic_toolbar_avatars"
+            android:layout_weight="1"
+
+            app:ibv_badgeTextSize="12sp"
+            app:ibv_fixedBadgeRadius="9dp"
+            app:ibv_badgeTextStyle="bold"
+            app:ibv_badgeTextColor="#ffffff"
+            app:ibv_badgeColor="@android:color/holo_red_dark"
+            app:ibv_badgeLimitValue="false"
+            app:ibv_badgePosition="top_right"
+            />
+
+        <ru.nikartm.support.ImageBadgeView
+            android:layout_marginTop="10dp"
+            android:id="@+id/bitcoinsToolbar"
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:src="@drawable/ic_bitcoin"
+            android:layout_weight="1"
+            app:ibv_badgeTextSize="12sp"
+            app:ibv_fixedBadgeRadius="9dp"
+            app:ibv_badgeTextStyle="bold"
+            app:ibv_badgeTextColor="#ffffff"
+            app:ibv_badgeColor="@android:color/holo_red_dark"
+            app:ibv_badgeLimitValue="false"
+            app:ibv_badgePosition="top_right"
+            />
+
+        <ru.nikartm.support.ImageBadgeView
+            android:layout_marginTop="10dp"
+            android:id="@+id/exacoinsToolbar"
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:src="@drawable/ic_toolbar_exacoins"
+            android:layout_weight="1"
+            app:ibv_badgeTextSize="12sp"
+            app:ibv_fixedBadgeRadius="9dp"
+            app:ibv_badgeTextStyle="bold"
+            app:ibv_badgeTextColor="#ffffff"
+            app:ibv_badgeColor="@android:color/holo_red_dark"
+            app:ibv_badgeLimitValue="false"
+            app:ibv_badgePosition="top_right"/>
+
+
+        <ru.nikartm.support.ImageBadgeView
+            android:layout_marginTop="10dp"
+            android:id="@+id/missionsPointsToolbar"
+            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:src="@drawable/ic_toolbar_points"
+            android:layout_weight="1"
+            app:ibv_badgeTextSize="12sp"
+            app:ibv_fixedBadgeRadius="9dp"
+            app:ibv_badgeTextStyle="bold"
+            app:ibv_badgeTextColor="#ffffff"
+            app:ibv_badgeColor="@android:color/holo_red_dark"
+            app:ibv_badgeLimitValue="false"
+            app:ibv_badgePosition="top_right"/>
+    </LinearLayout>
+</androidx.appcompat.widget.Toolbar>
+
+
 </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -26,4 +131,5 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_bar_header"
         app:menu="@menu/navigation_menu"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>
