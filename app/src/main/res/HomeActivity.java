@@ -6,11 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 
-import android.service.autofill.UserData;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pl.kowalecki.edug.Activities.MainActivity;
 import pl.kowalecki.edug.Data.UserAccount;
 
 import pl.kowalecki.edug.Data.UserDataTest;
@@ -38,7 +37,7 @@ import ru.nikartm.support.ImageBadgeView;
 public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private String TAG = HomeActivity.class.getSimpleName();
+    private String TAG = pl.kowalecki.edug.Activities.HomeActivity.class.getSimpleName();
     private ActionBarDrawerToggle actionBarDrawerToggle;
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Button logoutButton;

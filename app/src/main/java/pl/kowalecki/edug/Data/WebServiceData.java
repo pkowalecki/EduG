@@ -12,7 +12,7 @@ import android.os.Handler;
 
 
 import pl.kowalecki.edug.ApiUtils;
-import pl.kowalecki.edug.HomeActivity;
+import pl.kowalecki.edug.Activities.HomeActivity;
 import pl.kowalecki.edug.HttpHandler;
 import pl.kowalecki.edug.UserService;
 

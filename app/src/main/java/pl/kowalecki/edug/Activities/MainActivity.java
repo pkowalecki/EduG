@@ -1,4 +1,4 @@
-package pl.kowalecki.edug;
+package pl.kowalecki.edug.Activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,10 +32,16 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pl.kowalecki.edug.ApiUtils;
 import pl.kowalecki.edug.Data.ListGames;
 import pl.kowalecki.edug.Data.UserAccount;
 import pl.kowalecki.edug.Data.UserLogin;
 import pl.kowalecki.edug.Data.WebServiceData;
+import pl.kowalecki.edug.HttpHandler;
+import pl.kowalecki.edug.MD5Cipher;
+import pl.kowalecki.edug.R;
+import pl.kowalecki.edug.SessionManagement;
+import pl.kowalecki.edug.UserService;
 
 
 public class MainActivity extends AppCompatActivity {

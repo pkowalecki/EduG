@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/missionsItem"
+        android:title="@string/misje"
+        android:icon="@drawable/missions"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/avatarsItem"
+        android:title="@string/avatary"
+        android:icon="@drawable/avatars"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/bitcoinsItem"
+        android:title="@string/bitcoin_y"
+        android:icon="@drawable/bitcoin"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/exacoinsItem"
+        android:title="@string/exacoin_y"
+        android:icon="@drawable/exacoins"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/pointsItem"
+        android:title="@string/punkty"
+        android:icon="@drawable/points"
+        android:enabled="true"
+        />
+
+
+</menu>

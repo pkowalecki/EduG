@@ -12,4 +12,9 @@
     <string name="navbar_open_pl">OTWRÓRZ</string>
     <string name="navbar_close_pl">ZAMKNIJ</string>
     <string name="logout_pl">WYLOGUJ</string>
+    <string name="misje">Misje</string>
+    <string name="avatary">Avatary</string>
+    <string name="bitcoin_y">Bitcoiny</string>
+    <string name="exacoin_y">Exacoiny</string>
+    <string name="punkty">Punkty</string>
 </resources>
