@@ -1,4 +1,4 @@
-package pl.kowalecki.edug;
+package pl.kowalecki.edug.Cipher;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -3,47 +3,69 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
     android:id="@+id/drawerLayout"
+
     >
 
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Activities.HomeActivity">
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/logout_pl"
-        android:onClick="logout"
-        android:layout_centerHorizontal="true"/>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+
 
     <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-        android:layout_gravity="bottom"
-
+        android:layout_alignParentBottom="true"
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/navigatiob_bottom_menu"
-
-        />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:background="#ababab"/>
 
 
 
+        <androidx.appcompat.widget.Toolbar
+
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/design_default_color_primary"
+            android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:elevation="4dp">
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    <FrameLayout
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/bottomNavigationView"
+        android:id="@+id/parent_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
+
+
+
+
+
+
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
         android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_bar_header"
-        app:menu="@menu/navigation_menu"/>
+        android:id="@+id/nav_view"
+        app:menu="@menu/navigation_menu"
+        app:headerLayout="@layout/navigation_bar_header">
+
+
+    </com.google.android.material.navigation.NavigationView>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

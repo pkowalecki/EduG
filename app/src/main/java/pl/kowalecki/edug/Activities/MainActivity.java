@@ -32,14 +32,16 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import pl.kowalecki.edug.ApiUtils;
-import pl.kowalecki.edug.Data.ListGames;
-import pl.kowalecki.edug.Data.UserAccount;
-import pl.kowalecki.edug.Data.UserLogin;
-import pl.kowalecki.edug.Data.WebServiceData;
+import pl.kowalecki.edug.Model.Games.ListGames;
+import pl.kowalecki.edug.Model.User.UserAccount;
+import pl.kowalecki.edug.Model.User.UserLogin;
+import pl.kowalecki.edug.Model.WebServiceData;
 import pl.kowalecki.edug.HttpHandler;
-import pl.kowalecki.edug.MD5Cipher;
+import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.R;
+import pl.kowalecki.edug.ReceiveData;
 import pl.kowalecki.edug.SessionManagement;
 import pl.kowalecki.edug.UserService;
 
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     UserAccount userAccount = new UserAccount();
     ListGames listGames = new ListGames();
     SessionManagement sessionManagement;
+    CircleImageView ivResult;
+    ReceiveData receiveData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                if(validateLogin() && validatePassword()){
                     doLogin(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
-                   webServiceData.userAccountData(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
-
+                    webServiceData.userAccountData(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
                 }
             }
         });
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkSession() {
         if (sessionManagement.getLoginToEdug()){
+
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         }
     }

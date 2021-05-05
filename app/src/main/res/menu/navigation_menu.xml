@@ -1,15 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/navbar"
-        android:title="Navbar1"
-        />
-    <item
-        android:id="@+id/navbar1"
-        android:title="Navbar2"
-        />
-    <item
-        android:id="@+id/navbar2"
-        android:title="Navbar3"
-        />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/agent_start_files_item"
+                android:icon="@drawable/ic_agent_start_files"
+                android:title="Niezbędnik agenta"
+
+                />
+
+        </group>
+
+
+    <item android:title="">
+        <menu>
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/spec_mission_item"
+                android:icon="@drawable/ic_spec_mission"
+                android:title="Misja Specjalna" />
+            <item
+                android:id="@+id/labor_mission_item"
+                android:icon="@drawable/ic_labo_mission"
+                android:title="Misja Laboratoryjna" />
+            <item
+                android:id="@+id/instant_mission_item"
+                android:icon="@drawable/ic_instant_mission"
+                android:title="Misja Błyskawiczna" />
+            <item
+                android:id="@+id/hazard_mission_item"
+                android:icon="@drawable/ic_hazard_mission"
+                android:title="Misja Hazardowa" />
+            <item
+                android:id="@+id/last_mission_item"
+                android:icon="@drawable/ic_last_mission"
+                android:title="Misja Ostateczna" />
+        </group>
+        </menu>
+    </item>
+
+    <item android:title="">
+        <menu>
+        <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/badges_item"
+                android:icon="@drawable/ic_badges"
+                android:title="Odznaczenia" />
+            <item
+                android:id="@+id/calendar_item"
+                android:icon="@drawable/ic_calendar"
+                android:title="Kalendarz" />
+            <item
+                android:id="@+id/achievs_item"
+                android:icon="@drawable/ic_achievs"
+                android:title="Osiągnięcia" />
+            <item
+                android:id="@+id/rankings_item"
+                android:icon="@drawable/ic_rankings"
+                android:title="Rankingi" />
+            <item
+                android:id="@+id/absense_item"
+                android:icon="@drawable/ic_obecnosci_v1"
+                android:title="Obecności" />
+            <item
+                android:id="@+id/logoutButton"
+                android:title="Wyloguj"
+                android:onClick="logout"/>
+        </group>
+        </menu>
+    </item>
+
 </menu>

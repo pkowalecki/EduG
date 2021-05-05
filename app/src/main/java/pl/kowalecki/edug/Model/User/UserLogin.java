@@ -1,4 +1,4 @@
-package pl.kowalecki.edug.Data;
+package pl.kowalecki.edug.Model.User;
 
 public class UserLogin {
     String sys, lang, game, login, hash, crc;

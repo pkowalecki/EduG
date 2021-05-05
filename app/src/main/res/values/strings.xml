@@ -17,4 +17,5 @@
     <string name="bitcoin_y">Bitcoiny</string>
     <string name="exacoin_y">Exacoiny</string>
     <string name="punkty">Punkty</string>
+    <string name="agent">AGENT</string>
 </resources>

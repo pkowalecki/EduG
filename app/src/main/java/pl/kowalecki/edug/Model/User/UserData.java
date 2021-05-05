@@ -1,4 +1,4 @@
-package pl.kowalecki.edug.Data;
+package pl.kowalecki.edug.Model.User;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import javax.annotation.Generated;
 
 @Generated("jsonschema2pojo")
-public class UserDataTest {
+public class UserData {
 
     @SerializedName("user_account")
     @Expose

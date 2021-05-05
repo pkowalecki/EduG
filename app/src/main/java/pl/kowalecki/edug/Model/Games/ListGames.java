@@ -1,4 +1,4 @@
-package pl.kowalecki.edug.Data;
+package pl.kowalecki.edug.Model.Games;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;

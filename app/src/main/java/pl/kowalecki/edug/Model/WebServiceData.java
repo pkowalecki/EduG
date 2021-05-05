@@ -1,4 +1,4 @@
-package pl.kowalecki.edug.Data;
+package pl.kowalecki.edug.Model;
 
 import android.os.Looper;
 import android.util.Log;
@@ -14,6 +14,8 @@ import android.os.Handler;
 import pl.kowalecki.edug.ApiUtils;
 import pl.kowalecki.edug.Activities.HomeActivity;
 import pl.kowalecki.edug.HttpHandler;
+import pl.kowalecki.edug.Model.User.UserAccount;
+import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.UserService;
 
 public class WebServiceData {

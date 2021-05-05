@@ -1,4 +1,4 @@
-package pl.kowalecki.edug.Data;
+package pl.kowalecki.edug.Model.User;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

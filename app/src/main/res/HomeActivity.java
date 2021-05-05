@@ -23,10 +23,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import pl.kowalecki.edug.Activities.MainActivity;
-import pl.kowalecki.edug.Data.UserAccount;
+import pl.kowalecki.edug.Model.User.UserAccount;
 
-import pl.kowalecki.edug.Data.UserDataTest;
-import pl.kowalecki.edug.Data.WebServiceData;
+import pl.kowalecki.edug.Model.User.UserData;
+import pl.kowalecki.edug.Model.WebServiceData;
 import pl.kowalecki.edug.TestRetrofit.ServiceGenerator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     SessionManagement sessionManagement;
     LinearLayout linearLayout;
     UserAccount userAccount = new UserAccount();
-    UserDataTest userDataTest = new UserDataTest();
+    UserData userData = new UserData();
     UserService userService;
     WebServiceData webServiceData;
     String sSys, sLang, sGame, sLogin, sHash, sCrc;
@@ -85,10 +85,10 @@ public class HomeActivity extends AppCompatActivity {
 
     public void callService() {
         UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
-        Call<UserDataTest> call = service.userAccount(sSys, sLang, sGame, sLogin, sHash, sCrc);
-        call.enqueue(new Callback<UserDataTest>() {
+        Call<UserData> call = service.userAccount(sSys, sLang, sGame, sLogin, sHash, sCrc);
+        call.enqueue(new Callback<UserData>() {
             @Override
-            public void onResponse(Call<UserDataTest> call, Response<UserDataTest> response) {
+            public void onResponse(Call<UserData> call, Response<UserData> response) {
                 Log.e(TAG, call.request().url().toString());
                 userDataTest = response.body();
 
@@ -113,7 +113,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UserDataTest> call, Throwable t) {
+            public void onFailure(Call<UserData> call, Throwable t) {
 
             }
         });

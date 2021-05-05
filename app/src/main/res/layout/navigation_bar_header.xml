@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:background="@color/design_default_color_primary">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
+    android:id="@+id/linearLayout_navbar"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:gravity="bottom"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/image_gravatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="visible"
+        android:src="@mipmap/ic_launcher_round"
+        android:clickable="false"/>
+    <LinearLayout
+        android:paddingStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="false">
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#000000"
+        android:clickable="false"
+        />
+    <TextView
+        android:id="@+id/user_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textColor="#ababab"
+        android:textSize="12sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:clickable="false"/>
+    </LinearLayout>
 </LinearLayout>

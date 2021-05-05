@@ -1,2 +1,4 @@
+include ':gravatar-android-1.0'
+include ':gravatar_lib'
 rootProject.name='EduG'
 include ':app'
