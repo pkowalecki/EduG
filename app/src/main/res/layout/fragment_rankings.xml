@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/top_navigation_rankings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:menu="@menu/rankings_menu" />
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/missions_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_navigation_rankings"
+            android:layout_marginBottom="20dp">
+            <TextView
+                android:paddingStart="20dp"
+                android:id="@+id/mission_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:layout_marginBottom="20dp"/>
+            <TextView
+                android:id="@+id/agent_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AGENT"
+                android:textSize="20dp"
+                android:layout_below="@id/mission_name"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="30dp"/>
+            <TextView
+                android:id="@+id/agent_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PKT"
+                android:textSize="20dp"
+                android:layout_below="@id/mission_name"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="30dp"/>
+
+        </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/missions_text"
+        android:id="@+id/rankings_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        android:background="@android:color/darker_gray">
+    </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
 </RelativeLayout>
