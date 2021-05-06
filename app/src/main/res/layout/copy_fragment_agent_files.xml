@@ -6,6 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:padding="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></RelativeLayout>
     <FrameLayout
         android:id="@+id/missions_fragment_container"
         android:layout_width="match_parent"

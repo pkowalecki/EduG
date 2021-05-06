@@ -1,13 +1,10 @@
 package pl.kowalecki.edug.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,10 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import pl.kowalecki.edug.Adapters.LeaderboardAdapter;
 import pl.kowalecki.edug.Model.Leaderboards.ListLeaderboards;
@@ -36,7 +30,6 @@ import retrofit2.Response;
 public class LeaderboardFragment extends Fragment {
     SessionManagement sessionManagement;
     private final String TAG = LeaderboardFragment.class.getSimpleName();
-    ListLeaderboards listLeaderboards = new ListLeaderboards();
     UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
 
     ArrayList<String> specLeaderboardsArrayListIdu = new ArrayList<>();
@@ -64,6 +57,7 @@ public class LeaderboardFragment extends Fragment {
         sessionManagement = new SessionManagement(getContext());
         String sGame = sessionManagement.getGame();
         receiveLeaderboards(sGame);
+
         mRecyclerView = v.findViewById(R.id.rankings_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_rankings);
@@ -138,10 +132,6 @@ public class LeaderboardFragment extends Fragment {
                         fullLeaderboardsArrayListPts.add(res.getExtraLeaderboards().get(i).getPosition().getPoints());;
                     }
 
-
-
-//                    Log.e(TAG, "spec res: " + specLeaderboardsArrayList.get(1).getExtraLeaderboards().get(1).getPosition().getIdu());
-//                    Log.e(TAG, "fast res: " + fastLeaderboardsArrayList.get(1).getExtraLeaderboards().get(1).getPosition().getIdu());
                 }
 
                 mLayoutManager = new LinearLayoutManager(getContext());

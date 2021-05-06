@@ -32,7 +32,7 @@ import pl.kowalecki.edug.Model.User.UserAccount;
 import pl.kowalecki.edug.Model.User.UserData;
 import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.Model.WebServiceData;
-import pl.kowalecki.edug.Fragments.StartFilesFragment;
+import pl.kowalecki.edug.Fragments.AgentFilesFragment;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.ReceiveData;
@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.agent_start_files_item:
-                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new StartFilesFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new AgentFilesFragment()).commit();
                 break;
             case R.id.spec_mission_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new SpecialMissionFragment()).commit();
