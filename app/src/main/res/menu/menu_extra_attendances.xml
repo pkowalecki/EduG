@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/menu_labo_attendances"
+        android:icon="@drawable/ic_labo_mission"
+        android:title=""/>
+    <item
+        android:id="@+id/menu_spec_attendances"
+        android:icon="@drawable/ic_spec_mission"
+        android:title=""/>
+
+</menu>

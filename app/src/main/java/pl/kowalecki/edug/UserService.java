@@ -4,6 +4,7 @@ package pl.kowalecki.edug;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.kowalecki.edug.Model.Attendances.ListAttendances;
 import pl.kowalecki.edug.Model.Files.FileData;
 import pl.kowalecki.edug.Model.Files.FilesList;
 import pl.kowalecki.edug.Model.Files.ListFile;
@@ -26,6 +27,9 @@ public interface UserService {
 
     @GET("extra_leaderboards.php")
     Call <ListLeaderboards> extraLeaderboards(@Query("idg") String idg);
+
+    @GET("extra_attendances.php")
+    Call <ListAttendances> extraAttendances(@Query("idg") String idg, @Query("idu") String idu);
 
 
 

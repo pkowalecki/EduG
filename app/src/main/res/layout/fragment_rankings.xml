@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         app:menu="@menu/rankings_menu" />
+
         <RelativeLayout
             android:id="@+id/missions_text"
             android:layout_width="match_parent"
@@ -50,11 +51,11 @@
         </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/missions_text"
+
         android:id="@+id/rankings_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/missions_text"
         android:padding="4dp"
         android:scrollbars="vertical"
         android:background="@android:color/darker_gray">

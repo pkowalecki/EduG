@@ -32,6 +32,7 @@ import retrofit2.Response;
 
 public class AgentFilesFragment extends Fragment {
 
+
     SessionManagement sessionManagement;
     private final String TAG = AgentFilesFragment.class.getSimpleName();
     UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
@@ -49,6 +50,8 @@ public class AgentFilesFragment extends Fragment {
     private AgentFilesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     TextView textView;
+
+
 
     @Nullable
     @Override

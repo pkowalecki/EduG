@@ -63,7 +63,7 @@
                 android:icon="@drawable/ic_rankings"
                 android:title="Rankingi" />
             <item
-                android:id="@+id/absense_item"
+                android:id="@+id/extra_attendances_item"
                 android:icon="@drawable/ic_obecnosci_v1"
                 android:title="Obecności" />
             <item

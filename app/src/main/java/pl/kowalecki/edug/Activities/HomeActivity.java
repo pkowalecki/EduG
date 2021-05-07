@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.kowalecki.edug.Fragments.ExtraAttendancesFragment;
 import pl.kowalecki.edug.Fragments.LeaderboardFragment;
 import pl.kowalecki.edug.Fragments.SpecialMissionFragment;
 import pl.kowalecki.edug.Model.Files.FilesList;
@@ -68,6 +69,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -89,10 +91,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         sHash = sessionManagement.getHash();
         sCrc = sessionManagement.getCRC();
         navigationView.setNavigationItemSelectedListener(this);
-
         callService();
         gravatarImage();
-
 
 
 //        if (savedInstanceState == null) {
@@ -113,6 +113,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.rankings_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new LeaderboardFragment()).commit();
+                break;
+            case R.id.extra_attendances_item:
+                ExtraAttendancesFragment extraAttendancesFragment = ExtraAttendancesFragment.newInstance(userData.getUserAccount().getAgentNumber());
+                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, extraAttendancesFragment).commit();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new ExtraAttendancesFragment()).commit();
+                break;
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -225,6 +231,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 if (userAccount.getCountPoint() == 0) bottomNavigation.setNotification("0", 4);
                 else
                     bottomNavigation.setNotification(String.valueOf(userAccount.getCountPoint()), 4);
+
             }
 
             @Override
