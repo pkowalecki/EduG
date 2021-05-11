@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,23 +19,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import pl.kowalecki.edug.Cipher.MD5Cipher;
+import pl.kowalecki.edug.Fragments.AchievementsFragment;
+import pl.kowalecki.edug.Fragments.AgentFilesFragment;
+import pl.kowalecki.edug.Fragments.BadgesFragment;
 import pl.kowalecki.edug.Fragments.ExtraAttendancesFragment;
 import pl.kowalecki.edug.Fragments.LeaderboardFragment;
+import pl.kowalecki.edug.Fragments.MissionsFragment;
 import pl.kowalecki.edug.Fragments.SpecialMissionFragment;
-import pl.kowalecki.edug.Model.Files.FilesList;
+import pl.kowalecki.edug.Model.Games.ListGames;
+import pl.kowalecki.edug.Model.Missions.ListMission;
+import pl.kowalecki.edug.Model.Missions.Missions;
 import pl.kowalecki.edug.Model.User.UserAccount;
 import pl.kowalecki.edug.Model.User.UserData;
-import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.Model.WebServiceData;
-import pl.kowalecki.edug.Fragments.AgentFilesFragment;
-import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.R;
-import pl.kowalecki.edug.ReceiveData;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
 import pl.kowalecki.edug.UserService;
@@ -48,25 +47,19 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private DrawerLayout drawerLayout;
     private final String TAG = HomeActivity.class.getSimpleName();
-    private ActionBarDrawerToggle actionBarDrawerToggle;
-    ExecutorService executorService = Executors.newSingleThreadExecutor();
     Button logoutButton;
     SessionManagement sessionManagement;
-    LinearLayout linearLayout;
     UserAccount userAccount = new UserAccount();
     UserData userData = new UserData();
-    UserService userService;
     WebServiceData webServiceData;
     String sSys, sLang, sGame, sLogin, sHash, sCrc;
     AHBottomNavigation bottomNavigation;
-    CircleImageView ivResult;
     TextView userName, userInfo;
-    ReceiveData receiveData = new ReceiveData();
-    UserLogin userLogin = new UserLogin();
-    FilesList filesList  = new FilesList();
-
+    ImageView imageView;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+    UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,10 +67,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
         NavigationView navigationView = findViewById(R.id.nav_view);
         sessionManagement = new SessionManagement(getApplicationContext());
-        logoutButton = (Button) findViewById(R.id.logoutButton);
+        logoutButton = findViewById(R.id.logoutButton);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawerLayout = findViewById(R.id.drawerLayout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navbar_open_pl, R.string.navbar_close_pl);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -91,16 +84,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         sHash = sessionManagement.getHash();
         sCrc = sessionManagement.getCRC();
         navigationView.setNavigationItemSelectedListener(this);
+        ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.image_gravatar);
+        Picasso.get().load("https://gravatar.com/avatar/ca3c4fee4a98a55552050909ad294f5e?d=wavatar").into(imageView);
         callService();
-        gravatarImage();
 
 
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StartFilesFragment()).commit();
-//            navigationView.setCheckedItem(R.id.agent_start_files_item);
-//        }
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
+            navigationView.setCheckedItem(R.id.main_menu);
+        }
 
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -117,8 +112,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.extra_attendances_item:
                 ExtraAttendancesFragment extraAttendancesFragment = ExtraAttendancesFragment.newInstance(userData.getUserAccount().getAgentNumber());
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, extraAttendancesFragment).commit();
-//                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new ExtraAttendancesFragment()).commit();
                 break;
+            case R.id.achievs_item:
+                AchievementsFragment achievementsFragment = AchievementsFragment.newInstance(userData.getUserAccount().getAgentNumber());
+                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, achievementsFragment).commit();
+                break;
+            case R.id.badges_item:
+                BadgesFragment badgesFragment = BadgesFragment.newInstance(userData.getUserAccount().getAgentNumber(), userData.getUserAccount().getCountBadgesStyle());
+                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, badgesFragment).commit();
+                break;
+            case R.id.main_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
+                break;
+
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -134,18 +140,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void gravatarImage() {
-
-        ImageView imageView1 = (ImageView) findViewById(R.id.image_gravatar);
-        String uri = "https://gravatar.com/avatar/" + MD5Cipher.md5(sLogin) + "?d=wavatar";
-//        Picasso.get().load(uri).into(imageView);
-        // Picasso.get().load(uri).into(imageView1);
-
-
-    }
 
     private void bottomNavigationMenu(Integer elements) {
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottomNavigationView);
+        bottomNavigation = findViewById(R.id.bottomNavigationView);
         AHBottomNavigationItem missions = new AHBottomNavigationItem(R.string.misje, R.drawable.missions, R.color.colorPrimary);
         AHBottomNavigationItem avatars = new AHBottomNavigationItem(R.string.avatary, R.drawable.avatars, R.color.colorPrimary);
         AHBottomNavigationItem bitcoins = new AHBottomNavigationItem(R.string.bitcoin_y, R.drawable.bitcoin, R.color.colorPrimary);
@@ -179,14 +176,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void callService() {
-        UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
         Call<UserData> call = service.userAccount(sSys, sLang, sGame, sLogin, sHash, sCrc);
 
         call.enqueue(new Callback<UserData>() {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
-                userName = (TextView) findViewById(R.id.user_name);
-                userInfo = (TextView) findViewById(R.id.user_info);
+                userName = findViewById(R.id.user_name);
+                userInfo = findViewById(R.id.user_info);
                 Log.e(TAG, call.request().url().toString());
                 userData = response.body();
 
@@ -258,6 +254,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
+
+
 
 
 }

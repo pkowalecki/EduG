@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 @Generated("jsonschema2pojo")
 public class ExtraAchievement {
 
-    @SerializedName("achievements")
+    @SerializedName("mission")
     @Expose
     private Achievements achievements;
 

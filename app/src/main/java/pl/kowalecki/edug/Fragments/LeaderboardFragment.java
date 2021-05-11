@@ -45,6 +45,7 @@ public class LeaderboardFragment extends Fragment {
     ArrayList<String> fullLeaderboardsArrayListPts = new ArrayList<>();
 
 
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;

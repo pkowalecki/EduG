@@ -7,11 +7,15 @@
 
         <group android:checkableBehavior="single">
             <item
+                android:id="@+id/main_menu"
+                android:title="Menu główne"/>
+            <item
                 android:id="@+id/agent_start_files_item"
                 android:icon="@drawable/ic_agent_start_files"
                 android:title="Niezbędnik agenta"
 
                 />
+
 
         </group>
 
