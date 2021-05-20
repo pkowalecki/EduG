@@ -192,6 +192,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.agent_start_files_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new AgentFilesFragment()).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.spec_mission_item:
                 break;
