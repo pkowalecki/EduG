@@ -11,11 +11,15 @@ import pl.kowalecki.edug.Model.Files.FileData;
 import pl.kowalecki.edug.Model.Files.FilesList;
 import pl.kowalecki.edug.Model.Files.ListFile;
 import pl.kowalecki.edug.Model.Leaderboards.ListLeaderboards;
+import pl.kowalecki.edug.Model.MissionFast.MissionFast;
+import pl.kowalecki.edug.Model.MissionLabo.MissionLabo;
+import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
 import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.Model.Missions.Missions;
 import pl.kowalecki.edug.Model.User.UserData;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface UserService {
@@ -44,8 +48,20 @@ public interface UserService {
     @GET("list_missions.php")
     Call <Missions> listMissions(@Query("idg") String idg);
 
+    @GET("mission_fast.php")
+    Call <MissionFast> getFastMissionData(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("mission") String mission, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
 
+    @POST("mission_fast.php")
+    Call <MissionFast> setFastMissionData(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("mission") String mission, @Query("answer") String answer,  @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
 
+    @GET("mission_spec.php")
+    Call <MissionSpec> getSpecMissionData(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("mission") String mission, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
+
+    @POST("mission_spec.php")
+    Call <MissionSpec> setSpecMissionData(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("mission") String mission, @Query("answer1") String answer1, @Query("answer2") String answer2, @Query("answer3") String answer3 , @Query("answer4") String answer4, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
+
+    @GET("mission_labo.php")
+    Call <MissionLabo> getLaboMissionData(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("mission") String mission, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
 
 
 

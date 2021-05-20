@@ -83,13 +83,10 @@ public class AgentFilesFragment extends Fragment {
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Niezbędnik Agenta Laboratoryjnego");
 
-                            mAdapter.setOnItemClickListener(new AgentFilesAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position) {
-                                    Uri uri = Uri.parse(laboUrlArray.get(position));
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                    startActivity(intent);
-                                }
+                            mAdapter.setOnItemClickListener(position -> {
+                                Uri uri = Uri.parse(laboUrlArray.get(position));
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
                             });
                             break;
                         case R.id.spec_mission_item_topbar:
@@ -99,13 +96,10 @@ public class AgentFilesFragment extends Fragment {
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Niezbędnik Agenta Specjalnego");
 
-                            mAdapter.setOnItemClickListener(new AgentFilesAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position) {
-                                    Uri uri = Uri.parse(specUrlArray.get(position));
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                    startActivity(intent);
-                                }
+                            mAdapter.setOnItemClickListener(position -> {
+                                Uri uri = Uri.parse(specUrlArray.get(position));
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
                             });
                             break;
                         case R.id.other_mission_item_topbar:
@@ -114,13 +108,10 @@ public class AgentFilesFragment extends Fragment {
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Materiały dodatkowe");
-                            mAdapter.setOnItemClickListener(new AgentFilesAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position) {
-                                    Uri uri = Uri.parse(dodaUrlArray.get(position));
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                    startActivity(intent);
-                                }
+                            mAdapter.setOnItemClickListener(position -> {
+                                Uri uri = Uri.parse(dodaUrlArray.get(position));
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
                             });
                             break;
                     }

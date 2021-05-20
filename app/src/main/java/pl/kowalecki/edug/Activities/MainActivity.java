@@ -95,22 +95,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener(){
+        submit.setOnClickListener(v -> {
+            String passwordGame = "grauman";
+            userLogin.setSys("wp");
+            userLogin.setLang("pl");
+            userLogin.setGame(spinner.getSelectedItem().toString());
+            userLogin.setLogin(loginInputField.getEditText().getText().toString());
+            userLogin.setHash(md5Cipher.md5(passwordInputField.getEditText().getText().toString()));
+            userLogin.setCrc(md5Cipher.md5(passwordGame+ userLogin.getSys()+ userLogin.getLang()+ userLogin.getGame()+ userLogin.getLogin()+ userLogin.getHash()));
 
-            @Override
-            public void onClick(View v) {
-                String passwordGame = "grauman";
-                userLogin.setSys("wp");
-                userLogin.setLang("pl");
-                userLogin.setGame(spinner.getSelectedItem().toString());
-                userLogin.setLogin(loginInputField.getEditText().getText().toString());
-                userLogin.setHash(md5Cipher.md5(passwordInputField.getEditText().getText().toString()));
-                userLogin.setCrc(md5Cipher.md5(passwordGame+ userLogin.getSys()+ userLogin.getLang()+ userLogin.getGame()+ userLogin.getLogin()+ userLogin.getHash()));
-
-               if(validateLogin() && validatePassword()){
-                    doLogin(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
-                    webServiceData.userAccountData(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
-                }
+           if(validateLogin() && validatePassword()){
+                doLogin(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
+                webServiceData.userAccountData(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
             }
         });
     }

@@ -5,9 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    android:id="@+id/drawerLayout"
-
-    >
+    android:id="@+id/drawerLayout">
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -48,24 +46,35 @@
         android:id="@+id/parent_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/home_activity_missions_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>
 
 
+<com.google.android.material.navigation.NavigationView
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:id="@+id/nav_view"
+    app:menu="@menu/navigation_menu"
+    app:headerLayout="@layout/navigation_bar_header">
 
-
-
-
-
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:id="@+id/nav_view"
-        app:menu="@menu/navigation_menu"
-        app:headerLayout="@layout/navigation_bar_header">
-
-
-    </com.google.android.material.navigation.NavigationView>
-
+</com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

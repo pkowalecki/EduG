@@ -1,14 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#ababab"
-    >
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/spec_mission_codename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/spec_mission_missionStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TEST TEST"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_below="@id/spec_mission_codename"/>
+
+    <TextView
+        android:id="@+id/spec_mission_introText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spec_mission_missionStart"/>
+    <LinearLayout
+        android:id="@+id/spec_mission_linear_q1"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/questions_background_frame"
+        android:layout_below="@id/spec_mission_introText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/spec_mission_question1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/spec_mission_question1_ans1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:id="@+id/spec_mission_question1_ans2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:id="@+id/spec_mission_question1_ans3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <CheckBox
+        android:id="@+id/spec_mission_question1_ans4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/questions_background_frame"
+        android:id="@+id/spec_mission_linear_q2"
+        android:layout_below="@id/spec_mission_linear_q1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/spec_mission_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            />
+        <CheckBox
+            android:gravity="center"
+            android:id="@+id/spec_mission_question2_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
+        <CheckBox
+            android:gravity="center"
+            android:id="@+id/spec_mission_question2_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
+        <CheckBox
+            android:gravity="center"
+            android:id="@+id/spec_mission_question2_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
+        <CheckBox
+            android:gravity="center"
+            android:id="@+id/spec_mission_question2_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/spec_mission_linear_q3"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/questions_background_frame"
+        android:layout_below="@id/spec_mission_linear_q2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/spec_mission_question3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/questions_background_frame"
+        android:id="@+id/spec_mission_linear_q4"
+        android:layout_below="@id/spec_mission_linear_q3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/spec_mission_question4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <Button
+        android:layout_below="@id/spec_mission_linear_q4"
+        android:id="@+id/spec_mission_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wyślij odpowiedź"/>
 
 </RelativeLayout>
+</ScrollView>

@@ -1,36 +1,62 @@
 package pl.kowalecki.edug.Activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.Inflater;
+
+import pl.kowalecki.edug.Adapters.MissionsAdapter;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.Fragments.AchievementsFragment;
 import pl.kowalecki.edug.Fragments.AgentFilesFragment;
 import pl.kowalecki.edug.Fragments.BadgesFragment;
 import pl.kowalecki.edug.Fragments.ExtraAttendancesFragment;
+import pl.kowalecki.edug.Fragments.FastMissionFragment;
+import pl.kowalecki.edug.Fragments.LaboMissionFragment;
 import pl.kowalecki.edug.Fragments.LeaderboardFragment;
 import pl.kowalecki.edug.Fragments.MissionsFragment;
 import pl.kowalecki.edug.Fragments.SpecialMissionFragment;
-import pl.kowalecki.edug.Model.Games.ListGames;
+import pl.kowalecki.edug.Model.MissionFast.MissionFast;
+import pl.kowalecki.edug.Model.MissionLabo.MissionLabo;
+import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
 import pl.kowalecki.edug.Model.Missions.ListMission;
+import pl.kowalecki.edug.Model.Missions.Mission;
 import pl.kowalecki.edug.Model.Missions.Missions;
 import pl.kowalecki.edug.Model.User.UserAccount;
 import pl.kowalecki.edug.Model.User.UserData;
@@ -46,7 +72,6 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     private final String TAG = HomeActivity.class.getSimpleName();
     Button logoutButton;
     SessionManagement sessionManagement;
@@ -55,27 +80,51 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     WebServiceData webServiceData;
     String sSys, sLang, sGame, sLogin, sHash, sCrc;
     AHBottomNavigation bottomNavigation;
-    TextView userName, userInfo;
-    ImageView imageView;
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle actionBarDrawerToggle;
+    TextView userName, userInfo, specText, laboText, instantText, hazardText, lastText;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
     UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    final ArrayList<String> missionNumberArrayList = new ArrayList<>();
+    MissionsFragment missionsFragment = new MissionsFragment();
+    Missions missions = new Missions();
+
+    List<ListMission> listMissions = new ArrayList<>();
+    Date currentDate = Calendar.getInstance().getTime();
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String date;
+    private ArrayList<String> allActive = new ArrayList<>();
+    private ArrayList<String> allActiveType = new ArrayList<>();
+    private ArrayList<String> laboActive = new ArrayList<>();
+    private ArrayList<String> laboActiveType = new ArrayList<>();
+    private ArrayList<String> specActive = new ArrayList<>();
+    private ArrayList<String> specActiveType = new ArrayList<>();
+    private ArrayList<String> fastActive = new ArrayList<>();
+    private ArrayList<String> fastActiveType = new ArrayList<>();
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         sessionManagement = new SessionManagement(getApplicationContext());
         logoutButton = findViewById(R.id.logoutButton);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout = findViewById(R.id.drawerLayout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navbar_open_pl, R.string.navbar_close_pl);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        specText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.spec_mission_item)));
+        laboText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.labor_mission_item)));
+        instantText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.instant_mission_item)));
+        hazardText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.hazard_mission_item)));
+        lastText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.last_mission_item)));
+        initializeCountDrawer();
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navbar_open_pl, R.string.navbar_close_pl);
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         bottomNavigationMenu(5); // liczba elementów, które znajdują się w menu dolnym
-        actionBarDrawerToggle.syncState();
+        mDrawerToggle.syncState();
         webServiceData = new WebServiceData();
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
@@ -85,7 +134,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         sCrc = sessionManagement.getCRC();
         navigationView.setNavigationItemSelectedListener(this);
         ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.image_gravatar);
-        Picasso.get().load("https://gravatar.com/avatar/ca3c4fee4a98a55552050909ad294f5e?d=wavatar").into(imageView);
+        String avatarLogin = MD5Cipher.md5(sLogin);
+        Picasso.get().load("https://gravatar.com/avatar/"+ avatarLogin +"?d=wavatar").into(imageView);
         callService();
 
 
@@ -93,9 +143,49 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
             navigationView.setCheckedItem(R.id.main_menu);
         }
-
+        date = simpleDateFormat.format(currentDate);
+        callListMission(sGame);
+        mRecyclerView = (RecyclerView) findViewById(R.id.home_activity_missions_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setVisibility(View.GONE);
     }
 
+    private void initializeCountDrawer() {
+        //Ustawić ilość misji dla kategorii
+        laboText.setGravity(Gravity.CENTER_VERTICAL);
+        laboText.setTypeface(null, Typeface.BOLD);
+        laboText.setTextColor(getResources().getColor(R.color.colorAccent));
+        laboText.setText("99+");
+        instantText.setGravity(Gravity.CENTER_VERTICAL);
+        instantText.setTypeface(null, Typeface.BOLD);
+        instantText.setTextColor(getResources().getColor(R.color.colorAccent));
+        instantText.setText("7");
+    }
+
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -104,37 +194,47 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new AgentFilesFragment()).commit();
                 break;
             case R.id.spec_mission_item:
-                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new SpecialMissionFragment()).commit();
+                break;
+            case R.id.labor_mission_item:
+                break;
+            case R.id.instant_mission_item:
                 break;
             case R.id.rankings_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new LeaderboardFragment()).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.extra_attendances_item:
                 ExtraAttendancesFragment extraAttendancesFragment = ExtraAttendancesFragment.newInstance(userData.getUserAccount().getAgentNumber());
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, extraAttendancesFragment).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.achievs_item:
                 AchievementsFragment achievementsFragment = AchievementsFragment.newInstance(userData.getUserAccount().getAgentNumber());
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, achievementsFragment).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.badges_item:
                 BadgesFragment badgesFragment = BadgesFragment.newInstance(userData.getUserAccount().getAgentNumber(), userData.getUserAccount().getCountBadgesStyle());
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, badgesFragment).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.main_menu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
+
 
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+
         } else {
             super.onBackPressed();
         }
@@ -238,10 +338,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
 
     public void logout(MenuItem item) {
         sessionManagement.setLoginToEdug(false);
@@ -255,7 +351,78 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         finish();
     }
 
+    private void callListMission(String sGame) {
+
+        Call<Missions> call = service.listMissions(sGame);
+        call.enqueue(new Callback<Missions>() {
+            @Override
+            public void onResponse(Call<Missions> call, Response<Missions> response) {
+                Missions res = response.body();
+                for (int i = 0; i < res.getListMissions().size(); i++) {
+                    try {
+                        listMissions.add(response.body().getListMissions().get(i));
+                        missions.setListMissions(listMissions);
+                        Date dateTimeNow = simpleDateFormat.parse(date);
+                        Date dateTimeStart = simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStart());
+                        Date dateTimeEnd = simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStop());
+
+                        if (dateTimeNow.after(dateTimeStart)) {
+                            if (dateTimeNow.before(dateTimeEnd)) {
+                                allActive.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                allActiveType.add(response.body().getListMissions().get(i).getMission().getType());
+                            }}
+
+                        if (response.body().getListMissions().get(i).getMission().getType().equals("labo")) {
+                            if (dateTimeNow.after(dateTimeStart)) {
+                                if (dateTimeNow.before(dateTimeEnd)) {
+                                    laboActive.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                    laboActiveType.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                }}}
+                        if (response.body().getListMissions().get(i).getMission().getType().equals("spec")) {
+                            if (dateTimeNow.after(dateTimeStart)) {
+                                if (dateTimeNow.before(dateTimeEnd)) {
+                                    specActive.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                    specActiveType.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                }}}
+                        if (response.body().getListMissions().get(i).getMission().getType().equals("fast")) {
+                            if (dateTimeNow.after(dateTimeStart)) {
+                                if (dateTimeNow.before(dateTimeEnd)) {
+                                    fastActive.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                    fastActiveType.add(response.body().getListMissions().get(i).getMission().getIdm());
+                                }}}
+                    }catch (ParseException e) {
+                        Log.e(TAG, "catch error");
+                        e.printStackTrace();
+                    }
+
+                }
 
 
+//                mAdapter.setOnItemClickListener(position -> {
+//                    mMenu = "all";
+//                    if (allActiveType.get(position).equals("spec")){
+//                        String mCrcSpec = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+//                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
+//                        callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
+//                    }
+//                    if (allActiveType.get(position).equals("labo")){
+//                        String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+//                        sCrcLabo = MD5Cipher.md5(mCrc);
+//                        callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
+//                    }
+//                    if (allActiveType.get(position).equals("fast")){
+//                        String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+//                        sCrcFast = MD5Cipher.md5(mCrc);
+//                        callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+//                    }
+//                });
+
+            }
+
+            @Override
+            public void onFailure(Call<Missions> call, Throwable t) {
+            }
+        });
+    }
 
 }

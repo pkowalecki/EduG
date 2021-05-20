@@ -62,6 +62,7 @@ dependencies {
 
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.github.nirwannursabda:expandable-navigation:0.1.2'
 
 
 
