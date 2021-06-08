@@ -1,5 +1,7 @@
 package pl.kowalecki.edug.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -10,21 +12,26 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.media.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,11 +91,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    final ArrayList<String> missionNumberArrayList = new ArrayList<>();
-    MissionsFragment missionsFragment = new MissionsFragment();
+
     Missions missions = new Missions();
 
     List<ListMission> listMissions = new ArrayList<>();
@@ -104,6 +107,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ArrayList<String> fastActive = new ArrayList<>();
     private ArrayList<String> fastActiveType = new ArrayList<>();
     NavigationView navigationView;
+    ListView listView;
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +123,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         instantText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.instant_mission_item)));
         hazardText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.hazard_mission_item)));
         lastText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.last_mission_item)));
-        initializeCountDrawer();
+
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navbar_open_pl, R.string.navbar_close_pl);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -145,22 +150,40 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         date = simpleDateFormat.format(currentDate);
         callListMission(sGame);
-        mRecyclerView = (RecyclerView) findViewById(R.id.home_activity_missions_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setVisibility(View.GONE);
+        initializeCountDrawer();
+
+        try {
+            notification();
+        } catch (ParseException e) {
+            Log.e("Notif", e.getMessage());
+        }
+    }
+    private void notification() throws ParseException {
+
+        Date dateTimeNow = simpleDateFormat.parse(date);
+        String dateNotif = "2021-05-28 13:54:28";
+        Date dateTimeNotif = simpleDateFormat.parse(dateNotif);
+
+        Log.e(TAG, "Datetimenow: " + dateTimeNow);
+
+        Log.e(TAG, "dateTimeNotif: " + dateTimeNotif);
+
     }
 
+
     private void initializeCountDrawer() {
-        //Ustawić ilość misji dla kategorii
+        specText.setGravity(Gravity.CENTER_VERTICAL);
+        specText.setTypeface(null, Typeface.BOLD);
+        specText.setTextColor(getResources().getColor(R.color.colorAccent));
+
         laboText.setGravity(Gravity.CENTER_VERTICAL);
         laboText.setTypeface(null, Typeface.BOLD);
         laboText.setTextColor(getResources().getColor(R.color.colorAccent));
-        laboText.setText("99+");
+
         instantText.setGravity(Gravity.CENTER_VERTICAL);
         instantText.setTypeface(null, Typeface.BOLD);
         instantText.setTextColor(getResources().getColor(R.color.colorAccent));
-        instantText.setText("7");
+
     }
 
 
@@ -192,44 +215,42 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()) {
             case R.id.agent_start_files_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new AgentFilesFragment()).commit();
-                mDrawerLayout.closeDrawer(GravityCompat.START);
+
                 break;
             case R.id.spec_mission_item:
+                Log.e(TAG, "Spec array" + specActive.size());
+                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, specActive);
                 break;
             case R.id.labor_mission_item:
+
                 break;
             case R.id.instant_mission_item:
                 break;
             case R.id.rankings_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new LeaderboardFragment()).commit();
-                mDrawerLayout.closeDrawer(GravityCompat.START);
+
                 break;
             case R.id.extra_attendances_item:
                 ExtraAttendancesFragment extraAttendancesFragment = ExtraAttendancesFragment.newInstance(userData.getUserAccount().getAgentNumber());
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, extraAttendancesFragment).commit();
-                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.achievs_item:
                 AchievementsFragment achievementsFragment = AchievementsFragment.newInstance(userData.getUserAccount().getAgentNumber());
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, achievementsFragment).commit();
-                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.badges_item:
                 BadgesFragment badgesFragment = BadgesFragment.newInstance(userData.getUserAccount().getAgentNumber(), userData.getUserAccount().getCountBadgesStyle());
-                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, badgesFragment).commit();
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                break;
+                getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, badgesFragment).commit();break;
             case R.id.main_menu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
-                mDrawerLayout.closeDrawer(GravityCompat.START);
+
                 break;
-
-
         }
-
-
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -263,16 +284,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         bottomNavigation.setForceTint(true);
         bottomNavigation.setTranslucentNavigationEnabled(false);
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#FF0000"));
+        bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#CC0000"));
 
         for (int i = 0; i < elements; i++) {
             System.out.println(i);
             bottomNavigation.disableItemAtPosition(i);
         }
-
         bottomNavigation.setItemDisableColor(Color.parseColor("#777777"));
-
-
     }
 
 
@@ -395,29 +413,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Log.e(TAG, "catch error");
                         e.printStackTrace();
                     }
-
                 }
 
-
-//                mAdapter.setOnItemClickListener(position -> {
-//                    mMenu = "all";
-//                    if (allActiveType.get(position).equals("spec")){
-//                        String mCrcSpec = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-//                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
-//                        callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
-//                    }
-//                    if (allActiveType.get(position).equals("labo")){
-//                        String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-//                        sCrcLabo = MD5Cipher.md5(mCrc);
-//                        callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
-//                    }
-//                    if (allActiveType.get(position).equals("fast")){
-//                        String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-//                        sCrcFast = MD5Cipher.md5(mCrc);
-//                        callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
-//                    }
-//                });
-
+                laboText.setText(String.valueOf(laboActive.size()));
+                instantText.setText(String.valueOf(fastActive.size()));
+                specText.setText(String.valueOf(specActive.size()));
             }
 
             @Override

@@ -8,6 +8,7 @@
         android:id="@+id/fast_mission_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/fast_mission_intro_time"
         android:layout_width="wrap_content"
@@ -29,9 +30,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fast_mission_start"/>
 
+    <ImageView
+        android:id="@+id/fast_mission_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/fast_mission_text"/>
+
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_below="@id/fast_mission_text"
+        android:layout_below="@id/fast_mission_image"
         android:id="@+id/answerField"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -50,7 +58,7 @@
     </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/fast_mission_answer_button"
-        android:layout_below="@id/fast_mission_text"
+        android:layout_below="@id/fast_mission_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wyślij odpowiedź"

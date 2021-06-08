@@ -6,7 +6,8 @@
 
 
 
-        <group android:checkableBehavior="single">
+        <group android:id="@+id/firstGroup"
+            android:checkableBehavior="single">
             <item
                 android:id="@+id/main_menu"
                 android:title="Menu główne"/>
@@ -20,9 +21,8 @@
 
         </group>
 
-    <item android:title="">
-        <menu>
-        <group android:checkableBehavior="single">
+        <group android:id="@+id/secondGroup"
+            android:checkableBehavior="single">
             <item
                 android:id="@+id/spec_mission_item"
                 android:icon="@drawable/ic_spec_mission"
@@ -49,12 +49,9 @@
                 android:title="Misja Ostateczna"
                 app:actionViewClass="android.widget.TextView"/>
         </group>
-        </menu>
-    </item>
 
-    <item android:title="">
-        <menu>
-        <group android:checkableBehavior="single">
+        <group android:id="@+id/thirdGroup"
+            android:checkableBehavior="single">
             <item
                 android:id="@+id/badges_item"
                 android:icon="@drawable/ic_badges"
@@ -76,7 +73,6 @@
                 android:title="Wyloguj"
                 android:onClick="logout"/>
         </group>
-        </menu>
-    </item>
+
 
 </menu>

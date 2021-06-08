@@ -1,34 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+<ScrollView
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:fillViewport="true"
+    android:layout_toEndOf="@id/pasek"
+    >
 
 <RelativeLayout
+
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
+
 
     <TextView
         android:id="@+id/spec_mission_codename"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
     <TextView
         android:id="@+id/spec_mission_missionStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/spec_mission_codename"/>
-
+    <LinearLayout
+        android:id="@+id/spec_mission_linear_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spec_mission_missionStart"
+        android:orientation="horizontal">
+<!--    <ImageView-->
+<!--        -->
+<!--        android:layout_marginStart="-25dp"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:src="@drawable/ic_clock"-->
+<!--        />-->
     <TextView
         android:id="@+id/spec_mission_introText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spec_mission_missionStart"/>
+        android:layout_gravity="center"
+        android:text="sdjksdhkjsdf"
+        />
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/spec_mission_linear_q1"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/questions_background_frame"
-        android:layout_below="@id/spec_mission_introText"
+        android:layout_below="@id/spec_mission_linear_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -52,6 +78,11 @@
         android:id="@+id/spec_mission_question1_ans4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/spec_mission_question1_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
     <LinearLayout
         android:layout_marginStart="80dp"
@@ -92,6 +123,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"/>
+        <TextView
+            android:id="@+id/spec_mission_question2_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/spec_mission_linear_q3"
@@ -122,6 +158,11 @@
             android:id="@+id/spec_mission_question3_ans4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/spec_mission_question3_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
     <LinearLayout
         android:layout_marginStart="80dp"
@@ -152,13 +193,48 @@
             android:id="@+id/spec_mission_question4_ans4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/spec_mission_question4_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_below="@id/spec_mission_linear_q4"
+        android:id="@+id/spec_linear_finish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_bomb"/>
+    <TextView
+        android:id="@+id/spec_mission_finish_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     </LinearLayout>
     <Button
-        android:layout_below="@id/spec_mission_linear_q4"
+        android:layout_below="@id/spec_linear_finish"
         android:id="@+id/spec_mission_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wyślij odpowiedź"/>
 
+
 </RelativeLayout>
 </ScrollView>
+    <ImageView
+        android:id="@+id/pasek"
+        android:layout_width="7dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/spec_misssion_panel"
+        android:visibility="visible" />
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_clock"
+        android:layout_toLeftOf="@id/spec_mission_introText"
+/>
+        </RelativeLayout>

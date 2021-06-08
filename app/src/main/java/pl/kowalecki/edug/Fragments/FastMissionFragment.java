@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -55,6 +57,7 @@ public class FastMissionFragment extends Fragment {
     String mMissionNumber;
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
     Button answerButton;
+    ImageView imageView;
     public static FastMissionFragment newInstance(String codename, String picture, String introTime, String introText ,
                                                   String missionStart , String missionText , String finishTime,
                                                   String finishText, String missionNumber){
@@ -112,16 +115,31 @@ public class FastMissionFragment extends Fragment {
         mTextFinishText =(TextView) v.findViewById(R.id.fast_mission_finish_text);
         mTextFinishText.setText(Html.fromHtml(mFinishText));
         answerButton = (Button) v.findViewById(R.id.fast_mission_answer_button);
+        if (!mPicture.isEmpty()){
+            imageView = (ImageView) v.findViewById(R.id.fast_mission_image);
+            Picasso.get().load(mPicture).into(imageView);
+            imageView.setVisibility(View.VISIBLE);
+        }
+
 
         answerButton.setOnClickListener(v1 ->{
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
             String answer = answerInputField.getEditText().getText().toString();
+            if (answer.isEmpty()){
+                builder.setTitle("Brak odpowiedzi");
+                builder.setMessage("Musisz udzielić odpowiedzi na pytanie");
+                builder.setNegativeButton("Ok", null);
+                builder.create().show();
+            }else{
             Log.e("FastMisisonsFragment", "Answer: " + answer);
             sCrc = "grauman" + sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash;
             String logAnswer = sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash + sCrc;
             Log.e("FastFragmentAnswer",logAnswer);
             //Zrobić wysyłanie odpowiedzi do webserwisu
 //            callAnsResponse(sSys, sLang, sGame, mMissionNumber,answerInputField, sLogin, sHash, sCrc);
-        } );
+            }
+            } );
 
         return v;
     }

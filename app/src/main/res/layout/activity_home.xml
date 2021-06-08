@@ -7,21 +7,21 @@
     android:fitsSystemWindows="true"
     android:id="@+id/drawerLayout">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".Activities.HomeActivity">
-
-
-
-
-    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-        android:layout_alignParentBottom="true"
-        android:id="@+id/bottomNavigationView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/navigatiob_bottom_menu"
-        android:background="#ababab"/>
+        tools:context=".Activities.HomeActivity">
+
+
+
+
+        <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+            android:layout_alignParentBottom="true"
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/navigatiob_bottom_menu"
+            android:background="#ababab"/>
 
 
 
@@ -40,41 +40,27 @@
         </androidx.appcompat.widget.Toolbar>
 
 
-    <FrameLayout
-        android:layout_below="@id/toolbar"
-        android:layout_above="@id/bottomNavigationView"
-        android:id="@+id/parent_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <FrameLayout
+            android:layout_below="@id/toolbar"
+            android:layout_above="@id/bottomNavigationView"
+            android:id="@+id/parent_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
 
-</RelativeLayout>
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/home_activity_missions_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="horizontal"
-        android:layout_alignParentBottom="true"
-        >
-    </androidx.recyclerview.widget.RecyclerView>
-</RelativeLayout>
+    </RelativeLayout>
 
 
-<com.google.android.material.navigation.NavigationView
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:id="@+id/nav_view"
-    app:menu="@menu/navigation_menu"
-    app:headerLayout="@layout/navigation_bar_header">
 
-</com.google.android.material.navigation.NavigationView>
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:id="@+id/nav_view"
+        app:menu="@menu/navigation_menu"
+        app:headerLayout="@layout/navigation_bar_header">
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -7,5 +7,10 @@
     <color name="dividerColor">#80CBC4</color>
     <color name="list_item_title">#AAAAAA</color>
     <color name="list_group_title">#808080</color>
+    <color name="edug_red">#CC0000</color>
+    <color name="edug_background">#FFFFFF</color>
+    <color name="edug_text_black">#000000</color>
+    <color name="edug_text_white">#FFFFFF</color>
+
 
 </resources>
