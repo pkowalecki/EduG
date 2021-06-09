@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,16 +79,18 @@ public class LaboMissionFragment  extends Fragment {
         path = mMissionFile;
         String[] laboMissionName = path.split("/");
 
-                mTextCodename = (TextView) v.findViewById(R.id.labo_mission_name);
-        mTextMissionStart = (TextView) v.findViewById(R.id.labo_mission_start);
+        mTextCodename = (TextView) v.findViewById(R.id.labo_mission_name);
+        mTextMissionStart = (TextView) v.findViewById(R.id.labo_mission_missionStart);
         mTextMissionText = (TextView) v.findViewById(R.id.labo_mission_text);
         mTextMissionFile = (TextView) v.findViewById(R.id.labo_mission_file);
         mTextFinishTime = (TextView) v.findViewById(R.id.labo_mission_finish_time);
         mTextFinishText = (TextView) v.findViewById(R.id.labo_mission_finish_text);
 
-        mTextCodename.setText(mCodename);
+
+        mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        mTextCodename.setText(Html.fromHtml(mCodename));
         mTextMissionStart.setText(mMissionStart);
-        mTextMissionText.setText(mMissionText);
+        mTextMissionText.setText(Html.fromHtml(mMissionText));
         mTextMissionFile.setText(laboMissionName[6]);
         mTextFinishTime.setText(mFinishTime);
         mTextFinishText.setText(Html.fromHtml(mFinishText));

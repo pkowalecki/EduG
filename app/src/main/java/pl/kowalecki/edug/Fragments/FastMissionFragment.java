@@ -2,6 +2,7 @@ package pl.kowalecki.edug.Fragments;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class FastMissionFragment extends Fragment {
 
     SessionManagement sessionManagement;
     private String mCodename, mPicture, mIntroTime, mIntroText, mMissionStart, mMissionText, mFinishTime, mFinishText;
-    TextView mTextCodename, mTextPicture, mTextIntroTime, mTextIntroText, mTextMissionStart, mTextMissionText, mTextFinishTime, mTextFinishText;
+    TextView mTextCodename, mTextIntroText, mTextMissionStart, mTextMissionText, mTextFinishTime, mTextFinishText;
     private TextInputLayout answerInputField;
     String mMissionNumber;
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
@@ -100,10 +101,10 @@ public class FastMissionFragment extends Fragment {
         }
         answerInputField=(TextInputLayout) v.findViewById(R.id.answerField);
         mTextCodename =(TextView) v.findViewById(R.id.fast_mission_name);
+        mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mTextCodename.setText(mCodename);
-        //mTextPicture =(TextView) v.findViewById(R.id.);
-        mTextIntroTime =(TextView) v.findViewById(R.id.fast_mission_intro_time);
-        mTextIntroTime.setText(mIntroTime);
+//        mTextIntroTime =(TextView) v.findViewById(R.id.fast_mission_intro_time);
+//        mTextIntroTime.setText(mIntroTime);
         mTextIntroText =(TextView) v.findViewById(R.id.fast_mission_intro_text);
         mTextIntroText.setText(mIntroText);
         mTextMissionStart =(TextView) v.findViewById(R.id.fast_mission_start);
