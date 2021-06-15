@@ -76,6 +76,29 @@ public class MissionsFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private final String grauman = "grauman";
 
+
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
+        sessionManagement = new SessionManagement(getContext());
+        date = simpleDateFormat.format(currentDate);
+        mRecyclerView = v.findViewById(R.id.missions_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_missions);
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        textView = (TextView) v.findViewById(R.id.mission_name_text);
+        sGame = sessionManagement.getGame();
+        callListMission(sGame);
+        sSys = sessionManagement.getSys();
+        sLang = sessionManagement.getLang();
+        sLogin = sessionManagement.getLogin();
+        sHash = sessionManagement.getHash();
+        return v;
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -165,29 +188,6 @@ public class MissionsFragment extends Fragment {
                 }
 
             };
-
-
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
-        sessionManagement = new SessionManagement(getContext());
-        date = simpleDateFormat.format(currentDate);
-        mRecyclerView = v.findViewById(R.id.missions_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_missions);
-        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
-        textView = (TextView) v.findViewById(R.id.mission_name_text);
-        sGame = sessionManagement.getGame();
-        callListMission(sGame);
-        sSys = sessionManagement.getSys();
-        sLang = sessionManagement.getLang();
-        sLogin = sessionManagement.getLogin();
-        sHash = sessionManagement.getHash();
-
-        return v;
-    }
 
 
     public void callListMission(String sGame) {

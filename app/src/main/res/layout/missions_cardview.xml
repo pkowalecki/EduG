@@ -6,24 +6,39 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
 
+        >
+
+        <ImageView
+            android:id="@+id/mission_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_spec_mission" />
 
         <TextView
             android:id="@+id/mission_type_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/mission_image"
+            android:textColor="@color/edug_black"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/mission_idu"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:layout_toRightOf="@id/mission_type_name"
-            android:paddingLeft="10dp"/>
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/mission_type_name"
+            android:textColor="@color/edug_black" />
+
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -1,9 +1,12 @@
 package pl.kowalecki.edug.Adapters;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,11 +41,13 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
 
         public TextView mMissionIdu;
         public TextView mMissionNameText;
+        public ImageView mMissionImage;
 
         public MissionsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
             mMissionIdu = itemView.findViewById(R.id.mission_idu);
             mMissionNameText = itemView.findViewById(R.id.mission_type_name);
+            mMissionImage = itemView.findViewById(R.id.mission_image);
 
             itemView.setOnClickListener(v -> {
                 if (listener !=null ){
@@ -73,8 +78,21 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
     @Override
     public void onBindViewHolder(@NonNull MissionsViewHolder holder, int position) {
         String currentIdu = mListMissions.get(position);
-        String currentName = mListMissions.get(position);
+        if (Integer.parseInt(currentIdu)>=100){
+            holder.mMissionNameText.setText("Misja Błyskawiczna");
+            holder.mMissionImage.setImageResource(R.drawable.ic_instant_mission_menu);
+        }
+        if (Integer.parseInt(currentIdu)>=200){
+            holder.mMissionNameText.setText("Misja Laboratoryjna");
+            holder.mMissionImage.setImageResource(R.drawable.ic_labo_mission_menu);
+        }
+        if (Integer.parseInt(currentIdu)>=300){
+            holder.mMissionNameText.setText("Misja Specjalna");
+            holder.mMissionImage.setImageResource(R.drawable.ic_spec_mission_menu);
+        }
+
         holder.mMissionIdu.setText(currentIdu);
+        holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
 
 
 

@@ -156,13 +156,10 @@ public class AgentFilesFragment extends Fragment {
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
                 textView.setText("Niezbędnik Agenta Laboratoryjnego");
-                mAdapter.setOnItemClickListener(new AgentFilesAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Uri uri = Uri.parse(laboUrlArray.get(position));
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                    }
+                mAdapter.setOnItemClickListener(position -> {
+                    Uri uri = Uri.parse(laboUrlArray.get(position));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
                 });
 
             }
