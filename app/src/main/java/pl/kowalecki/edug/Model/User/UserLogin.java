@@ -2,9 +2,14 @@ package pl.kowalecki.edug.Model.User;
 
 public class UserLogin {
     String sys, lang, game, login, hash, crc;
+    String password = "grauman";
 
     public UserLogin() {
 
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getSys() {

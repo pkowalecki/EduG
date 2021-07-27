@@ -36,6 +36,7 @@ import pl.kowalecki.edug.Model.MissionSpec.Answers4;
 import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
 import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.Model.Missions.Missions;
+import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
@@ -74,7 +75,7 @@ public class MissionsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MissionsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final String grauman = "grauman";
+    private final UserLogin userLogin = new UserLogin();
 
 
 
@@ -115,7 +116,7 @@ public class MissionsFragment extends Fragment {
 
                             mAdapter.setOnItemClickListener(position -> {
                                 mMenu = "spec";
-                                String mCrcSpec = grauman + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
+                                String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
                                 sCrcSpec = MD5Cipher.md5(mCrcSpec);
                                 callSpecMission(sSys, sLang, sGame, specActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
                             });
@@ -131,7 +132,7 @@ public class MissionsFragment extends Fragment {
                             mAdapter.setOnItemClickListener(position -> {
                                 mMenu = "fast";
                                 Log.e(TAG, "Position" + position);
-                                String mCrc = grauman + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
+                                String mCrc = userLogin.getPassword() + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
                                 sCrcFast = MD5Cipher.md5(mCrc);
                                 callFastMission(sSys, sLang, sGame, fastActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
                             });
@@ -147,7 +148,7 @@ public class MissionsFragment extends Fragment {
                             mAdapter.setOnItemClickListener(position -> {
                                 mMenu = "labo";
                                 Log.e(TAG, "Position" + position);
-                                String mCrc = grauman + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
+                                String mCrc = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
                                 sCrcLabo = MD5Cipher.md5(mCrc);
                                 callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
                             });
@@ -164,17 +165,17 @@ public class MissionsFragment extends Fragment {
                                 mMenu = "all";
                                 Log.e(TAG, "Position" + position);
                                 if (allActiveType.get(position).equals("spec")){
-                                    String mCrcSpec = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                    String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                                     sCrcSpec = MD5Cipher.md5(mCrcSpec);
                                     callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
                                 }
                                 if (allActiveType.get(position).equals("labo")){
-                                    String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                    String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                                     sCrcLabo = MD5Cipher.md5(mCrc);
                                     callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
                                 }
                                 if (allActiveType.get(position).equals("fast")){
-                                    String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                    String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                                     sCrcFast = MD5Cipher.md5(mCrc);
                                     callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
                                 }
@@ -250,17 +251,17 @@ public class MissionsFragment extends Fragment {
                 mAdapter.setOnItemClickListener(position -> {
                     mMenu = "all";
                     if (allActiveType.get(position).equals("spec")){
-                        String mCrcSpec = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                         sCrcSpec = MD5Cipher.md5(mCrcSpec);
                         callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
                     }
                     if (allActiveType.get(position).equals("labo")){
-                        String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                         sCrcLabo = MD5Cipher.md5(mCrc);
                         callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
                     }
                     if (allActiveType.get(position).equals("fast")){
-                        String mCrc = grauman + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                         sCrcFast = MD5Cipher.md5(mCrc);
                         callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
                     }

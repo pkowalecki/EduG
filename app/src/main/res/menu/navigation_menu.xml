@@ -27,7 +27,7 @@
                 android:id="@+id/spec_mission_item"
                 android:icon="@drawable/ic_spec_mission"
                 android:title="Misja Specjalna"
-                app:actionViewClass="android.widget.TextView"/>
+                app:actionViewClass="android.widget.TextView" />
             <item
                 android:id="@+id/labor_mission_item"
                 android:icon="@drawable/ic_labo_mission"

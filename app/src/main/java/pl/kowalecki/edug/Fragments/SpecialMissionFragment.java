@@ -37,6 +37,7 @@ import pl.kowalecki.edug.Model.MissionSpec.Answers2;
 import pl.kowalecki.edug.Model.MissionSpec.Answers3;
 import pl.kowalecki.edug.Model.MissionSpec.Answers4;
 import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
+import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
@@ -87,6 +88,7 @@ public class SpecialMissionFragment extends Fragment {
     MissionSpec missionSpec = new MissionSpec();
     StringBuffer sb1, sb2, sb3, sb4;
     Button button;
+    private UserLogin userLogin = new UserLogin();
 
     @Nullable
     @Override
@@ -337,7 +339,7 @@ public class SpecialMissionFragment extends Fragment {
             Log.e("ans2: ", str2);
             Log.e("ans3: ", str3);
             Log.e("ans4: ", str4);
-            mCrc = MD5Cipher.md5("grauman"+sSys+sLang+sGame+mMissionNumber+str1+str2+str3+str4+sLogin+sHash);
+            mCrc = MD5Cipher.md5(userLogin.getPassword()+sSys+sLang+sGame+mMissionNumber+str1+str2+str3+str4+sLogin+sHash);
 
             if (str1.isEmpty() || str2.isEmpty() || str3.isEmpty() || str4.isEmpty()){
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

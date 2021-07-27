@@ -37,14 +37,11 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
             super(itemView);
 
             mFilename = itemView.findViewById(R.id.agent_filename);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
-                        }
+            itemView.setOnClickListener(v -> {
+                if (listener != null){
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION){
+                        listener.onItemClick(position);
                     }
                 }
             });
@@ -68,7 +65,6 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
     @Override
     public void onBindViewHolder(@NonNull AgentfileViewHolder holder, int position) {
         String currentFilename = mExampleFilename.get(position);
-        String currentUrl = mExampleUrl.get(position);
 
         holder.mFilename.setText(currentFilename);
 

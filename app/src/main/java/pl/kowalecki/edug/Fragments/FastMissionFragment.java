@@ -32,6 +32,7 @@ import java.util.List;
 
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.Model.MissionFast.MissionFast;
+import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
@@ -59,23 +60,7 @@ public class FastMissionFragment extends Fragment {
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
     Button answerButton;
     ImageView imageView;
-    public static FastMissionFragment newInstance(String codename, String picture, String introTime, String introText ,
-                                                  String missionStart , String missionText , String finishTime,
-                                                  String finishText, String missionNumber){
-        FastMissionFragment fragment = new FastMissionFragment();
-        Bundle args = new Bundle();
-        args.putString(arg_codename, codename);
-        args.putString(arg_picture, picture);
-        args.putString(arg_introTime, introTime);
-        args.putString(arg_introText, introText);
-        args.putString(arg_missionStart, missionStart);
-        args.putString(arg_missionText, missionText);
-        args.putString(arg_finishTime, finishTime);
-        args.putString(arg_finishText, finishText);
-        args.putString(arg_missionNumber, missionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private final UserLogin userLogin = new UserLogin();
 
     @Nullable
     @Override
@@ -134,7 +119,7 @@ public class FastMissionFragment extends Fragment {
                 builder.create().show();
             }else{
             Log.e("FastMisisonsFragment", "Answer: " + answer);
-            sCrc = "grauman" + sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash;
+            sCrc = userLogin.getPassword() + sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash;
             String logAnswer = sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash + sCrc;
             Log.e("FastFragmentAnswer",logAnswer);
             //Zrobić wysyłanie odpowiedzi do webserwisu

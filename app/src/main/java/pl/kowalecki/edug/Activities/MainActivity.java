@@ -96,13 +96,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         submit.setOnClickListener(v -> {
-            String passwordGame = "grauman";
             userLogin.setSys("wp");
             userLogin.setLang("pl");
             userLogin.setGame(spinner.getSelectedItem().toString());
             userLogin.setLogin(loginInputField.getEditText().getText().toString());
             userLogin.setHash(md5Cipher.md5(passwordInputField.getEditText().getText().toString()));
-            userLogin.setCrc(md5Cipher.md5(passwordGame+ userLogin.getSys()+ userLogin.getLang()+ userLogin.getGame()+ userLogin.getLogin()+ userLogin.getHash()));
+            userLogin.setCrc(md5Cipher.md5(userLogin.getPassword()+ userLogin.getSys()+ userLogin.getLang()+ userLogin.getGame()+ userLogin.getLogin()+ userLogin.getHash()));
 
            if(validateLogin() && validatePassword()){
                 doLogin(userLogin.getSys(), userLogin.getLang(), userLogin.getGame(), userLogin.getLogin(), userLogin.getHash(), userLogin.getCrc());
@@ -217,62 +216,59 @@ public class MainActivity extends AppCompatActivity {
     }}});}
 
     private void getGames(){
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
+        executorService.execute(() -> {
 
-                HttpHandler sh = new HttpHandler();
+            HttpHandler sh = new HttpHandler();
 
-                String url = "https://www.edug.pl/_webservices/list_games.php";
-                String jsonStr = sh.makeServiceCall(url);
+            String url = "https://www.edug.pl/_webservices/list_games.php";
+            String jsonStr = sh.makeServiceCall(url);
 
-                Log.e(TAG, "Response from url: " + jsonStr);
-                if(jsonStr != null){
-                    try{
-                        JSONObject jsonObject = new JSONObject(jsonStr);
-                        JSONArray list_games = jsonObject.getJSONArray("list_games");
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if(jsonStr != null){
+                try{
+                    JSONObject jsonObject = new JSONObject(jsonStr);
+                    JSONArray list_games = jsonObject.getJSONArray("list_games");
 
-                        for(int i = 0; i < list_games.length(); i++){
-                            JSONObject g = list_games.getJSONObject(i);
-                            JSONObject gameObj = g.getJSONObject("game");
-                            listGames.setIdg(gameObj.getString("idg"));
-                            listGames.setActive(gameObj.getString("active"));
-                            listGames.setMissions(gameObj.getString("missions"));
+                    for(int i = 0; i < list_games.length(); i++){
+                        JSONObject g = list_games.getJSONObject(i);
+                        JSONObject gameObj = g.getJSONObject("game");
+                        listGames.setIdg(gameObj.getString("idg"));
+                        listGames.setActive(gameObj.getString("active"));
+                        listGames.setMissions(gameObj.getString("missions"));
 
 
-                            if (listGames.getActive().equals("Y")) {
-                                listOfGames.add(listGames.getIdg());
-                            }
+                        if (listGames.getActive().equals("Y")) {
+                            listOfGames.add(listGames.getIdg());
                         }
-                    } catch (final JSONException e){
-                        Log.e(TAG, "JSON parsing error: " + e.getMessage());
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(),"JSON parsing error" + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
                     }
-                }
-                else{
-                    Log.e(TAG, "Couldn't get json from server");
+                } catch (final JSONException e){
+                    Log.e(TAG, "JSON parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Couldnt get json from server. Check logcat", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"JSON parsing error" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
-                handler.post(new Runnable() {
+            }
+            else{
+                Log.e(TAG, "Couldn't get json from server");
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listOfGames);
-                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner.setAdapter(arrayAdapter);
+                        Toast.makeText(getApplicationContext(), "Couldnt get json from server. Check logcat", Toast.LENGTH_LONG).show();
                     }
                 });
+
             }
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listOfGames);
+                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(arrayAdapter);
+                }
+            });
         });
     }
 }
