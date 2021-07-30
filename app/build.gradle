@@ -58,12 +58,13 @@ dependencies {
     implementation 'com.github.nikartm:image-support:1.0.5'
     implementation "com.joanzapata.iconify:android-iconify-fontawesome:2.2.2" //(v4.5)
 
-    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4' //bottom navbar
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0' //circrle image in header
     implementation 'com.github.nirwannursabda:expandable-navigation:0.1.2'
+
 
 
 

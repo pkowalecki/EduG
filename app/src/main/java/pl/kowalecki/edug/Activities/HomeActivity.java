@@ -12,8 +12,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +51,8 @@ import java.util.List;
 import java.util.TreeMap;
 
 import pl.kowalecki.edug.Adapters.BottomSheetAdapter;
+import pl.kowalecki.edug.Adapters.CollapsibleMenuAdapter;
+import pl.kowalecki.edug.Model.AdditionalMenu;
 import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.NotificationsApp.AlertReceiver;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
@@ -121,13 +128,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.LayoutManager mLayoutManager;
     private String sCrcSpec, sCrcLabo, sCrcFast, mMenu;
     private TreeMap<Date, String> notificationMissions = new TreeMap<>();
-
-
-
+    private ImageButton collapsibleMenuButton;
+    private LinearLayout collapsibleMenu;
+    private ListView collapsibleMenuData;
+    boolean clicked;
+    private ArrayList<AdditionalMenu> additionalMenuArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        clicked = false;
         setContentView(R.layout.activity_home);
+
+        collapsibleMenuButton = findViewById(R.id.collapsible_menu_imagebutton);
+        collapsibleMenu = findViewById(R.id.collapsible_menu);
+        collapsibleMenuData = (ListView) findViewById(R.id.collapsible_menu_data);
+        generateCollapsibleData();
         navigationView = findViewById(R.id.nav_view);
         sessionManagement = new SessionManagement(getApplicationContext());
         logoutButton = findViewById(R.id.logoutButton);
@@ -153,6 +168,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         sCrc = sessionManagement.getCRC();
         navigationView.setNavigationItemSelectedListener(this);
         ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.image_gravatar);
+
         String avatarLogin = MD5Cipher.md5(sLogin);
         Picasso.get().load("https://gravatar.com/avatar/" + avatarLogin + "?d=wavatar").into(imageView);
 
@@ -167,7 +183,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } catch (ParseException e) {
             Toast.makeText(this, "Wystąpił problem z serwisem", Toast.LENGTH_SHORT).show();
         }
+
+
         initializeCountDrawer();
+
 
 
         //Usuwanie kanałów powiadomień
@@ -178,7 +197,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //TODO: zrobić try/catch do metod "call..." <- tego chyba jednak nie trzeba, bo ma własne "On failure"
     }
 
+    private void generateCollapsibleData() {
+        //TODO: Uzupełnić wybranymi elementami i ustawić na nie onclicki
+        additionalMenuArrayList = new ArrayList<>();
+        additionalMenuArrayList.add(0, new AdditionalMenu(R.drawable.ic_instant_mission,"First position"));
+        additionalMenuArrayList.add(1, new AdditionalMenu(R.drawable.ic_hazard_mission,"Second position"));
+        additionalMenuArrayList.add(2, new AdditionalMenu(R.drawable.ic_spec_mission,"Misja Specjalna"));
+        CollapsibleMenuAdapter adapter = new CollapsibleMenuAdapter(getApplicationContext(), R.layout.collapsible_menu_custom_listview, additionalMenuArrayList);
+        ListView listView = findViewById(R.id.collapsible_menu_data);
+        listView.setAdapter(adapter);
 
+    }
+
+    public void onClickImageButton(View v){
+        checkSlideMenuIfClicked();
+    }
+
+    private void checkSlideMenuIfClicked() {
+        if(!clicked){
+            clicked=true;
+            collapsibleMenu.setVisibility(View.VISIBLE);
+
+        }else{
+            clicked=false;
+            collapsibleMenu.setVisibility(View.GONE);
+        }
+    }
 
 
     private void startAlarm(Date entry, String notifTitle, String notifContent){
@@ -212,12 +256,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //        alarmManager.setExact(AlarmManager.RTC_WAKEUP, _triggerReminder, pendingIntent);
     }
 
-        //TODO: Dodać do wysuwanej listy pasek na górze, który pokazuje, że można zwinąć
+
         @Override
         public boolean onNavigationItemSelected (@NonNull MenuItem menuItem){
-        //TODO: Zrobić przycisk cofania do bottom sheet i zrobić, żeby to cofanie działało xd
             View view = getLayoutInflater().inflate(R.layout.bottom_sheet_missions_layout, null);
             switch (menuItem.getItemId()) {
+
                 case R.id.main_menu:
                     getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
                     mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -227,7 +271,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     mDrawerLayout.closeDrawer(GravityCompat.START);
                     break;
                 case R.id.spec_mission_item:
-
                     mLayoutManager = new LinearLayoutManager(getApplicationContext());
                     mAdapter = new BottomSheetAdapter(specActive, "Misja Specjalna");
                     mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
@@ -530,15 +573,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-                    try {
-                        notificationMissions.put(simpleDateFormat.parse("2021-07-27 11:10:00"), "101");
-                        notificationMissions.put(simpleDateFormat.parse("2021-07-25 19:48:00"), "Valeu");
-                        notificationMissions.put(simpleDateFormat.parse("2021-07-24 12:09:00"), "Valeu");
-                        notificationMissions.put(simpleDateFormat.parse("2021-07-23 13:00:00"), "Valeu");
-
-                    } catch (ParseException e) {
-                        Toast.makeText(HomeActivity.this, "ParseError", Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        notificationMissions.put(simpleDateFormat.parse("2021-07-27 11:10:00"), "101");
+//                        notificationMissions.put(simpleDateFormat.parse("2021-07-25 19:48:00"), "Valeu");
+//
+//
+//                    } catch (ParseException e) {
+//                        Toast.makeText(HomeActivity.this, "ParseError", Toast.LENGTH_SHORT).show();
+//                    }
 
                     //Stworzenie osobnej mapy do posortowania i wyciągnięcia najwcześniejszej daty.
                     TreeMap<Date, String> m1 = new TreeMap(notificationMissions);
@@ -747,5 +789,5 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-    }
+}
 

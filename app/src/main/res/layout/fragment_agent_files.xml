@@ -47,6 +47,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:layout_below="@id/file_mission_text"
         android:id="@+id/agent_files_recyclerView"
         android:layout_width="match_parent"

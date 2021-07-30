@@ -69,6 +69,27 @@
         app:menu="@menu/navigation_menu"
         app:headerLayout="@layout/navigation_bar_header">
 
+        <LinearLayout
+            android:focusable="true"
+            android:id="@+id/collapsible_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ListView
+
+                    android:layout_marginTop="110dp"
+                    android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/collapsible_menu_data"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
