@@ -2,55 +2,110 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp">
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:id="@+id/fragment_topbar_achievements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            app:menu="@menu/achievemens_menu"/>
+            app:itemIconTint="@color/top_navbar_color"
+            app:itemTextColor="@color/top_navbar_color"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/achievemens_menu"
+            />
+    <ScrollView
+        android:layout_below="@id/fragment_topbar_achievements"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
     <RelativeLayout
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/shadow_frame"
         android:id="@+id/achievements_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/fragment_topbar_achievements">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/header_list_missions"
+            android:background="@color/edug_cardView_background">
         <TextView
+            android:textColor="@color/edug_text_black"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
             android:id="@+id/achievement_group_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:padding="5dp"
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/empty_achievements_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/achievements_text"
-        android:padding="4dp"
-        android:scrollbars="vertical"
-        android:visibility="gone"
-        >
-        <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/missions_data_text"
+            android:layout_below="@id/header_list_missions"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="NOTHING HERE YET MA BOI"/>
+            android:gravity="center_vertical">
+            <TextView
+                android:text="#"
+                android:textStyle="bold"
+                android:layout_marginStart="38dp"
+                android:textColor="@color/edug_text_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:text="KRYPTONIM"
+                android:layout_marginStart="38dp"
+                android:textColor="@color/edug_text_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textStyle="bold"
+                android:text="PKT"
+                android:layout_marginStart="117dp"
+                android:textColor="@color/edug_text_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/missions_data_text"
+        android:id="@+id/empty_achievements_recyclerview"
+        android:padding="10dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
+            android:textSize="20sp"
+            android:textColor="@color/edug_text_black"
+            android:text="@string/empty_data"/>
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/missions_data_text"
         android:id="@+id/achievements_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/achievements_text"
         android:padding="4dp"
         android:scrollbars="vertical">
 
     </androidx.recyclerview.widget.RecyclerView>
+
     </RelativeLayout>
-</RelativeLayout>
+    </ScrollView>
+
+    </RelativeLayout>

@@ -78,7 +78,7 @@
                 android:layout_below="@id/fast_mission_linear_intro_time"
                 android:orientation="horizontal">
                 <TextView
-                    android:background="@drawable/shadow_frame"
+                    android:background="@drawable/shadow_frame_missions"
                     android:textColor="@color/edug_text_black"
                     android:layout_marginStart="90dp"
                     android:layout_marginEnd="20dp"
@@ -113,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/shadow_frame">
+                android:background="@drawable/shadow_frame_missions">
                 <TextView
                     android:textColor="@color/edug_text_black"
                     android:text="fast mission start"
@@ -210,7 +210,7 @@
                 android:layout_below="@id/fast_mission_linear_finish_time"
                 android:orientation="horizontal">
                 <TextView
-                    android:background="@drawable/shadow_frame"
+                    android:background="@drawable/shadow_frame_missions"
                     android:textColor="@color/edug_text_black"
                     android:layout_marginStart="90dp"
                     android:layout_marginEnd="20dp"

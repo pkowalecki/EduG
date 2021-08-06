@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+
+    >
+    <ImageView
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bottom_sheet_rounded_bar"
+        android:layout_width="100dp"
+        android:layout_height="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/wybierz_opcje"
+        android:padding="10dp"
+        android:textColor="@color/edug_bootomNavbar_grey"/>
+
+<LinearLayout
+    android:onClick="logout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/logout_bottom_sheet"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+    <ImageView
+
+        app:tint="@color/edug_text_black"
+        android:layout_marginStart="10dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_baseline_power"/>
+    <TextView
+        android:layout_marginStart="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edug_wyloguj"
+        android:textSize="15sp"
+        android:textColor="@color/edug_text_black"/>
+</LinearLayout>
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/badges_style_1"
+        android:gravity="center_vertical">
+        <ImageView
+
+            app:tint="@color/edug_text_black"
+            android:layout_marginStart="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_badges"/>
+        <TextView
+            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edug_motyw_odznak_1"
+            android:textSize="15sp"
+            android:textColor="@color/edug_text_black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/app_theme"
+        android:gravity="center_vertical">
+        <ImageView
+
+            app:tint="@color/edug_text_black"
+            android:layout_marginStart="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_baseline_mode"/>
+        <TextView
+            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tryb ciemny/jasny"
+            android:textSize="15sp"
+            android:textColor="@color/edug_text_black"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+

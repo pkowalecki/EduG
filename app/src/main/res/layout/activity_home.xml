@@ -27,9 +27,10 @@
 
         <androidx.appcompat.widget.Toolbar
 
+            app:titleTextColor="@color/edug_text_white"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/design_default_color_primary"
+            android:background="@color/edug_toolbar"
             android:id="@+id/toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -41,6 +42,7 @@
 
 
         <FrameLayout
+            android:background="@color/edug_background"
             android:layout_below="@id/toolbar"
             android:layout_above="@id/bottomNavigationView"
             android:id="@+id/parent_fragment_container"
@@ -49,28 +51,34 @@
 
 
 
-<!--        <ListView-->
-<!--            android:background="@color/edug_red"-->
-<!--            android:visibility="gone"-->
-<!--            android:id="@+id/itemsListView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_above="@id/bottomNavigationView"/>-->
 
     </RelativeLayout>
 
 
 
     <com.google.android.material.navigation.NavigationView
+        app:itemTextColor="@color/edug_menu_textimage"
+        app:itemIconTint="@color/edug_menu_textimage"
+        android:background="@color/edug_menu_background"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:id="@+id/nav_view"
         app:menu="@menu/navigation_menu"
+        android:id="@+id/nav_view"
         app:headerLayout="@layout/navigation_bar_header">
 
+
+
+<!--        <ExpandableListView-->
+<!--            android:paddingTop="110dp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:id="@+id/expandable_listView"/>-->
+
+
         <LinearLayout
-            android:focusable="true"
+
+
             android:id="@+id/collapsible_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,9 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ListView
-
-                    android:layout_marginTop="110dp"
-                    android:background="@android:color/white"
+                    android:layout_marginTop="115dp"
+                    android:background="@drawable/custom_border_menu_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/collapsible_menu_data"/>

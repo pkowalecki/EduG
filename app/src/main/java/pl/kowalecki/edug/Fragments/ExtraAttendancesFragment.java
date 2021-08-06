@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -45,6 +47,8 @@ public class ExtraAttendancesFragment extends Fragment {
     TextView textView;
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
+    private LinearLayout linearLayout;
+    private RelativeLayout mEmptyRelative;
 
     public static ExtraAttendancesFragment newInstance(String number){
         ExtraAttendancesFragment fragment = new ExtraAttendancesFragment();
@@ -63,6 +67,9 @@ public class ExtraAttendancesFragment extends Fragment {
         if (getArguments() != null) {
             agentIdu = getArguments().getString(ARG_NUMBER);
         }
+
+        linearLayout = v.findViewById(R.id.missions_data_text);
+        mEmptyRelative = v.findViewById(R.id.empty_achievements_recyclerview);
         mRecycleView = (RecyclerView) v.findViewById(R.id.extra_attendances_list_recyclerview);
         mRecycleView.setHasFixedSize(true);
         mRecycleView.setAdapter(mAdapter);
@@ -79,18 +86,31 @@ public class ExtraAttendancesFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch(menuItem.getItemId()){
                         case R.id.menu_spec_attendances:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new ExtraAttendancesAdapter(attendancesLectureDate);
-                            mRecycleView.setLayoutManager(mLayoutManager);
-                            mRecycleView.setAdapter(mAdapter);
                             textView.setText("Misje Specjalne");
+                            if (attendancesLectureDate.size() == 0){
+                                linearLayout.setVisibility(View.GONE);
+                                mEmptyRelative.setVisibility(View.VISIBLE);
+                            }else{
+                                linearLayout.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new ExtraAttendancesAdapter(attendancesLectureDate);
+                                mRecycleView.setLayoutManager(mLayoutManager);
+                                mRecycleView.setAdapter(mAdapter);
+                            }
                             break;
                         case R.id.menu_labo_attendances:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
-                            mRecycleView.setLayoutManager(mLayoutManager);
-                            mRecycleView.setAdapter(mAdapter);
                             textView.setText("Misje Laboratoryjne ");
+                            if (attendancesLaboDate.size() == 0){
+                                linearLayout.setVisibility(View.GONE);
+                                mEmptyRelative.setVisibility(View.VISIBLE);
+                            }else{
+                                linearLayout.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
+                                mRecycleView.setLayoutManager(mLayoutManager);
+                                mRecycleView.setAdapter(mAdapter);
+
+                            }
                             break;
                     }
                     return true;
@@ -114,11 +134,18 @@ public class ExtraAttendancesFragment extends Fragment {
                     }
                 }
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
-                mRecycleView.setLayoutManager(mLayoutManager);
-                mRecycleView.setAdapter(mAdapter);
-                textView.setText("Misje Laboratoryjne");
+                textView.setText("Misje Laboratoryjne ");
+                if (attendancesLaboDate.size() == 0){
+                    linearLayout.setVisibility(View.GONE);
+                    mEmptyRelative.setVisibility(View.VISIBLE);
+                }else{
+                    linearLayout.setVisibility(View.VISIBLE);
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
+                    mRecycleView.setLayoutManager(mLayoutManager);
+                    mRecycleView.setAdapter(mAdapter);
+
+                }
             }
 
 

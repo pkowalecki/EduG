@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,8 @@ public class LeaderboardFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     TextView textView;
+    private RelativeLayout mEmptyLayout;
+    private LinearLayout linearLayout;
 
     @Nullable
     @Override
@@ -58,7 +62,8 @@ public class LeaderboardFragment extends Fragment {
         sessionManagement = new SessionManagement(getContext());
         String sGame = sessionManagement.getGame();
         receiveLeaderboards(sGame);
-
+        mEmptyLayout = v.findViewById(R.id.empty_achievements_recyclerview);
+        linearLayout = v.findViewById(R.id.missions_data_text);
         mRecyclerView = v.findViewById(R.id.rankings_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_rankings);
@@ -73,32 +78,59 @@ public class LeaderboardFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()){
                         case R.id.item_ranking_menu_special:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new LeaderboardAdapter(specLeaderboardsArrayListIdu, specLeaderboardsArrayListPts);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misja Specjalna");
+                            if (specLeaderboardsArrayListIdu.size() == 0){
+                                mEmptyLayout.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.GONE);
+                            }else{
+                                linearLayout.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new LeaderboardAdapter(specLeaderboardsArrayListIdu, specLeaderboardsArrayListPts);
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
+
                             break;
                         case R.id.item_ranking_menu_labor:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new LeaderboardAdapter(laboLeaderboardsArrayListIdu, laboLeaderboardsArrayListPts);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misja Laboratoryjna");
+                            if (laboLeaderboardsArrayListIdu.size() == 0){
+                                mEmptyLayout.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.GONE);
+                            }else {
+                                linearLayout.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new LeaderboardAdapter(laboLeaderboardsArrayListIdu, laboLeaderboardsArrayListPts);
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
                             break;
                         case R.id.item_ranking_menu_instant:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new LeaderboardAdapter(fastLeaderboardsArrayListIdu, fastLeaderboardsArrayListPts);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misja Błyskawiczna");
+                            if (fastLeaderboardsArrayListIdu.size() == 0){
+                                mEmptyLayout.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.GONE);
+                            }else{
+                                linearLayout.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new LeaderboardAdapter(fastLeaderboardsArrayListIdu, fastLeaderboardsArrayListPts);
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
+
+
                             break;
                         case R.id.item_ranking_menu_allround:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new LeaderboardAdapter(fullLeaderboardsArrayListIdu, fullLeaderboardsArrayListPts);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Wszechagent");
+                            if (fullLeaderboardsArrayListIdu.size() == 0){
+                                mEmptyLayout.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.GONE);
+                            }else {
+                                linearLayout.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new LeaderboardAdapter(fullLeaderboardsArrayListIdu, fullLeaderboardsArrayListPts);
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
+                            }
                             break;
                     }
                     return true;
@@ -135,11 +167,17 @@ public class LeaderboardFragment extends Fragment {
 
                 }
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new LeaderboardAdapter(specLeaderboardsArrayListIdu, specLeaderboardsArrayListPts);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
                 textView.setText("Misja Specjalna");
+                if (specLeaderboardsArrayListIdu.size() == 0){
+                    mEmptyLayout.setVisibility(View.VISIBLE);
+                    linearLayout.setVisibility(View.GONE);
+                }else{
+                    linearLayout.setVisibility(View.VISIBLE);
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    mAdapter = new LeaderboardAdapter(specLeaderboardsArrayListIdu, specLeaderboardsArrayListPts);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
 
             }
 

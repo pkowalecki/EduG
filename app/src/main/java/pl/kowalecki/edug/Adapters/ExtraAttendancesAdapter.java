@@ -23,6 +23,7 @@ public class ExtraAttendancesAdapter extends RecyclerView.Adapter<ExtraAttendanc
             super(itemView);
 
             mClassDate = itemView.findViewById(R.id.extra_attendances_day);
+            mPoints = itemView.findViewById(R.id.extra_attendances_pts);
         }
     }
 
@@ -41,8 +42,9 @@ public class ExtraAttendancesAdapter extends RecyclerView.Adapter<ExtraAttendanc
     @Override
     public void onBindViewHolder(@NonNull ExtraAttendancesViewHolder holder, int position) {
         String currentDate = mAttendancesDate.get(position);
-
+        String points = mAttendancesDate.get(position);
         holder.mClassDate.setText(currentDate);
+        holder.mPoints.setText("3");
     }
 
     @Override

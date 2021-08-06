@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="BADGES"
+        android:text="@string/edug_odznaki"
+        android:textColor="@color/edug_text_black"
         android:textSize="30sp" />
 
     <ScrollView
@@ -43,6 +44,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/specagentBadgeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -76,7 +78,7 @@
                         android:id="@+id/specagentBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -102,6 +104,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/laborantBadgeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -135,7 +138,7 @@
                         android:id="@+id/laborantBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -161,6 +164,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/blyskawicaBadgeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -194,8 +198,8 @@
                         android:id="@+id/blyskawicaBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
-                        android:textSize="10sp" />
+                        android:text="@string/edug_odznaki_get"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -220,6 +224,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/hazardzistaBadgeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -253,7 +258,7 @@
                         android:id="@+id/hazardzistaBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -279,6 +284,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/nieprawiczekBadgeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -312,7 +318,7 @@
                         android:id="@+id/nieprawiczekBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -338,6 +344,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/setnikBadgeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -371,7 +378,7 @@
                         android:id="@+id/setnikBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -397,6 +404,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/globtroterBadgeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -430,7 +438,7 @@
                         android:id="@+id/globtroterBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -456,6 +464,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@color/edug_text_black"
                         android:id="@+id/personalizatorBadgeName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -489,7 +498,7 @@
                         android:id="@+id/personalizatorBadgeButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Jak mnie zdobyć?"
+                        android:text="@string/edug_odznaki_get"
                         android:textSize="12sp" />
 
                 </LinearLayout>

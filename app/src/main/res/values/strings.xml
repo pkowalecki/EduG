@@ -19,5 +19,25 @@
     <string name="punkty">Punkty</string>
     <string name="agent">AGENT</string>
     <string name="fast_answer">Twoja odpowiedź</string>
+    <string name="empty_data">Brak danych do wyświetlenia</string>
+
+
+    <string name="group1">Menu Główne</string>
+    <string name="group2">Niezbędnik Agenta</string>
+    <string name="group3">Misja Specjalna</string>
+    <string name="group4">Misja Laboratoryjna</string>
+    <string name="group5">Misja Błyskawiczna</string>
+    <string name="group6">Misja Hazardowa</string>
+    <string name="group7">Misja Ostateczna</string>
+    <string name="group8">Odznaczenia</string>
+    <string name="group9">Osiągnięcia</string>
+    <string name="group10">Rankingi</string>
+    <string name="group11">Obecności</string>
+    <string name="group12">Wyloguj</string>
+    <string name="wybierz_opcje">Wybierz opcję:</string>
+    <string name="edug_wyloguj">Wyloguj</string>
+    <string name="edug_motyw_odznak_1">Motyw odznak 1</string>
+    <string name="edug_odznaki">Odznaki</string>
+    <string name="edug_odznaki_get">Jak mnie zdobyć?</string>
 
 </resources>

@@ -8,8 +8,8 @@
     android:layout_marginEnd="20dp"
     >
     <com.google.android.material.bottomnavigation.BottomNavigationView
-
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:id="@+id/top_navigation_files"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:itemIconTint="@color/top_navbar_color"
         app:itemTextColor="@color/top_navbar_color"
         app:menu="@menu/agent_files_menu"
-
+        app:labelVisibilityMode="unlabeled"
 
         />
 
@@ -33,22 +33,31 @@
         android:id="@+id/files_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/header_list_missions"
+            android:background="@color/edug_cardView_background">
         <TextView
             android:textColor="@color/edug_text_black"
-            android:padding="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="0dp"
             android:id="@+id/file_mission_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textStyle="bold"
             android:text="NIEZBĘDZNIK AGENTA LABORATORYJNEGO"
 
             />
+        </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
 
-        android:layout_below="@id/file_mission_text"
+        android:layout_below="@id/header_list_missions"
         android:id="@+id/agent_files_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

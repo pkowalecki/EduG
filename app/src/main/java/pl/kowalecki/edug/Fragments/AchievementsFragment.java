@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class AchievementsFragment extends Fragment {
     TextView textView;
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
+    LinearLayout linearLayout;
 
 
 
@@ -74,6 +76,7 @@ public class AchievementsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_achievements, container, false);
         sessionManagement = new SessionManagement(getContext());
+        linearLayout = v.findViewById(R.id.missions_data_text);
         String sGame = sessionManagement.getGame();
         if (getArguments() != null){
             agentIdu = getArguments().getString(ARG_NUMBER);
@@ -94,54 +97,65 @@ public class AchievementsFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.item_achievement_menu_special:
+                            textView.setText("Misje Specjalne");
                             if (specAchievementsIdmArray.size() == 0){
                                 mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
+                                linearLayout.setVisibility(View.GONE);
                             }else{ mRecyclerView.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.VISIBLE);
                             mLayoutManager = new LinearLayoutManager(getContext());
                             mAdapter = new AchievementsAdapter(specAchievementsIdmArray, specAchievementsCodenameArray, specAchievementsPointsArray);
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
-                            textView.setText("Misje Specjalne");
+
                             }
                             break;
                         case R.id.item_achievement_menu_labor:
+                            textView.setText("Misje Laboratoryjne");
                             if (laboAchievementsIdmArray.size() == 0){
+                                linearLayout.setVisibility(View.GONE);
                                 mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new AchievementsAdapter(laboAchievementsIdmArray, laboAchievementsCodenameArray, laboAchievementsPointsArray);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
                                 mRecyclerView.setAdapter(mAdapter);
-                                textView.setText("Misje Laboratoryjne");
+
                             }
                             break;
                         case R.id.item_achievement_menu_instant:
+                            textView.setText("Misje Błyskawiczne");
                             if (fastAchievementsIdmArray.size() == 0){
+                                linearLayout.setVisibility(View.GONE);
                                 mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new AchievementsAdapter(fastAchievementsIdmArray, fastAchievementsCodenameArray, fastAchievementsPointsArray);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
                                 mRecyclerView.setAdapter(mAdapter);
-                                textView.setText("Misje Błyskawiczne");
+
                             }
                             break;
                         case R.id.item_achievement_menu_last:
+                            textView.setText("Misja Ostateczna");
                             if (lastAchievementsIdmArray.size() == 0){
+                                linearLayout.setVisibility(View.GONE);
                                 mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
+                                linearLayout.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new AchievementsAdapter(lastAchievementsIdmArray, lastAchievementsCodenameArray, lastAchievementsPointsArray);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
                                 mRecyclerView.setAdapter(mAdapter);
-                                textView.setText("Misja Ostateczna");
                             }
                             break;
                     }
@@ -181,15 +195,18 @@ public class AchievementsFragment extends Fragment {
                     }
                 }
 
+                textView.setText("Misje Specjalne");
                 if (specAchievementsIdmArray.size() == 0){
                     mEmptyLayout.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
-                }else{
+                    linearLayout.setVisibility(View.GONE);
+                }else{ mRecyclerView.setVisibility(View.VISIBLE);
+                    linearLayout.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     mAdapter = new AchievementsAdapter(specAchievementsIdmArray, specAchievementsCodenameArray, specAchievementsPointsArray);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
-                    textView.setText("Misje Specjalne");
+
                 }
 
                 mLayoutManager = new LinearLayoutManager(getContext());

@@ -3,22 +3,18 @@
 
     <item
         android:id="@+id/item_missions_menu_allround"
-        android:enabled="true"
         android:icon="@drawable/ic_badges"
         android:title="" />
     <item
         android:id="@+id/item_missions_menu_special"
-        android:enabled="true"
         android:icon="@drawable/ic_spec_mission"
         android:title="" />
     <item
         android:id="@+id/item_missions_menu_labor"
-        android:enabled="true"
         android:icon="@drawable/ic_labo_mission"
         android:title="" />
     <item
         android:id="@+id/item_missions_menu_instant"
-        android:enabled="true"
         android:icon="@drawable/ic_instant_mission"
         android:title="" />
 

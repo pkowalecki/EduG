@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -76,6 +77,7 @@ public class MissionsFragment extends Fragment {
     private MissionsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private final UserLogin userLogin = new UserLogin();
+    private RelativeLayout missionsTextBackgroud;
 
 
 
@@ -85,6 +87,8 @@ public class MissionsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
+        missionsTextBackgroud = v.findViewById(R.id.missions_text);
+//        missionsTextBackgroud.setBackgroundColor(getResources().getColor(R.color.edug_cardView_background));
         sessionManagement = new SessionManagement(getContext());
         date = simpleDateFormat.format(currentDate);
         mRecyclerView = v.findViewById(R.id.missions_recycler_view);
@@ -135,6 +139,7 @@ public class MissionsFragment extends Fragment {
                                 String mCrc = userLogin.getPassword() + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
                                 sCrcFast = MD5Cipher.md5(mCrc);
                                 callFastMission(sSys, sLang, sGame, fastActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+                                Log.e("Aint bottom sheet ", fastActive.get(position) + " " + position );
                             });
                             break;
 
@@ -150,6 +155,7 @@ public class MissionsFragment extends Fragment {
                                 Log.e(TAG, "Position" + position);
                                 String mCrc = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
                                 sCrcLabo = MD5Cipher.md5(mCrc);
+
                                 callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
                             });
                             break;
@@ -178,7 +184,9 @@ public class MissionsFragment extends Fragment {
                                     String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
                                     sCrcFast = MD5Cipher.md5(mCrc);
                                     callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+                                    Log.e("Aint bottom sheet ", allActive.get(position) + " " + position );
                                 }
+
                             });
                             break;
 

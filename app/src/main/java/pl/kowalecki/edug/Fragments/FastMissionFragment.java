@@ -1,5 +1,7 @@
 package pl.kowalecki.edug.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputFilter;
@@ -30,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import pl.kowalecki.edug.Activities.MainActivity;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.Model.MissionFast.MissionFast;
 import pl.kowalecki.edug.Model.User.UserLogin;
@@ -51,7 +54,7 @@ public class FastMissionFragment extends Fragment {
     private static final String arg_finishTime = "arg_finishTime";
     private static final String arg_finishText = "arg_finishText";
     private static final String arg_missionNumber = "arg_missionNumber";
-
+    UserService userService = ServiceGenerator.getRetrofit().create(UserService.class);
     SessionManagement sessionManagement;
     private String mCodename, mPicture, mIntroTime, mIntroText, mMissionStart, mMissionText, mFinishTime, mFinishText;
     TextView mTextCodename, mTextIntroText, mTextMissionStart, mTextMissionText, mTextFinishTime, mTextFinishText;
@@ -61,11 +64,13 @@ public class FastMissionFragment extends Fragment {
     Button answerButton;
     ImageView imageView;
     private final UserLogin userLogin = new UserLogin();
+    Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_fast_mission, container, false);
+        context = getContext();
         sessionManagement = new SessionManagement(getContext());
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
@@ -108,6 +113,7 @@ public class FastMissionFragment extends Fragment {
         }
 
 
+
         answerButton.setOnClickListener(v1 ->{
             final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -119,15 +125,32 @@ public class FastMissionFragment extends Fragment {
                 builder.create().show();
             }else{
             Log.e("FastMisisonsFragment", "Answer: " + answer);
-            sCrc = userLogin.getPassword() + sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash;
-            String logAnswer = sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash + sCrc;
-            Log.e("FastFragmentAnswer",logAnswer);
-            //Zrobić wysyłanie odpowiedzi do webserwisu
-//            callAnsResponse(sSys, sLang, sGame, mMissionNumber,answerInputField, sLogin, sHash, sCrc);
+            sCrc = MD5Cipher.md5(userLogin.getPassword() + sSys+sLang+sGame+mMissionNumber+answer+sLogin+sHash);
+            finishMission(sSys, sLang, sGame, mMissionNumber,answer, sLogin, sHash, sCrc);
+
             }
             } );
 
         return v;
+    }
+
+    private void finishMission(String sSys, String sLang, String sGame, String mMissionNumber, String answer, String sLogin, String sHash, String sCrc) {
+        Call<MissionFast> call = userService.setFastMissionData(sSys, sLang, sGame, mMissionNumber, answer , sLogin, sHash, sCrc);
+        call.enqueue(new Callback<MissionFast>() {
+            @Override
+            public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {
+                if (response.isSuccessful()){
+                    Log.i("respo", response.body().toString());
+                    Log.i("url", call.request().url().toString());
+                    startActivity(new Intent(context, MainActivity.class));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MissionFast> call, Throwable t) {
+                Log.e("Fast", "Unable to submit post to API");
+            }
+        });
     }
 
 }

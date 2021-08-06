@@ -3,10 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#ff0000</item>
+        <item name="colorPrimaryDark">@color/edug_black</item> <!-- Górny pasek, tam gdzie jest godzina, bateria itp-->
         <item name="colorAccent">#ff0000</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
     </style>
 
     <style name="floating_layout_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -32,6 +33,8 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/rounded_dialog</item>
     </style>
-
+    <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/edug_hamburger_red</item>
+    </style>
 
 </resources>

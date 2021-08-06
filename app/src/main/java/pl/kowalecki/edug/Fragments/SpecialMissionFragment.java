@@ -1,5 +1,6 @@
 package pl.kowalecki.edug.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -8,26 +9,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 import pl.kowalecki.edug.Activities.MainActivity;
@@ -45,7 +39,6 @@ import pl.kowalecki.edug.UserService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.internal.schedulers.NewThreadWorker;
 
 public class SpecialMissionFragment extends Fragment {
     SessionManagement sessionManagement;
@@ -89,11 +82,12 @@ public class SpecialMissionFragment extends Fragment {
     StringBuffer sb1, sb2, sb3, sb4;
     Button button;
     private UserLogin userLogin = new UserLogin();
-
+    Context context;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_special_mission_test, container, false);
+        View v = inflater.inflate(R.layout.fragment_special_mission, container, false);
+        context = getContext();
         if (getArguments() != null) {
             mCodename = getArguments().getString(arg_codename);
             mMissionStart = getArguments().getString(arg_missionStart);
@@ -335,10 +329,6 @@ public class SpecialMissionFragment extends Fragment {
             }
             String str4 = sb4.toString();
 
-            Log.e("ans1: ", str1);
-            Log.e("ans2: ", str2);
-            Log.e("ans3: ", str3);
-            Log.e("ans4: ", str4);
             mCrc = MD5Cipher.md5(userLogin.getPassword()+sSys+sLang+sGame+mMissionNumber+str1+str2+str3+str4+sLogin+sHash);
 
             if (str1.isEmpty() || str2.isEmpty() || str3.isEmpty() || str4.isEmpty()){
@@ -355,11 +345,7 @@ public class SpecialMissionFragment extends Fragment {
 
 
             }else{
-//                finishMission(sSys, sLang, sGame, mMissionNumber,str1, str2, str3, str4, sLogin, sHash, mCrc);
-                Log.e("succ ans1: ", str1);
-                Log.e("succ ans2: ", str2);
-                Log.e("succ ans3: ", str3);
-                Log.e("succ ans4: ", str4);
+                finishMission(sSys, sLang, sGame, mMissionNumber,str1, str2, str3, str4, sLogin, sHash, mCrc);
             }
 
 
@@ -391,18 +377,14 @@ public class SpecialMissionFragment extends Fragment {
         call.enqueue(new Callback<MissionSpec>() {
             @Override
             public void onResponse(Call<MissionSpec> call, Response<MissionSpec> response) {
-                Log.e("SpecMission", "Url: " + call.request().url().toString());
-                MissionSpec res = response.body();
-                missionSpec.setMissionSpecModel(response.body().getMissionSpecModel());
-                if (response.body().getMissionSpecModel().getResult()){
-                    //Wychodzi z misji i elo
+                if (response.isSuccessful()){
+                    startActivity(new Intent(context, MainActivity.class));
                 }
             }
 
             @Override
             public void onFailure(Call<MissionSpec> call, Throwable t) {
-                Log.e("SpecMissionFail", String.valueOf(t.getCause()));
-                call.cancel();
+                Log.e("FAILURE", "Unable to submit post to API" );
             }
         });
     }

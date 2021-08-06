@@ -12,13 +12,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,13 +42,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
 import pl.kowalecki.edug.Adapters.BottomSheetAdapter;
-import pl.kowalecki.edug.Adapters.CollapsibleMenuAdapter;
-import pl.kowalecki.edug.Model.AdditionalMenu;
 import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.NotificationsApp.AlertReceiver;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
@@ -88,9 +81,9 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+
     private final String TAG = HomeActivity.class.getSimpleName();
     private UserLogin userLogin = new UserLogin();
-    private  Button logoutButton;
     private  SessionManagement sessionManagement;
     private  UserAccount userAccount = new UserAccount();
     private  UserData userData = new UserData();
@@ -130,22 +123,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private TreeMap<Date, String> notificationMissions = new TreeMap<>();
     private ImageButton collapsibleMenuButton;
     private LinearLayout collapsibleMenu;
-    private ListView collapsibleMenuData;
+
     boolean clicked;
-    private ArrayList<AdditionalMenu> additionalMenuArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         clicked = false;
         setContentView(R.layout.activity_home);
-
-        collapsibleMenuButton = findViewById(R.id.collapsible_menu_imagebutton);
         collapsibleMenu = findViewById(R.id.collapsible_menu);
-        collapsibleMenuData = (ListView) findViewById(R.id.collapsible_menu_data);
-        generateCollapsibleData();
+        collapsibleMenuButton = findViewById(R.id.collapsible_menu_imagebutton);
         navigationView = findViewById(R.id.nav_view);
         sessionManagement = new SessionManagement(getApplicationContext());
-        logoutButton = findViewById(R.id.logoutButton);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         specText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.spec_mission_item)));
@@ -168,7 +157,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         sCrc = sessionManagement.getCRC();
         navigationView.setNavigationItemSelectedListener(this);
         ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.image_gravatar);
-
         String avatarLogin = MD5Cipher.md5(sLogin);
         Picasso.get().load("https://gravatar.com/avatar/" + avatarLogin + "?d=wavatar").into(imageView);
 
@@ -187,8 +175,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         initializeCountDrawer();
 
-
-
         //Usuwanie kanałów powiadomień
 //        notificationManagerCompat.deleteNotificationChannel("channel200");
 //        Log.e(TAG, "" + notificationManagerCompat.getNotificationChannels());
@@ -197,31 +183,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //TODO: zrobić try/catch do metod "call..." <- tego chyba jednak nie trzeba, bo ma własne "On failure"
     }
 
-    private void generateCollapsibleData() {
-        //TODO: Uzupełnić wybranymi elementami i ustawić na nie onclicki
-        additionalMenuArrayList = new ArrayList<>();
-        additionalMenuArrayList.add(0, new AdditionalMenu(R.drawable.ic_instant_mission,"First position"));
-        additionalMenuArrayList.add(1, new AdditionalMenu(R.drawable.ic_hazard_mission,"Second position"));
-        additionalMenuArrayList.add(2, new AdditionalMenu(R.drawable.ic_spec_mission,"Misja Specjalna"));
-        CollapsibleMenuAdapter adapter = new CollapsibleMenuAdapter(getApplicationContext(), R.layout.collapsible_menu_custom_listview, additionalMenuArrayList);
-        ListView listView = findViewById(R.id.collapsible_menu_data);
-        listView.setAdapter(adapter);
 
-    }
+
 
     public void onClickImageButton(View v){
-        checkSlideMenuIfClicked();
+        showBottomSheetDialog();
     }
 
-    private void checkSlideMenuIfClicked() {
-        if(!clicked){
-            clicked=true;
-            collapsibleMenu.setVisibility(View.VISIBLE);
-
-        }else{
-            clicked=false;
-            collapsibleMenu.setVisibility(View.GONE);
-        }
+    private void showBottomSheetDialog() {
+        final BottomSheetDialog bottomSheetDialogHeader = new BottomSheetDialog(this);
+        bottomSheetDialogHeader.setContentView(R.layout.bottom_sheet_header);
+        LinearLayout logoutBottomSheet = bottomSheetDialogHeader.findViewById(R.id.logout_bottom_sheet);
+        LinearLayout badgesStyle1 = bottomSheetDialogHeader.findViewById(R.id.badges_style_1);
+        LinearLayout appTheme = bottomSheetDialogHeader.findViewById(R.id.app_theme);
+        //TODO DODAĆ oncliki na style odznak i app theme
+        logoutBottomSheet.setOnClickListener(v -> {
+            logout();
+            bottomSheetDialogHeader.dismiss();
+        });
+        bottomSheetDialogHeader.show();
     }
 
 
@@ -316,17 +296,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
+                    bottomSheetDialog = new BottomSheetDialog(this);
+                    bottomSheetDialog.setContentView(view);
+                    bottomSheetDialog.show();
                     mAdapter.setOnItemClickListener(position -> {
                             String mCrcFast = userLogin.getPassword() + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
                             sCrcFast = MD5Cipher.md5(mCrcFast);
-                            mMenu = "labo";
+                            mMenu = "fast";
                             callFastMission(sSys, sLang, sGame, fastActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
                         bottomSheetDialog.dismiss();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         });
-                    bottomSheetDialog = new BottomSheetDialog(this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
+
+
                     break;
 
                 case R.id.badges_item:
@@ -352,6 +334,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
             }
+            collapsibleMenu.setVisibility(View.GONE);
 //        mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
@@ -360,15 +343,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         private void initializeCountDrawer () {
             specText.setGravity(Gravity.CENTER_VERTICAL);
             specText.setTypeface(null, Typeface.BOLD);
-            specText.setTextColor(getResources().getColor(R.color.colorAccent));
+            specText.setTextColor(getResources().getColor(R.color.edug_red));
 
             laboText.setGravity(Gravity.CENTER_VERTICAL);
             laboText.setTypeface(null, Typeface.BOLD);
-            laboText.setTextColor(getResources().getColor(R.color.colorAccent));
+            laboText.setTextColor(getResources().getColor(R.color.edug_red));
 
             instantText.setGravity(Gravity.CENTER_VERTICAL);
             instantText.setTypeface(null, Typeface.BOLD);
-            instantText.setTextColor(getResources().getColor(R.color.colorAccent));
+            instantText.setTextColor(getResources().getColor(R.color.edug_red));
 
         }
 
@@ -396,6 +379,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBackPressed () {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                collapsibleMenu.setVisibility(View.GONE);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
 
             } else {
@@ -406,11 +390,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         private void bottomNavigationMenu (Integer elements){
             bottomNavigation = findViewById(R.id.bottomNavigationView);
-            AHBottomNavigationItem missions = new AHBottomNavigationItem(R.string.misje, R.drawable.missions, R.color.colorPrimary);
-            AHBottomNavigationItem avatars = new AHBottomNavigationItem(R.string.avatary, R.drawable.avatars, R.color.colorPrimary);
-            AHBottomNavigationItem bitcoins = new AHBottomNavigationItem(R.string.bitcoin_y, R.drawable.bitcoin, R.color.colorPrimary);
-            AHBottomNavigationItem exacoins = new AHBottomNavigationItem(R.string.exacoin_y, R.drawable.exacoins, R.color.colorPrimary);
-            AHBottomNavigationItem points = new AHBottomNavigationItem(R.string.punkty, R.drawable.points, R.color.colorPrimary);
+            AHBottomNavigationItem missions = new AHBottomNavigationItem(R.string.misje, R.drawable.missions, R.color.edug_bootomNavbar_grey);
+            AHBottomNavigationItem avatars = new AHBottomNavigationItem(R.string.avatary, R.drawable.avatars, R.color.edug_bootomNavbar_grey);
+            AHBottomNavigationItem bitcoins = new AHBottomNavigationItem(R.string.bitcoin_y, R.drawable.bitcoin, R.color.edug_bootomNavbar_grey);
+            AHBottomNavigationItem exacoins = new AHBottomNavigationItem(R.string.exacoin_y, R.drawable.exacoins, R.color.edug_bootomNavbar_grey);
+            AHBottomNavigationItem points = new AHBottomNavigationItem(R.string.punkty, R.drawable.points, R.color.edug_bootomNavbar_grey);
 
             bottomNavigation.addItem(missions);
             bottomNavigation.addItem(avatars);
@@ -442,13 +426,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     userName = findViewById(R.id.user_name);
                     userInfo = findViewById(R.id.user_info);
-                    Log.e(TAG, call.request().url().toString());
+
                     userData = response.body();
 
 
-                    Log.e(TAG, "On rest" + userData.getUserAccount().getCountMission());
 
-                    Log.e(TAG, "przed " + userAccount.getCountMission());
                     userAccount.setCountMission(userData.getUserAccount().getCountMission());
                     userAccount.setCountAvatar(userData.getUserAccount().getCountAvatar());
                     userAccount.setCountBitcoin(userData.getUserAccount().getCountBitcoin());
@@ -460,8 +442,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     userAccount.setAgentName(userData.getUserAccount().getAgentName());
                     userAccount.setAgentEmail(userData.getUserAccount().getAgentEmail());
                     userAccount.setGroupName(userData.getUserAccount().getGroupName());
-                    Log.e(TAG, "SDFJSDF " + userAccount.getAgentName());
-                    Log.e(TAG, "po " + userAccount.getCountExacoin());
 
                     userName.setText(userAccount.getAgentName());
                     userInfo.setText("AGENT " + " " + userData.getUserAccount().getAgentNumber() + " [" + userData.getUserAccount().getGroupName() + "] " + sGame);
@@ -501,7 +481,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        public void logout (MenuItem item){
+        public void logout (){
             sessionManagement.setLoginToEdug(false);
             sessionManagement.setLogin("");
             sessionManagement.setSys("");
@@ -566,7 +546,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                             }
                            } catch (ParseException e) {
-                            Log.e(TAG, "catch error");
                         }
 
                     }
@@ -619,7 +598,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             Call<MissionSpec> call = service.getSpecMissionData(sSys, sLang, sGame, mMission, sLogin, sHash, sCrc);
-            Log.e(TAG, "SpecRespo: " + call.request().url().toString());
             call.enqueue(new Callback<MissionSpec>() {
                 @Override
                 public void onResponse(Call<MissionSpec> call, Response<MissionSpec> response) {
@@ -686,7 +664,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mMission, String sLogin, String sHash, String sCrc, Integer position, String mMenu){
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             Call<MissionLabo> call = service.getLaboMissionData(sSys, sLang, sGame, mMission, sLogin, sHash, sCrc);
-            Log.e("FastMissionFragment", "Respo url: " + call.request().url().toString());
             call.enqueue(new Callback<MissionLabo>() {
                 @Override
                 public void onResponse(Call<MissionLabo> call, Response<MissionLabo> response) {
@@ -728,8 +705,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(Call<MissionLabo> call, Throwable t) {
-                    Log.e("TAGFAIL", t.getMessage());
-                    Log.e("TAGFAIL", String.valueOf(t.getCause()));
+
                 }
             });
 
@@ -739,7 +715,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mMission, String sLogin, String sHash, String sCrc, Integer position, String mMenu){
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             Call<MissionFast> call = service.getFastMissionData(sSys, sLang, sGame, mMission, sLogin, sHash, sCrc);
-            Log.e("FastMissionFragment", "Respo url: " + call.request().url().toString());
+
             call.enqueue(new Callback<MissionFast>() {
                 @Override
                 public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {
@@ -758,6 +734,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         if (mMenu.equals("all")) {
                             bundle.putString("arg_missionNumber", allActive.get(position));
                         }
+
                         if (mMenu.equals("fast")) {
                             bundle.putString("arg_missionNumber", fastActive.get(position));
                         }
@@ -782,8 +759,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(Call<MissionFast> call, Throwable t) {
-                    Log.e("TAGFAIL", t.getMessage());
-                    Log.e("TAGFAIL", String.valueOf(t.getCause()));
                 }
             });
 
