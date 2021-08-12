@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="dark_theme">
+        <attr name="edug_background" format="color"/>
+        <attr name="edug_text_black" format="color"/>
+        <attr name="edug_text_white" format="color"/>
+        <attr name="edug_cardView_background_header" format="color"/>
+        <attr name="edug_framelayout_background" format="color"/>
+        <attr name="edug_bootomNavbar_grey" format="color"/> <!-- KOLOR ELEMENTÓW W MENU Z PUNKTAMI  -->
+        <attr name="edug_points_bar_bottombar" format="color"/> <!-- KOLOR TŁA W MENU Z PUNKTAMI -->
+        <attr name="bottombar_images" format="color"/> <!-- KOLOR OBRAZKÓW W MENU Z PUNKTAMI -->
+        <attr name="bottombar_circle_background" format="color"/> <!-- Kolor tła w okręgu w menu z punktami -->
+        <attr name="topbar_menu_items" format="color"/><!-- Elementy nawigacyjne pod toolbarem -->
+        <attr name="card_view_background" format="color"/> <!-- Kolor tła dla cardview -->
+        <attr name="card_view_header_text" format="color"/>
+        <attr name="card_view_text" format="color"/>
+        <attr name="card_view_icon" format="color"/>
+        <attr name="bottom_sheet_swipe_element" format="color"/>
+        <attr name="badges_circle" format="color"/>
+        <attr name="badges_text_header" format="color"/>
+        <attr name="button_missions_color" format="color"/>
+        <attr name="special_mission_question_style" format="color"/>
+
+    </declare-styleable>
+
+</resources>
