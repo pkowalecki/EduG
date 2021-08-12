@@ -1,6 +1,8 @@
 package pl.kowalecki.edug.Fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,6 +54,8 @@ public class AgentFilesFragment extends Fragment {
     private AgentFilesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     TextView textView;
+    RelativeLayout filesText;
+
 
 
 
@@ -61,13 +67,22 @@ public class AgentFilesFragment extends Fragment {
         sessionManagement = new SessionManagement(getContext());
         String sGame = sessionManagement.getGame();
         receiveListFiles(sGame);
-
+        filesText = v.findViewById(R.id.files_text);
         mRecyclerView= v.findViewById(R.id.agent_files_recyclerView);
         mRecyclerView.setHasFixedSize(true);
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_files);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         textView = (TextView) v.findViewById(R.id.file_mission_text);
+        checkMode();
+
         return v;
+    }
+
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            filesText.setBackground(null);
+            mRecyclerView.setPadding(0,0,0,0);
+        }
     }
 
 

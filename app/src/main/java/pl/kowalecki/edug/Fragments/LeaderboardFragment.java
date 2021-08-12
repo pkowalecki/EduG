@@ -52,7 +52,7 @@ public class LeaderboardFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     TextView textView;
-    private RelativeLayout mEmptyLayout;
+    private RelativeLayout mEmptyLayout, rankingsBackground;
     private LinearLayout linearLayout;
 
     @Nullable
@@ -60,6 +60,7 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_rankings, container, false);
         sessionManagement = new SessionManagement(getContext());
+        rankingsBackground = v.findViewById(R.id.rankings_background);
         String sGame = sessionManagement.getGame();
         receiveLeaderboards(sGame);
         mEmptyLayout = v.findViewById(R.id.empty_achievements_recyclerview);
@@ -69,7 +70,15 @@ public class LeaderboardFragment extends Fragment {
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_rankings);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         textView = (TextView) v.findViewById(R.id.mission_name);
+        checkMode();
         return v;
+    }
+
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            mRecyclerView.setPadding(0,0,0,0);
+            rankingsBackground.setBackground(null);
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =

@@ -28,7 +28,6 @@ import java.util.List;
 import pl.kowalecki.edug.Adapters.MissionsAdapter;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.Model.MissionFast.MissionFast;
-import pl.kowalecki.edug.Model.MissionFast.MissionFastModel;
 import pl.kowalecki.edug.Model.MissionLabo.MissionLabo;
 import pl.kowalecki.edug.Model.MissionSpec.Answers1;
 import pl.kowalecki.edug.Model.MissionSpec.Answers2;
@@ -77,7 +76,7 @@ public class MissionsFragment extends Fragment {
     private MissionsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private final UserLogin userLogin = new UserLogin();
-    private RelativeLayout missionsTextBackgroud;
+    private RelativeLayout missionsText;
 
 
 
@@ -87,9 +86,9 @@ public class MissionsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
-        missionsTextBackgroud = v.findViewById(R.id.missions_text);
-//        missionsTextBackgroud.setBackgroundColor(getResources().getColor(R.color.edug_cardView_background));
+
         sessionManagement = new SessionManagement(getContext());
+        missionsText = v.findViewById(R.id.missions_text);
         date = simpleDateFormat.format(currentDate);
         mRecyclerView = v.findViewById(R.id.missions_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -102,8 +101,20 @@ public class MissionsFragment extends Fragment {
         sLang = sessionManagement.getLang();
         sLogin = sessionManagement.getLogin();
         sHash = sessionManagement.getHash();
+        checkMode();
         return v;
+
     }
+
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            missionsText.setBackground(null);
+            mRecyclerView.setPadding(0, 0, 0, 0);
+
+
+        }
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -113,7 +124,7 @@ public class MissionsFragment extends Fragment {
 
                         case R.id.item_missions_menu_special:
                             mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(specActive);
+                            mAdapter = new MissionsAdapter(specActive, sessionManagement.loadNightModeState());
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misje Specjalne");
@@ -128,7 +139,7 @@ public class MissionsFragment extends Fragment {
 
                         case R.id.item_missions_menu_instant:
                             mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(fastActive);
+                            mAdapter = new MissionsAdapter(fastActive, sessionManagement.loadNightModeState());
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misje Błyskawiczne");
@@ -145,7 +156,7 @@ public class MissionsFragment extends Fragment {
 
                         case R.id.item_missions_menu_labor:
                             mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(laboActive);
+                            mAdapter = new MissionsAdapter(laboActive, sessionManagement.loadNightModeState());
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misje Laboratoryjne");
@@ -162,7 +173,7 @@ public class MissionsFragment extends Fragment {
 
                         case R.id.item_missions_menu_allround:
                             mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(allActive);
+                            mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Dostępne Misje");
@@ -245,13 +256,13 @@ public class MissionsFragment extends Fragment {
                 }
 
                 mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new MissionsAdapter(allActive);
+                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
                 textView.setText("Dostępne Misje");
 
                 mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new MissionsAdapter(allActive);
+                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
                 textView.setText("Dostępne Misje");

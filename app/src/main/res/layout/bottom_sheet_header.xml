@@ -19,7 +19,7 @@
         android:textSize="20sp"
         android:text="@string/wybierz_opcje"
         android:padding="10dp"
-        android:textColor="@color/edug_bootomNavbar_grey"/>
+        android:textColor="?attr/card_view_header_text"/>
 
 <LinearLayout
     android:onClick="logout"
@@ -31,7 +31,7 @@
     android:padding="10dp">
     <ImageView
 
-        app:tint="@color/edug_text_black"
+        app:tint="?attr/card_view_text"
         android:layout_marginStart="10dp"
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:text="@string/edug_wyloguj"
         android:textSize="15sp"
-        android:textColor="@color/edug_text_black"/>
+        android:textColor="?attr/card_view_text"/>
 </LinearLayout>
     <LinearLayout
         android:padding="10dp"
@@ -53,7 +53,7 @@
         android:gravity="center_vertical">
         <ImageView
 
-            app:tint="@color/edug_text_black"
+            app:tint="?attr/card_view_text"
             android:layout_marginStart="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="@string/edug_motyw_odznak_1"
             android:textSize="15sp"
-            android:textColor="@color/edug_text_black"/>
+            android:textColor="?attr/card_view_text"/>
     </LinearLayout>
     <LinearLayout
         android:padding="10dp"
@@ -75,7 +75,7 @@
         android:gravity="center_vertical">
         <ImageView
 
-            app:tint="@color/edug_text_black"
+            app:tint="?attr/card_view_text"
             android:layout_marginStart="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="Tryb ciemny/jasny"
             android:textSize="15sp"
-            android:textColor="@color/edug_text_black"/>
+            android:textColor="?attr/card_view_text"/>
     </LinearLayout>
 
 

@@ -51,6 +51,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:clickable="false"/>
     </LinearLayout>
+
     <ImageButton
         android:id="@+id/collapsible_menu_imagebutton"
         android:layout_centerVertical="true"
@@ -62,6 +63,8 @@
         android:clickable="true"
         android:focusable="true"
         android:onClick="onClickImageButton"
+
         />
+
 </RelativeLayout>
 </LinearLayout>

@@ -60,7 +60,7 @@ public class AchievementsFragment extends Fragment {
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
     LinearLayout linearLayout;
-
+    RelativeLayout relativeLayout;
 
 
     public static AchievementsFragment newInstance(String number){
@@ -75,6 +75,7 @@ public class AchievementsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_achievements, container, false);
+        relativeLayout = v.findViewById(R.id.achievements_text);
         sessionManagement = new SessionManagement(getContext());
         linearLayout = v.findViewById(R.id.missions_data_text);
         String sGame = sessionManagement.getGame();
@@ -88,8 +89,17 @@ public class AchievementsFragment extends Fragment {
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         reciveAchievements(sGame, agentIdu);
         textView = (TextView) v.findViewById(R.id.achievement_group_text);
+        checkMode();
         return v;
     }
+
+    private void checkMode() {
+            if (sessionManagement.loadNightModeState()){
+                mRecyclerView.setPadding(0,0,0,0);
+                relativeLayout.setBackground(null);
+            }
+        }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

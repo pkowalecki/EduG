@@ -2,7 +2,6 @@ package pl.kowalecki.edug.Adapters;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.SimpleFormatter;
 
-import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.R;
 
 public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.MissionsViewHolder> {
 
     private ArrayList<String> mListMissions;
     private OnItemClickListener mListener;
-
+    private Boolean b;
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
@@ -38,13 +27,13 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
     public void setOnItemClickListener(OnItemClickListener listener){mListener = listener;}
 
     public static class MissionsViewHolder extends RecyclerView.ViewHolder {
-
         public TextView mMissionIdu;
         public TextView mMissionNameText;
         public ImageView mMissionImage;
 
         public MissionsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
+
             mMissionIdu = itemView.findViewById(R.id.mission_idu);
             mMissionNameText = itemView.findViewById(R.id.mission_type_name);
             mMissionImage = itemView.findViewById(R.id.mission_image);
@@ -62,9 +51,9 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
     }
 
 
-    public MissionsAdapter(ArrayList<String> listMissions) {
+    public MissionsAdapter(ArrayList<String> listMissions, boolean b) {
         this.mListMissions = listMissions;
-
+        this.b=b;
     }
 
     @NonNull
@@ -90,9 +79,15 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
             holder.mMissionNameText.setText("Misja Specjalna");
             holder.mMissionImage.setImageResource(R.drawable.ic_spec_mission_menu);
         }
-
         holder.mMissionIdu.setText(currentIdu);
-        holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+
+        if (b){
+            holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.parseColor("#bfbdc0"), PorterDuff.Mode.MULTIPLY);
+        }else{
+
+            holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+        }
+
 
 
 

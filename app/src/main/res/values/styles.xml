@@ -3,18 +3,37 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#ff0000</item>
+        <item name="colorPrimary">@color/redcolor</item>
         <item name="colorPrimaryDark">@color/edug_black</item> <!-- Górny pasek, tam gdzie jest godzina, bateria itp-->
-        <item name="colorAccent">#ff0000</item>
+        <item name="colorAccent">@color/redcolor</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="drawerArrowStyle">@style/DrawerIcon</item>
+        <item name="edug_background">@color/edug_background</item>
+        <item name="edug_text_black">@color/edug_text_black</item>
+        <item name="edug_text_white">@color/edug_text_white</item>
+        <item name="edug_cardView_background_header">@color/card_view_background_header_lightmode</item>
+        <item name="edug_bootomNavbar_grey">@color/edug_bootomNavbar_grey</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="edug_points_bar_bottombar">@color/edug_points_bar_bottombar</item>
+        <item name="bottombar_images">@color/bottombar_images_lightmode</item>
+        <item name="bottombar_circle_background">@color/bottombar_circle_background</item>
+        <item name="topbar_menu_items">@color/topbar_menu_items_lightmode</item>
+        <item name="card_view_background">@color/card_view_background_lightmode</item>
+        <item name="card_view_header_text">@color/card_view_header_text_lightmode</item>
+        <item name="card_view_text">@color/card_view_text_lightmode</item>
+        <item name="card_view_icon">@color/card_view_icon_lightmode</item>
+        <item name="bottom_sheet_swipe_element">@color/bottom_sheet_swipe_element_lightmode</item>
+        <item name="badges_circle">@color/badges_circle_lightmode</item>
+        <item name="badges_text_header">@color/badges_text_header_lightmode</item>
+        <item name="button_missions_color">@color/button_missions_color_lightmode</item>
+
     </style>
 
     <style name="floating_layout_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="android:textColor">#ff0000</item>
+        <item name="android:textColor">@color/edug_red</item>
         <item name="android:textSize">14sp</item>
-        <item name="boxStrokeColor">#ff0000</item>
-        <item name="colorAccent">#ff0000</item>
+        <item name="boxStrokeColor">@color/edug_red</item>
+        <item name="colorAccent">@color/edug_red</item>
         <item name="android:textCursorDrawable">@null</item>
     </style>
 
@@ -36,5 +55,42 @@
     <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/edug_hamburger_red</item>
     </style>
+
+
+    <style name="DarkTheme.AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/redcolor</item>
+        <item name="colorPrimaryDark">@color/edug_black</item> <!-- Górny pasek, tam gdzie jest godzina, bateria itp-->
+        <item name="colorAccent">@color/redcolor</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
+        <item name="edug_background">@color/edug_background_darkmode</item>
+        <item name="edug_text_black">@color/edug_text_black</item>
+        <item name="edug_text_white">@color/edug_text_white</item>
+        <item name="edug_cardView_background_header">@color/card_view_background_header_darkmode</item>
+        <item name="edug_bootomNavbar_grey">@color/edug_bootomNavbar_grey</item>
+        <item name="edug_framelayout_background">@color/edug_framelayout_background</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="edug_points_bar_bottombar">@color/edug_points_bar_bottombar_darkmode</item>
+        <item name="bottombar_images">@color/bottombar_images_darkmode</item>
+        <item name="bottombar_circle_background">@color/bottombar_circle_background_darkmode</item>
+        <item name="topbar_menu_items">@color/topbar_menu_items_darkmode</item>
+        <item name="card_view_background">@color/card_view_background_darkmode</item>
+        <item name="card_view_header_text">@color/card_view_header_text_darkmode</item>
+        <item name="card_view_text">@color/card_view_text_darkmode</item>
+        <item name="card_view_icon">@color/card_view_icon_darkmode</item>
+        <item name="bottom_sheet_swipe_element">@color/bottom_sheet_swipe_element_darkmode</item>
+        <item name="badges_circle">@color/badges_circle_darkmode</item>
+        <item name="badges_text_header">@color/badges_text_header_darkmode</item>
+        <item name="button_missions_color">@color/button_missions_color_darkmode</item>
+
+    </style>
+
+
+<style name="WindowAnimationTransition">
+    <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+    <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+</style>
+
 
 </resources>

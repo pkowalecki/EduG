@@ -48,7 +48,7 @@ public class ExtraAttendancesFragment extends Fragment {
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
     private LinearLayout linearLayout;
-    private RelativeLayout mEmptyRelative;
+    private RelativeLayout mEmptyRelative, extraAttendancesBackground;
 
     public static ExtraAttendancesFragment newInstance(String number){
         ExtraAttendancesFragment fragment = new ExtraAttendancesFragment();
@@ -63,6 +63,8 @@ public class ExtraAttendancesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_extra_attendances, container, false);
         sessionManagement = new SessionManagement(getContext());
+
+        extraAttendancesBackground = v.findViewById(R.id.attendances_text);
         String sGame = sessionManagement.getGame();
         if (getArguments() != null) {
             agentIdu = getArguments().getString(ARG_NUMBER);
@@ -77,7 +79,16 @@ public class ExtraAttendancesFragment extends Fragment {
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         textView = (TextView) v.findViewById(R.id.extra_attendance_group_text) ;
         reveiveAttendances(sGame, agentIdu);
+        checkMode();
         return v;
+    }
+
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            mRecycleView.setPadding(0,0,0,0);
+            extraAttendancesBackground.setBackground(null);
+
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =

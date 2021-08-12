@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:itemIconTint="@color/top_navbar_color"
-        app:itemTextColor="@color/top_navbar_color"
+        app:itemIconTint="?attr/topbar_menu_items"
+        app:itemTextColor="?attr/topbar_menu_items"
         app:menu="@menu/agent_files_menu"
         app:labelVisibilityMode="unlabeled"
 
@@ -40,16 +40,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/header_list_missions"
-            android:background="@color/edug_cardView_background">
+            android:background="?attr/edug_cardView_background_header">
         <TextView
-            android:textColor="@color/edug_text_black"
-            android:paddingStart="10dp"
+            android:textColor="?attr/card_view_header_text"
+            android:paddingStart="13dp"
             android:paddingEnd="0dp"
             android:id="@+id/file_mission_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="NIEZBĘDZNIK AGENTA LABORATORYJNEGO"
+
 
             />
         </LinearLayout>

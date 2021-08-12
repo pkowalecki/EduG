@@ -2,6 +2,8 @@ package pl.kowalecki.edug.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputFilter;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -65,6 +69,7 @@ public class FastMissionFragment extends Fragment {
     ImageView imageView;
     private final UserLogin userLogin = new UserLogin();
     Context context;
+    LinearLayout fastMissionLinearText;
 
     @Nullable
     @Override
@@ -77,7 +82,7 @@ public class FastMissionFragment extends Fragment {
         sGame = sessionManagement.getGame();
         sLogin = sessionManagement.getLogin();
         sHash = sessionManagement.getHash();
-
+        fastMissionLinearText = v.findViewById(R.id.fast_mission_linear_textx);
         if (getArguments() != null) {
             mCodename = getArguments().getString(arg_codename);
             mPicture = getArguments().getString(arg_picture);
@@ -93,6 +98,8 @@ public class FastMissionFragment extends Fragment {
         mTextCodename =(TextView) v.findViewById(R.id.fast_mission_name);
         mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mTextCodename.setText(mCodename);
+        mTextCodename.setPaintFlags(mTextCodename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 //        mTextIntroTime =(TextView) v.findViewById(R.id.fast_mission_intro_time);
 //        mTextIntroTime.setText(mIntroTime);
         mTextIntroText =(TextView) v.findViewById(R.id.fast_mission_intro_text);
@@ -130,8 +137,19 @@ public class FastMissionFragment extends Fragment {
 
             }
             } );
+        checkMode();
 
         return v;
+    }
+
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            mTextCodename.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_top));
+            mTextIntroText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            fastMissionLinearText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            mTextFinishText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+
+        }
     }
 
     private void finishMission(String sSys, String sLang, String sGame, String mMissionNumber, String answer, String sLogin, String sHash, String sCrc) {

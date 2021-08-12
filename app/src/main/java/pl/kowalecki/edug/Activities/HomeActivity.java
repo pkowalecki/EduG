@@ -4,11 +4,13 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +25,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -121,18 +126,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView.LayoutManager mLayoutManager;
     private String sCrcSpec, sCrcLabo, sCrcFast, mMenu;
     private TreeMap<Date, String> notificationMissions = new TreeMap<>();
-    private ImageButton collapsibleMenuButton;
-    private LinearLayout collapsibleMenu;
+    private SwitchCompat mSwitch;
 
-    boolean clicked;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sessionManagement = new SessionManagement(this);
+        if (sessionManagement.loadNightModeState() == true){
+            setTheme(R.style.DarkTheme_AppTheme);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
-        clicked = false;
         setContentView(R.layout.activity_home);
-        collapsibleMenu = findViewById(R.id.collapsible_menu);
-        collapsibleMenuButton = findViewById(R.id.collapsible_menu_imagebutton);
+        ImageButton collapsibleMenuButton = findViewById(R.id.collapsible_menu_imagebutton);
         navigationView = findViewById(R.id.nav_view);
         sessionManagement = new SessionManagement(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -175,6 +183,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         initializeCountDrawer();
 
+
+
+
+
+
         //Usuwanie kanałów powiadomień
 //        notificationManagerCompat.deleteNotificationChannel("channel200");
 //        Log.e(TAG, "" + notificationManagerCompat.getNotificationChannels());
@@ -182,7 +195,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //TODO: Ogarnąć pytanie o pływające powiadomienia w aplikacji
         //TODO: zrobić try/catch do metod "call..." <- tego chyba jednak nie trzeba, bo ma własne "On failure"
     }
-
 
 
 
@@ -201,7 +213,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             logout();
             bottomSheetDialogHeader.dismiss();
         });
+        appTheme.setOnClickListener(v -> {
+            if (sessionManagement.loadNightModeState()){
+                sessionManagement.setNightModeState(false);
+            }else{
+                sessionManagement.setNightModeState(true);
+            }
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            restartApp();
+            //Tutaj ma się zmieniać styl aplikacji
+            //if styl jasny, ustaw ciemny. Jeżeli ciemny, ustaw jasny
+            bottomSheetDialogHeader.dismiss();
+
+        });
+
         bottomSheetDialogHeader.show();
+    }
+
+    private void restartApp() {
+        Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(i);
+        finish();
     }
 
 
@@ -334,7 +366,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
             }
-            collapsibleMenu.setVisibility(View.GONE);
 //        mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
@@ -379,7 +410,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onBackPressed () {
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                collapsibleMenu.setVisibility(View.GONE);
                 mDrawerLayout.closeDrawer(GravityCompat.START);
 
             } else {
@@ -389,6 +419,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         private void bottomNavigationMenu (Integer elements){
+
             bottomNavigation = findViewById(R.id.bottomNavigationView);
             AHBottomNavigationItem missions = new AHBottomNavigationItem(R.string.misje, R.drawable.missions, R.color.edug_bootomNavbar_grey);
             AHBottomNavigationItem avatars = new AHBottomNavigationItem(R.string.avatary, R.drawable.avatars, R.color.edug_bootomNavbar_grey);
@@ -402,23 +433,33 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             bottomNavigation.addItem(exacoins);
             bottomNavigation.addItem(points);
 
-            bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#F1EDED"));
+            bottomNavigation.setDefaultBackgroundColor(Color.parseColor(parseImageColor(R.attr.edug_points_bar_bottombar)));
             bottomNavigation.setBehaviorTranslationEnabled(false);
-            bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
-            bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
+
             bottomNavigation.setForceTint(true);
             bottomNavigation.setTranslucentNavigationEnabled(false);
             bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-            bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#CC0000"));
+            //bottomNavigation.setNotificationTextColor(Color.parseColor("#299fc8"));//Ustawia kolor tekstu w ramce
+            bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#CC0000")); //kolor ramki
 
             for (int i = 0; i < elements; i++) {
                 bottomNavigation.disableItemAtPosition(i);
+
             }
-            bottomNavigation.setItemDisableColor(Color.parseColor("#777777"));
+
+            bottomNavigation.setItemDisableColor(Color.parseColor(parseImageColor(R.attr.bottombar_images)));
         }
 
+    private String parseImageColor(int edug_points_bar_bottombar) {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(edug_points_bar_bottombar, typedValue, true);
+        int backgroundColor = ContextCompat.getColor(this, typedValue.resourceId);
+        String hexColor = String.format("#%06X", (0xFFFFFF & backgroundColor));
+        return hexColor;
+    }
 
-        public void callService () {
+
+    public void callService () {
             Call<UserData> call = service.userAccount(sSys, sLang, sGame, sLogin, sHash, sCrc);
 
             call.enqueue(new Callback<UserData>() {
@@ -442,7 +483,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     userAccount.setAgentName(userData.getUserAccount().getAgentName());
                     userAccount.setAgentEmail(userData.getUserAccount().getAgentEmail());
                     userAccount.setGroupName(userData.getUserAccount().getGroupName());
-
                     userName.setText(userAccount.getAgentName());
                     userInfo.setText("AGENT " + " " + userData.getUserAccount().getAgentNumber() + " [" + userData.getUserAccount().getGroupName() + "] " + sGame);
 

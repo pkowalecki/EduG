@@ -7,6 +7,7 @@
     app:cardCornerRadius="0dp">
 
     <RelativeLayout
+        android:background="?attr/card_view_background"
         android:layout_width="match_parent"
         android:layout_height="50dp"
 
@@ -22,13 +23,14 @@
             android:src="@drawable/ic_spec_mission" />
 
         <TextView
+
             android:id="@+id/mission_type_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/mission_image"
-            android:textColor="@color/edug_black"
+            android:textColor="?attr/card_view_text"
             android:textSize="15sp" />
 
         <TextView
@@ -38,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/mission_type_name"
-            android:textColor="@color/edug_black" />
+            android:textColor="?attr/card_view_text" />
 
 
     </RelativeLayout>

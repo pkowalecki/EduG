@@ -1,8 +1,11 @@
 package pl.kowalecki.edug.Adapters;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +34,6 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
     public static class AgentfileViewHolder extends RecyclerView.ViewHolder{
 
         public TextView mFilename;
-        public TextView mUrl;
 
         public AgentfileViewHolder(@NonNull View itemView, OnItemClickListener listener){
             super(itemView);
@@ -65,9 +67,7 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
     @Override
     public void onBindViewHolder(@NonNull AgentfileViewHolder holder, int position) {
         String currentFilename = mExampleFilename.get(position);
-
         holder.mFilename.setText(currentFilename);
-
     }
 
     @Override

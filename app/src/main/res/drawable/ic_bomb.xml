@@ -6,7 +6,7 @@
   <path
       android:pathData="M10.267,99.872a89.667,89.5 0,1 0,179.333 0a89.667,89.5 0,1 0,-179.333 0z"
       android:strokeWidth="10"
-      android:fillColor="@color/edug_background"
+      android:fillColor="?attr/card_view_background"
       android:strokeColor="@color/edug_red"/>
   <path
       android:fillColor="@color/edug_red"

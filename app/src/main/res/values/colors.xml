@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="edug_framelayout_background">#ababab</color>
     <color name="redcolor">#ff0000</color>
     <color name="edug_red">#CC0000</color>
     <color name="edug_black">#000000</color>
@@ -9,8 +10,39 @@
     <color name="edug_toolbar">#1d1d1d</color>
     <color name="edug_hamburger_red">#CC0000</color>
     <color name="edug_cardView_background">#f6f6f6</color>
-    <color name="edug_bootomNavbar_grey">#747474</color>
+    <color name="edug_bootomNavbar_grey">#CC0000</color>
     <color name="edug_menu_background">#1d1d1d</color>
     <color name="edug_menu_textimage">#a9b1bc</color>
+    <color name="edug_points_bar_bottombar">#F1EDED</color>
+    <color name="bottombar_images_lightmode">#777777</color>
+    <color name="bottombar_circle_background">#CC0000</color>
+    <color name="topbar_menu_items_lightmode">@color/top_navbar_color_lightmode</color>
+    <color name="card_view_background_header_lightmode">#f6f6f6</color>
+    <color name="card_view_background_lightmode">#FFFFFF</color>
+    <color name="card_view_header_text_lightmode">#000000</color>
+    <color name="card_view_text_lightmode">#000000</color>
+    <color name="card_view_icon_lightmode">#000000</color>
+    <color name="bottom_sheet_swipe_element_lightmode">#c0c0c0</color>
+    <color name="badges_circle_lightmode">#f2f2f2</color>
+    <color name="badges_text_header_lightmode">#000000</color>
+    <color name="button_missions_color_lightmode">#CC0000</color>
+
+
+
+    <!-- darkmodeColors -->
+    <color name="edug_background_darkmode">#1d2127</color>
+    <color name="edug_points_bar_bottombar_darkmode">#1d1d1d</color>
+    <color name="bottombar_images_darkmode">#bfbdc0</color>
+    <color name="bottombar_circle_background_darkmode">#CC0000</color>
+    <color name="topbar_menu_items_darkmode">@color/top_navbar_color_darkmode</color>
+    <color name="card_view_background_header_darkmode">#282d36</color>
+    <color name="card_view_background_darkmode">#2e353e</color>
+    <color name="card_view_header_text_darkmode">#bfbdc0</color>
+    <color name="card_view_text_darkmode">#bfbdc0</color>
+    <color name="card_view_icon_darkmode">#bfbdc0</color>
+    <color name="bottom_sheet_swipe_element_darkmode">#dddddd</color>
+    <color name="badges_circle_darkmode">#1d2127</color>
+    <color name="badges_text_header_darkmode">#dddddd</color>
+    <color name="button_missions_color_darkmode">#282d36</color>
 
 </resources>

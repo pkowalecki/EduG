@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -150,70 +148,50 @@ public class MainActivity extends AppCompatActivity {
     }
     private void doLogin(final String sys,final String lang,final String game,final String login,final String hash,final String crc){
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
+        executorService.execute(() -> {
 
-                HttpHandler sh = new HttpHandler();
-                String url = userService.login(sys, lang, game, login, hash, crc).request().url().toString();
-                Log.e(TAG,"URL DO ODPOWIEDZI " + url);
-                String jsonStr = sh.makeServiceCall(url);
+            HttpHandler sh = new HttpHandler();
+            String url = userService.login(sys, lang, game, login, hash, crc).request().url().toString();
+            Log.e(TAG,"URL DO ODPOWIEDZI " + url);
+            String jsonStr = sh.makeServiceCall(url);
 
-                Log.e(TAG, "Response from url: " + jsonStr);
-                if(jsonStr != null){
-                    try{
-                        JSONObject jsonObject = new JSONObject(jsonStr);
-                        JSONObject user_login = jsonObject.getJSONObject("user_login");
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if(jsonStr != null){
+                try{
+                    JSONObject jsonObject = new JSONObject(jsonStr);
+                    JSONObject user_login = jsonObject.getJSONObject("user_login");
 
-                            String result = user_login.getString("result");
-                            String comment = user_login.getString("comment");
+                        String result = user_login.getString("result");
+                        String comment = user_login.getString("comment");
 
-                            if (result.equals("true")) {
-                        sessionManagement.setLoginToEdug(true);
-                        sessionManagement.setSys(sys);
-                        sessionManagement.setLang(lang);
-                        sessionManagement.setGame(game);
-                        sessionManagement.setLogin(login);
-                        sessionManagement.setHash(hash);
-                        sessionManagement.setCRC(crc);
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                        finish();
-                            } else{
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        builder.setCancelable(true);
-                                        builder.setTitle("Błąd logowania");
-                                        builder.setMessage("Wprowadzono niepoprawne dane");
-                                        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.cancel();
-                                            }
-                                        });
-                                        builder.show();
-                                    }
-                                });
+                        if (result.equals("true")) {
+                    sessionManagement.setLoginToEdug(true);
+                    sessionManagement.setSys(sys);
+                    sessionManagement.setLang(lang);
+                    sessionManagement.setGame(game);
+                    sessionManagement.setLogin(login);
+                    sessionManagement.setHash(hash);
+                    sessionManagement.setCRC(crc);
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    finish();
+                        } else{
+                            runOnUiThread(() -> {
+                                builder.setCancelable(true);
+                                builder.setTitle("Błąd logowania");
+                                builder.setMessage("Wprowadzono niepoprawne dane");
+                                builder.setNegativeButton("ANULUJ", (dialog, which) -> dialog.cancel());
+                                builder.show();
+                            });
 
-                            }
-                        } catch (final JSONException e) {
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.e(TAG, "JSON parsing error: " + e.getMessage());
-                            }
-                        });
-                    }
-                    }
-                else{
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.e(TAG, "Couldn't get json from server");
                         }
-                    });
-    }}});}
+                    } catch (final JSONException e) {
+
+                    runOnUiThread(() -> Log.e(TAG, "JSON parsing error: " + e.getMessage()));
+                }
+                }
+            else{
+                runOnUiThread(() -> Log.e(TAG, "Couldn't get json from server"));
+}});}
 
     private void getGames(){
         executorService.execute(() -> {

@@ -1,7 +1,9 @@
 package pl.kowalecki.edug.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -35,7 +39,7 @@ public class LaboMissionFragment  extends Fragment {
     SessionManagement sessionManagement;
     private String mCodename, mMissionStart, mMissionText, mMissionFile, mFinishTime, mFinishText;
     TextView mTextCodename, mTextMissionStart, mTextMissionText, mTextMissionFile, mTextFinishTime, mTextFinishText;
-
+    Context context;
     String mMissionNumber;
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
 
@@ -52,14 +56,16 @@ public class LaboMissionFragment  extends Fragment {
         args.putString(arg_finishText, finishText);
         args.putString(arg_missionNumber, missionNumber);
         fragment.setArguments(args);
+
         return fragment;
     }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_labo_mission, container, false);
-
+        context = getContext();
         sessionManagement = new SessionManagement(getContext());
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
@@ -89,6 +95,8 @@ public class LaboMissionFragment  extends Fragment {
 
         mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mTextCodename.setText(Html.fromHtml(mCodename));
+        mTextCodename.setPaintFlags(mTextCodename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         mTextMissionStart.setText(mMissionStart);
         mTextMissionText.setText(Html.fromHtml(mMissionText));
         mTextMissionFile.setText(laboMissionName[6]);
@@ -100,6 +108,16 @@ public class LaboMissionFragment  extends Fragment {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
+        checkMode();
         return v;
+    }
+
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            mTextCodename.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_top));
+            mTextMissionText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            mTextMissionFile.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            mTextFinishText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+        }
     }
 }

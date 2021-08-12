@@ -2,6 +2,7 @@ package pl.kowalecki.edug.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.InputFilter;
@@ -11,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -83,6 +86,7 @@ public class SpecialMissionFragment extends Fragment {
     Button button;
     private UserLogin userLogin = new UserLogin();
     Context context;
+    LinearLayout linearQ1, linearQ2, linearQ3, linearQ4;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,7 +108,10 @@ public class SpecialMissionFragment extends Fragment {
             answers3s = getArguments().getParcelableArrayList(arg_answers3);
             answers4s = getArguments().getParcelableArrayList(arg_answers4);
         }
-
+        linearQ1 = v.findViewById(R.id.linear_q1);
+        linearQ2 = v.findViewById(R.id.linear_q2);
+        linearQ3 = v.findViewById(R.id.linear_q3);
+        linearQ4 = v.findViewById(R.id.linear_q4);
         sessionManagement = new SessionManagement(getContext());
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
@@ -114,6 +121,7 @@ public class SpecialMissionFragment extends Fragment {
         codename = (TextView) v.findViewById(R.id.spec_mission_codename);
         codename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         codename.setText(Html.fromHtml(mCodename));
+        codename.setPaintFlags(codename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         missionStart = (TextView) v.findViewById(R.id.spec_mission_missionStart);
         missionStart.setText(Html.fromHtml(mMissionStart));
@@ -353,23 +361,26 @@ public class SpecialMissionFragment extends Fragment {
 
 
         });
+        checkMode();
         return v;
     }
 
-    private boolean validateAnswers() {
-        if (q1a1.isChecked() || q1a2.isChecked() || q1a3.isChecked() || q1a4.isChecked()) {
-            if (q2a1.isChecked() || q2a2.isChecked() || q2a3.isChecked() || q2a4.isChecked()) {
-                if (q3a1.isChecked() || q3a2.isChecked() || q3a3.isChecked() || q3a4.isChecked()) {
-                    if (q4a1.isChecked() || q4a2.isChecked() || q4a3.isChecked() || q4a4.isChecked()) {
-                        return true;
-                    }
-                }
-            }
-
+    private void checkMode() {
+        if (sessionManagement.loadNightModeState()){
+            codename.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_top));
+            question1.setPaintFlags(question1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            question2.setPaintFlags(question2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            question3.setPaintFlags(question3.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            question4.setPaintFlags(question4.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            introText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            linearQ1.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            linearQ2.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            linearQ3.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            linearQ4.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
+            finishText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
         }
-        return false;
-
     }
+
 
     private void finishMission(String sSys, String sLang, String sGame, String mMissionNumber, String str1, String str2, String str3, String str4, String sLogin, String sHash, String mCrc) {
         Call<MissionSpec> call = userService.setSpecMissionData(sSys, sLang, sGame, mMissionNumber, str1, str2, str3, str4, sLogin, sHash, mCrc);

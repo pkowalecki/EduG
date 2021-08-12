@@ -7,7 +7,7 @@
 
     <stroke
         android:width="3dp"
-        android:color="#f2f2f2" />
+        android:color="?attr/badges_circle" />
     <corners android:radius="10dp" />
     <padding
         android:bottom="0dp"

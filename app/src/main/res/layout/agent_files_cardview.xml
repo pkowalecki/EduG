@@ -7,10 +7,12 @@
     app:cardCornerRadius="0dp">
 
     <RelativeLayout
+        android:background="?attr/card_view_background"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         >
         <ImageView
+            app:tint="?attr/card_view_icon"
             android:id="@+id/agent_files_image"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -19,7 +21,7 @@
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_word_file"/>
         <TextView
-            android:textColor="@color/edug_text_black"
+            android:textColor="?attr/card_view_text"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/agent_files_image"
             android:layout_marginTop="10dp"

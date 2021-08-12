@@ -7,10 +7,11 @@
     app:cardCornerRadius="0dp">
 
     <RelativeLayout
+        android:background="?attr/card_view_background"
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <TextView
-            android:textColor="@color/edug_text_black"
+            android:textColor="?attr/card_view_text"
             android:id="@+id/achievements_idm"
             android:paddingTop="10dp"
             android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="30dp"/>
         <TextView
-            android:textColor="@color/edug_text_black"
+            android:textColor="?attr/card_view_text"
             android:id="@+id/achievements_codename"
             android:paddingTop="10dp"
             android:layout_width="wrap_content"
@@ -31,13 +32,13 @@
             android:layout_toStartOf="@id/achievements_points"
             />
         <TextView
-            android:textColor="@color/edug_text_black"
+            android:textColor="?attr/card_view_text"
             android:id="@+id/achievements_points"
             android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="30dp"/>
 
     </RelativeLayout>
