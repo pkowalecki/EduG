@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -42,6 +43,7 @@ public class LaboMissionFragment  extends Fragment {
     Context context;
     String mMissionNumber;
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
+
 
     public static LaboMissionFragment newInstance(String codename, String missionStart , String missionText
                                                   ,String missionFile, String finishTime,
@@ -94,14 +96,14 @@ public class LaboMissionFragment  extends Fragment {
 
 
         mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-        mTextCodename.setText(Html.fromHtml(mCodename));
+        mTextCodename.setText(Html.fromHtml(mCodename, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextCodename.setPaintFlags(mTextCodename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        mTextMissionStart.setText(mMissionStart);
-        mTextMissionText.setText(Html.fromHtml(mMissionText));
+        mTextMissionStart.setText(Html.fromHtml(mMissionStart, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        mTextMissionText.setText(Html.fromHtml(mMissionText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionFile.setText(laboMissionName[6]);
-        mTextFinishTime.setText(mFinishTime);
-        mTextFinishText.setText(Html.fromHtml(mFinishText));
+        mTextFinishTime.setText(Html.fromHtml(mFinishTime, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        mTextFinishText.setText(Html.fromHtml(mFinishText, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         mTextMissionFile.setOnClickListener(v1 -> {
             Uri uri = Uri.parse(mMissionFile);

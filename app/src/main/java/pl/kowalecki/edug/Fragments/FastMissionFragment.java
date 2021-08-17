@@ -1,8 +1,10 @@
 package pl.kowalecki.edug.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Html;
@@ -11,30 +13,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import pl.kowalecki.edug.Activities.MainActivity;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
@@ -70,7 +72,6 @@ public class FastMissionFragment extends Fragment {
     private final UserLogin userLogin = new UserLogin();
     Context context;
     LinearLayout fastMissionLinearText;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,21 +98,18 @@ public class FastMissionFragment extends Fragment {
         answerInputField=(TextInputLayout) v.findViewById(R.id.answerField);
         mTextCodename =(TextView) v.findViewById(R.id.fast_mission_name);
         mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-        mTextCodename.setText(mCodename);
+        mTextCodename.setText(Html.fromHtml(mCodename, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextCodename.setPaintFlags(mTextCodename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
-//        mTextIntroTime =(TextView) v.findViewById(R.id.fast_mission_intro_time);
-//        mTextIntroTime.setText(mIntroTime);
         mTextIntroText =(TextView) v.findViewById(R.id.fast_mission_intro_text);
-        mTextIntroText.setText(mIntroText);
+        mTextIntroText.setText(Html.fromHtml(mIntroText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionStart =(TextView) v.findViewById(R.id.fast_mission_start);
-        mTextMissionStart.setText(mMissionStart);
+        mTextMissionStart.setText(Html.fromHtml(mMissionStart, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionText =(TextView) v.findViewById(R.id.fast_mission_text);
-        mTextMissionText.setText(mMissionText);
+        mTextMissionText.setText(Html.fromHtml(mMissionText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextFinishTime =(TextView) v.findViewById(R.id.fast_mission_finish_time);
-        mTextFinishTime.setText(mFinishTime);
+        mTextFinishTime.setText(Html.fromHtml(mFinishTime, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextFinishText =(TextView) v.findViewById(R.id.fast_mission_finish_text);
-        mTextFinishText.setText(Html.fromHtml(mFinishText));
+        mTextFinishText.setText(Html.fromHtml(mFinishText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         answerButton = (Button) v.findViewById(R.id.fast_mission_answer_button);
         if (!mPicture.isEmpty()){
             imageView = (ImageView) v.findViewById(R.id.fast_mission_image);
@@ -141,6 +139,8 @@ public class FastMissionFragment extends Fragment {
 
         return v;
     }
+
+
 
     private void checkMode() {
         if (sessionManagement.loadNightModeState()){

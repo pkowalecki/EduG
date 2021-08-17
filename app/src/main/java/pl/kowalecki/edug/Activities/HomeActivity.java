@@ -4,10 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -25,7 +26,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -52,7 +52,8 @@ import java.util.TreeMap;
 
 import pl.kowalecki.edug.Adapters.BottomSheetAdapter;
 import pl.kowalecki.edug.Model.User.UserLogin;
-import pl.kowalecki.edug.NotificationsApp.AlertReceiver;
+import pl.kowalecki.edug.NotificationsApp.AlertReceiverAfter;
+import pl.kowalecki.edug.NotificationsApp.AlertReceiverBefore;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.Fragments.AchievementsFragment;
 import pl.kowalecki.edug.Fragments.AgentFilesFragment;
@@ -125,9 +126,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private BottomSheetAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String sCrcSpec, sCrcLabo, sCrcFast, mMenu;
-    private TreeMap<Date, String> notificationMissions = new TreeMap<>();
+    private TreeMap<Date, String> notificationMissionsStart = new TreeMap<>();
+    private TreeMap<Date, String> notificationMissionsFinish = new TreeMap<>();
     private SwitchCompat mSwitch;
-
+    private ImageView themeImage;
 
 
     @Override
@@ -145,6 +147,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         sessionManagement = new SessionManagement(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        themeImage = findViewById(R.id.theme_image);
         specText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.spec_mission_item)));
         laboText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.labor_mission_item)));
         instantText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.instant_mission_item)));
@@ -155,7 +158,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         bottomNavigationMenu(5); // liczba elementów, które znajdują się w menu dolnym
-        mDrawerToggle.syncState();
         webServiceData = new WebServiceData();
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
@@ -192,11 +194,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //        notificationManagerCompat.deleteNotificationChannel("channel200");
 //        Log.e(TAG, "" + notificationManagerCompat.getNotificationChannels());
 
-        //TODO: Ogarnąć pytanie o pływające powiadomienia w aplikacji
-        //TODO: zrobić try/catch do metod "call..." <- tego chyba jednak nie trzeba, bo ma własne "On failure"
     }
 
+    @Override
+    protected void onResume() {
+        checkNetworkState();
+        super.onResume();
+    }
 
+    private boolean checkNetworkState() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        //Check network state
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //Chcek status
+        if (networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()){
+            //Init dialog about lack of internet
+            new AlertDialog.Builder(this).setCancelable(true)
+                    .setTitle("Brak internetu")
+                    .setMessage("Brak dostępu do internetu")
+                    .setPositiveButton("Spróbuj ponownie", (dialog, which) -> recreate())
+                    .setCancelable(false)
+                    .show();
+            return false;
+        }
+        return true;
+    }
 
     public void onClickImageButton(View v){
         showBottomSheetDialog();
@@ -208,7 +233,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         LinearLayout logoutBottomSheet = bottomSheetDialogHeader.findViewById(R.id.logout_bottom_sheet);
         LinearLayout badgesStyle1 = bottomSheetDialogHeader.findViewById(R.id.badges_style_1);
         LinearLayout appTheme = bottomSheetDialogHeader.findViewById(R.id.app_theme);
-        //TODO DODAĆ oncliki na style odznak i app theme
         logoutBottomSheet.setOnClickListener(v -> {
             logout();
             bottomSheetDialogHeader.dismiss();
@@ -221,8 +245,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             mDrawerLayout.closeDrawer(GravityCompat.START);
             restartApp();
-            //Tutaj ma się zmieniać styl aplikacji
-            //if styl jasny, ustaw ciemny. Jeżeli ciemny, ustaw jasny
             bottomSheetDialogHeader.dismiss();
 
         });
@@ -237,16 +259,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void startAlarm(Date entry, String notifTitle, String notifContent){
-        //TODO: Ogarnąć, żeby przy odminimalizownaiu apki metoda "callListMission" się wykonywała
+    private void startAlarmBefore(Date entry, String notifTitle, String notifContent){
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent  intent = new Intent(this, AlertReceiver.class);
-        intent.putExtra("NOTIF_TITLE", notifTitle);
-        intent.putExtra("NOTIF_CONTENT", notifContent);
+        Intent  intent = new Intent(this, AlertReceiverBefore.class);
+        intent.putExtra("NOTIF_TITLE_BEFORE", notifTitle);
+        intent.putExtra("NOTIF_CONTENT_BEFORE", notifContent);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        long _currentTime = System.currentTimeMillis();
-        long tenSeconds = 1000 * 5;
-        long _triggerReminder = _currentTime + tenSeconds; //triggers a reminder after 5 seconds.
         Calendar cal = Calendar.getInstance();
 
         String dateToSplit = simpleDateFormat.format(entry);
@@ -255,7 +273,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         String[] splitedDate = splitedDateFull[0].split("-");
         String[] splitedHours = splitedDateFull[1].split(":");
 
-        Integer monthToCalendar = Integer.parseInt(splitedDate[1])- 1;
+        int monthToCalendar = Integer.parseInt(splitedDate[1])- 1;
 
         cal.set(Calendar.YEAR, Integer.parseInt(splitedDate[0]));
         cal.set(Calendar.MONTH, monthToCalendar);
@@ -265,6 +283,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         cal.set(Calendar.SECOND, Integer.parseInt(splitedHours[2]));
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+//        alarmManager.setExact(AlarmManager.RTC_WAKEUP, _triggerReminder, pendingIntent);
+    }
+
+    private void startAlarmAfter(Date entry, String notifTitle, String notifContent){
+        //TODO: Ogarnąć, żeby przy odminimalizownaiu apki metoda "callListMission" się wykonywała
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent  intent = new Intent(this, AlertReceiverAfter.class);
+        intent.putExtra("NOTIF_TITLE_AFTER", notifTitle);
+        intent.putExtra("NOTIF_CONTENT_AFTER", notifContent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 2, intent, 0);
+
+        Calendar cal = Calendar.getInstance();
+
+        String dateToSplit = simpleDateFormat.format(entry);
+
+        String[] splitedDateFull = dateToSplit.split(" ");
+        String[] splitedDate = splitedDateFull[0].split("-");
+        String[] splitedHours = splitedDateFull[1].split(":");
+
+        int monthToCalendar = Integer.parseInt(splitedDate[1])- 1;
+        int timeBeforeEnd = Integer.parseInt(splitedHours[1])-15;
+        cal.set(Calendar.YEAR, Integer.parseInt(splitedDate[0]));
+        cal.set(Calendar.MONTH, monthToCalendar);
+        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitedDate[2]));
+        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(splitedHours[0]));
+        cal.set(Calendar.MINUTE, timeBeforeEnd);
+        cal.set(Calendar.SECOND, Integer.parseInt(splitedHours[2]));
+
+        Log.e("EndAlarm", "" + cal.getTime());
+        if (cal.getTimeInMillis() > System.currentTimeMillis()){
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+        }
+
 //        alarmManager.setExact(AlarmManager.RTC_WAKEUP, _triggerReminder, pendingIntent);
     }
 
@@ -283,63 +334,76 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     mDrawerLayout.closeDrawer(GravityCompat.START);
                     break;
                 case R.id.spec_mission_item:
-                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    mAdapter = new BottomSheetAdapter(specActive, "Misja Specjalna");
-                    mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.setOnItemClickListener(position -> {
 
-                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
-                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                        mMenu = "spec";
-                        callSpecMission(sSys, sLang, sGame, specActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
-                        bottomSheetDialog.dismiss();
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                    if(specActive.size() == 0){
+                        emptyMissionDialog();
+                    }else{
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new BottomSheetAdapter(specActive, "Misja Specjalna");
+                        mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mAdapter.setOnItemClickListener(position -> {
 
-                    });
-                    bottomSheetDialog = new BottomSheetDialog(this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
+                            String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
+                            sCrcSpec = MD5Cipher.md5(mCrcSpec);
+                            mMenu = "spec";
+                            callSpecMission(sSys, sLang, sGame, specActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
+                            bottomSheetDialog.dismiss();
+                            mDrawerLayout.closeDrawer(GravityCompat.START);
+
+                        });
+                        bottomSheetDialog = new BottomSheetDialog(this);
+                        bottomSheetDialog.setContentView(view);
+                        bottomSheetDialog.show();
+                    }
+
                     break;
                 case R.id.labor_mission_item:
-                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    mAdapter = new BottomSheetAdapter(laboActive, "Misja Laboratoryjna");
-                    mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.setOnItemClickListener(position -> {
+                    if(laboActive.size() == 0){
+                        emptyMissionDialog();
+                    }else {
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new BottomSheetAdapter(laboActive, "Misja Laboratoryjna");
+                        mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mAdapter.setOnItemClickListener(position -> {
 
-                        String mCrcLabo = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
-                        sCrcLabo = MD5Cipher.md5(mCrcLabo);
-                        mMenu = "labo";
-                        callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
-                        bottomSheetDialog.dismiss();
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                    });
-                    bottomSheetDialog = new BottomSheetDialog(this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
+                            String mCrcLabo = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
+                            sCrcLabo = MD5Cipher.md5(mCrcLabo);
+                            mMenu = "labo";
+                            callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
+                            bottomSheetDialog.dismiss();
+                            mDrawerLayout.closeDrawer(GravityCompat.START);
+                        });
+                        bottomSheetDialog = new BottomSheetDialog(this);
+                        bottomSheetDialog.setContentView(view);
+                        bottomSheetDialog.show();
+                    }
 
                     break;
                 case R.id.instant_mission_item:
-                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    mAdapter = new BottomSheetAdapter(fastActive, "Misja Błyskawiczna");
-                    mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mAdapter);
-                    bottomSheetDialog = new BottomSheetDialog(this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
-                    mAdapter.setOnItemClickListener(position -> {
+                    if(fastActive.size() == 0){
+                        emptyMissionDialog();
+                    }else {
+                        mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new BottomSheetAdapter(fastActive, "Misja Błyskawiczna");
+                        mRecyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(mAdapter);
+                        bottomSheetDialog = new BottomSheetDialog(this);
+                        bottomSheetDialog.setContentView(view);
+                        bottomSheetDialog.show();
+                        mAdapter.setOnItemClickListener(position -> {
                             String mCrcFast = userLogin.getPassword() + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
                             sCrcFast = MD5Cipher.md5(mCrcFast);
                             mMenu = "fast";
                             callFastMission(sSys, sLang, sGame, fastActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
-                        bottomSheetDialog.dismiss();
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
+                            bottomSheetDialog.dismiss();
+                            mDrawerLayout.closeDrawer(GravityCompat.START);
                         });
-
+                    }
 
                     break;
 
@@ -362,16 +426,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, extraAttendancesFragment).commit();
                     mDrawerLayout.closeDrawer(GravityCompat.START);
                     break;
-
-
-
             }
 //        mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
         }
 
+    private void emptyMissionDialog() {
+        new AlertDialog.Builder(this).setCancelable(true)
+                .setTitle("Brak misji")
+                .setMessage("Aktualnie nie masz żadnej misji do wykonania, Agencie")
+                .setNegativeButton("OK", (dialog, which) -> dialog.cancel())
+                .show();
+    }
 
-        private void initializeCountDrawer () {
+
+    private void initializeCountDrawer () {
             specText.setGravity(Gravity.CENTER_VERTICAL);
             specText.setTypeface(null, Typeface.BOLD);
             specText.setTextColor(getResources().getColor(R.color.edug_red));
@@ -534,7 +603,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         public void callListMission (String sGame) throws ParseException{
-        //TODO: Ogarnąć parsowanie errorów
             Date dateTimeNow = simpleDateFormat.parse(date);
             Call<Missions> call = service.listMissions(sGame);
             call.enqueue(new Callback<Missions>() {
@@ -581,31 +649,32 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 }
                             }
-                            if (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(response.body().getListMissions().get(i).getMission().getStart()).after(dateTimeNow)){
-                                notificationMissions.put(simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStart()), response.body().getListMissions().get(i).getMission().getIdm());
+                            notificationMissionsStart.put(simpleDateFormat.parse("2021-08-17 11:19:00"), "101");
+                            notificationMissionsFinish.put(simpleDateFormat.parse("2021-08-17 11:38:00"), "101");
 
+                            if (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(response.body().getListMissions().get(i).getMission().getStart()).after(dateTimeNow)){
+                                notificationMissionsStart.put(simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStart()), response.body().getListMissions().get(i).getMission().getIdm());
                             }
-                           } catch (ParseException e) {
+                            if (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(response.body().getListMissions().get(i).getMission().getStop()).after(dateTimeNow)){
+                                notificationMissionsFinish.put(simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStop()), response.body().getListMissions().get(i).getMission().getIdm());
+                            }
+                           } catch (ParseException ignored) {
                         }
 
                     }
 
 
 
-//                    try {
-//                        notificationMissions.put(simpleDateFormat.parse("2021-07-27 11:10:00"), "101");
-//                        notificationMissions.put(simpleDateFormat.parse("2021-07-25 19:48:00"), "Valeu");
-//
-//
-//                    } catch (ParseException e) {
-//                        Toast.makeText(HomeActivity.this, "ParseError", Toast.LENGTH_SHORT).show();
-//                    }
-
                     //Stworzenie osobnej mapy do posortowania i wyciągnięcia najwcześniejszej daty.
-                    TreeMap<Date, String> m1 = new TreeMap(notificationMissions);
+                    TreeMap<Date, String> m1 = new TreeMap(notificationMissionsStart);
                     //TODO:Hardcoded stringa wrzucić do <strings>
                     if (!sortData(m1).isEmpty()){
-                        startAlarm(sortData(m1).firstKey(), "Dostępna nowa misja", "Rozpocznij nową misję, Agencie");
+                        startAlarmBefore(sortData(m1).firstKey(), "Dostępna nowa misja", "Rozpocznij nową misję, Agencie");
+                    }
+                    TreeMap<Date, String> m2 = new TreeMap(notificationMissionsFinish);
+                    if (!sortData(m2).isEmpty()){
+                        Log.e("Alarms", sortData(m2).firstKey() + "");
+                        startAlarmAfter(sortData(m2).firstKey(), "Czas dobiega końca", "Do końca misji pozozstało 15 minut, pospiesz się Agencie");
                     }
 
                     laboText.setText(String.valueOf(laboActive.size()));

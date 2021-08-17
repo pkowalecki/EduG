@@ -30,7 +30,7 @@
 
             <TextView
                 android:textColor="?attr/card_view_header_text"
-                android:layout_marginStart="108dp"
+                android:layout_marginStart="95dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="20sp"
                 android:text="MISSION CODENAME"
@@ -58,7 +58,7 @@
                     />
             <TextView
                 android:layout_gravity="center"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="28dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="23sp"
                 android:padding="5dp"
@@ -83,7 +83,7 @@
                 <TextView
                     android:background="@drawable/shadow_frame_missions"
                     android:textColor="?attr/card_view_header_text"
-                    android:layout_marginStart="108dp"
+                    android:layout_marginStart="95dp"
                     android:layout_marginEnd="20dp"
                     android:id="@+id/spec_mission_introText"
                     android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                 <LinearLayout
                     android:id="@+id/linear_q1"
                     android:background="@drawable/shadow_frame_missions"
-                    android:layout_marginStart="90dp"
+                    android:layout_marginStart="79dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -181,7 +181,7 @@
                 <LinearLayout
                     android:background="@drawable/shadow_frame_missions"
                     android:id="@+id/linear_q2"
-                    android:layout_marginStart="90dp"
+                    android:layout_marginStart="79dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -248,7 +248,7 @@
                 <LinearLayout
                     android:background="@drawable/shadow_frame_missions"
                     android:id="@+id/linear_q3"
-                    android:layout_marginStart="90dp"
+                    android:layout_marginStart="79dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -315,7 +315,7 @@
                 <LinearLayout
                     android:background="@drawable/shadow_frame_missions"
                     android:id="@+id/linear_q4"
-                    android:layout_marginStart="90dp"
+                    android:layout_marginStart="79dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -378,7 +378,7 @@
                 <TextView
                     android:padding="5dp"
                     android:layout_gravity="center"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="28dp"
                     android:layout_marginEnd="20dp"
                     android:textSize="23sp"
                     android:textColor="@color/edug_red"
@@ -409,7 +409,7 @@
                 <TextView
                     android:textSize="15sp"
                     android:textColor="?attr/card_view_header_text"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="28dp"
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/shadow_frame_missions"
                     android:id="@+id/spec_mission_finish_text"

@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -120,21 +121,21 @@ public class SpecialMissionFragment extends Fragment {
         sHash = sessionManagement.getHash();
         codename = (TextView) v.findViewById(R.id.spec_mission_codename);
         codename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
-        codename.setText(Html.fromHtml(mCodename));
+        codename.setText(Html.fromHtml(mCodename, HtmlCompat.FROM_HTML_MODE_LEGACY));
         codename.setPaintFlags(codename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         missionStart = (TextView) v.findViewById(R.id.spec_mission_missionStart);
-        missionStart.setText(Html.fromHtml(mMissionStart));
+        missionStart.setText(Html.fromHtml(mMissionStart, HtmlCompat.FROM_HTML_MODE_LEGACY));
         introText = (TextView) v.findViewById(R.id.spec_mission_introText);
-        introText.setText(Html.fromHtml(mIntroText));
+        introText.setText(Html.fromHtml(mIntroText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         question1 = (TextView) v.findViewById(R.id.spec_mission_question1);
-        question1.setText(Html.fromHtml(mQuestion1));
+        question1.setText(Html.fromHtml(mQuestion1, HtmlCompat.FROM_HTML_MODE_LEGACY));
         question2 = (TextView) v.findViewById(R.id.spec_mission_question2);
-        question2.setText(Html.fromHtml(mQuestion2));
+        question2.setText(Html.fromHtml(mQuestion2, HtmlCompat.FROM_HTML_MODE_LEGACY));
         question3 = (TextView) v.findViewById(R.id.spec_mission_question3);
-        question3.setText(Html.fromHtml(mQuestion3));
+        question3.setText(Html.fromHtml(mQuestion3, HtmlCompat.FROM_HTML_MODE_LEGACY));
         question4 = (TextView) v.findViewById(R.id.spec_mission_question4);
-        question4.setText(Html.fromHtml(mQuestion4));
+        question4.setText(Html.fromHtml(mQuestion4, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         q1a1 = (CheckBox) v.findViewById(R.id.spec_mission_question1_ans1);
         q1a2 = (CheckBox) v.findViewById(R.id.spec_mission_question1_ans2);
@@ -153,9 +154,9 @@ public class SpecialMissionFragment extends Fragment {
         q4a3 = (CheckBox) v.findViewById(R.id.spec_mission_question4_ans3);
         q4a4 = (CheckBox) v.findViewById(R.id.spec_mission_question4_ans4);
         finishTime = (TextView) v.findViewById(R.id.spec_mission_finish_time);
-        finishTime.setText(Html.fromHtml(mFinishTime));
+        finishTime.setText(Html.fromHtml(mFinishTime, HtmlCompat.FROM_HTML_MODE_LEGACY));
         finishText = (TextView) v.findViewById(R.id.spec_mission_finish_text);
-        finishText.setText(Html.fromHtml(mFinishText));
+        finishText.setText(Html.fromHtml(mFinishText, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         HashMap<Integer, String> hashMapAns1 = new HashMap<>();
         hashMapAns1.put(1, answers1s.get(0).get1());

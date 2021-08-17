@@ -5,7 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlarmManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -73,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //mQueue = Volley.newRequestQueue(this);
         spinner=(Spinner) findViewById(R.id.spinner);
         loginInputField=(TextInputLayout) findViewById(R.id.loginField);
@@ -85,12 +91,9 @@ public class MainActivity extends AppCompatActivity {
         sessionManagement = new SessionManagement(getApplicationContext());
         getGames();
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getGames();
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            getGames();
+            swipeRefreshLayout.setRefreshing(false);
         });
 
         submit.setOnClickListener(v -> {
@@ -108,15 +111,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private boolean checkNetworkState() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        //Check network state
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        //Chcek status
+        if (networkInfo == null || !networkInfo.isConnected() || !networkInfo.isAvailable()){
+            //Init dialog about lack of internet
+            new AlertDialog.Builder(this).setCancelable(true)
+            .setTitle("Brak internetu")
+            .setMessage("Brak dostępu do internetu")
+            .setPositiveButton("Spróbuj ponownie", (dialog, which) -> recreate())
+                    .setCancelable(false)
+            .show();
+            return false;
+        }
+        return true;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        checkSession();
+        if (checkNetworkState())
+        {
+            checkSession();
+        }
+
     }
 
     private void checkSession() {
         if (sessionManagement.getLoginToEdug()){
-
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
         }
     }
@@ -184,14 +211,11 @@ public class MainActivity extends AppCompatActivity {
                             });
 
                         }
-                    } catch (final JSONException e) {
+                    } catch (final JSONException ignored) {
 
-                    runOnUiThread(() -> Log.e(TAG, "JSON parsing error: " + e.getMessage()));
                 }
                 }
-            else{
-                runOnUiThread(() -> Log.e(TAG, "Couldn't get json from server"));
-}});}
+        });}
 
     private void getGames(){
         executorService.execute(() -> {
@@ -219,33 +243,15 @@ public class MainActivity extends AppCompatActivity {
                             listOfGames.add(listGames.getIdg());
                         }
                     }
-                } catch (final JSONException e){
-                    Log.e(TAG, "JSON parsing error: " + e.getMessage());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),"JSON parsing error" + e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-            else{
-                Log.e(TAG, "Couldn't get json from server");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Couldnt get json from server. Check logcat", Toast.LENGTH_LONG).show();
-                    }
-                });
+                } catch (final JSONException ignored){
 
-            }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listOfGames);
-                    arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(arrayAdapter);
-                }
+                        }
+                    }
+
+            handler.post(() -> {
+                ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, listOfGames);
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(arrayAdapter);
             });
         });
     }

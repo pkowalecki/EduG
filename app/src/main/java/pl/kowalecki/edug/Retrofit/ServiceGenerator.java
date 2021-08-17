@@ -17,7 +17,6 @@ public class ServiceGenerator {
 
         gson = new GsonBuilder().create();
 
-
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().
                     baseUrl(WEB_SERVICE_URL)

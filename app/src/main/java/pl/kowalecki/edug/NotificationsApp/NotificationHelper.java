@@ -15,8 +15,10 @@ import pl.kowalecki.edug.Activities.HomeActivity;
 import pl.kowalecki.edug.R;
 
 public class NotificationHelper extends ContextWrapper {
-    public static final String channelID = "channelID";
-    public static final String channelName = "Channel Name";
+    public static final String channelID_before= "startMission";
+    public static final String channelID_after = "endMission";
+    public static final String channelName_before = "EdugStartMission";
+    public static final String channelName_after = "EdugEndMission";
 
     private NotificationManager mManager;
     public NotificationHelper(Context base) {
@@ -28,8 +30,10 @@ public class NotificationHelper extends ContextWrapper {
 
     @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
-        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
-        getManager().createNotificationChannel(channel);
+        NotificationChannel channelBefore = new NotificationChannel(channelID_before, channelName_before, NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channelAfter = new NotificationChannel(channelID_after, channelName_after, NotificationManager.IMPORTANCE_HIGH);
+        getManager().createNotificationChannel(channelBefore);
+        getManager().createNotificationChannel(channelAfter);
     }
 
     public NotificationManager getManager() {
@@ -40,10 +44,21 @@ public class NotificationHelper extends ContextWrapper {
         return mManager;
     }
 
-    public NotificationCompat.Builder getChannelNotification(String title, String content) {
+    public NotificationCompat.Builder getChannelNotificationBefore(String title, String content) {
         Intent resultIntent = new Intent(this, HomeActivity.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1 ,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        return new NotificationCompat.Builder(getApplicationContext(), channelID)
+        return new NotificationCompat.Builder(getApplicationContext(), channelID_before)
+                .setContentTitle(title) //Nazwa misji
+                .setContentText(content) //Zaproszenie do udziału w misji xd
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setAutoCancel(true)
+                .setContentIntent(resultPendingIntent);
+    }
+
+    public NotificationCompat.Builder getChannelNotificationAfter(String title, String content) {
+        Intent resultIntent = new Intent(this, HomeActivity.class);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 1 ,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return new NotificationCompat.Builder(getApplicationContext(), channelID_after)
                 .setContentTitle(title) //Nazwa misji
                 .setContentText(content) //Zaproszenie do udziału w misji xd
                 .setSmallIcon(R.drawable.ic_baseline_notifications_24)
