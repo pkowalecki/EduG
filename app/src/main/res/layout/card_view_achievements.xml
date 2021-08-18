@@ -3,44 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center_horizontal"
     app:cardCornerRadius="0dp">
 
-    <RelativeLayout
-        android:background="?attr/card_view_background"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:textColor="?attr/card_view_text"
-            android:id="@+id/achievements_idm"
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="30dp"/>
-        <TextView
-            android:textColor="?attr/card_view_text"
-            android:id="@+id/achievements_codename"
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_toEndOf="@id/achievements_idm"
-            android:layout_toStartOf="@id/achievements_points"
-            />
-        <TextView
-            android:textColor="?attr/card_view_text"
-            android:id="@+id/achievements_points"
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="30dp"/>
+        android:layout_height="50dp"
+        android:background="?attr/card_view_background">
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/achievements_idm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jdfksdfhksjd"
+            android:textColor="?attr/card_view_text"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/achievements_codename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_toStartOf="@id/achievements_points"
+            android:layout_toEndOf="@id/achievements_idm"
+
+            android:text="sdjfjhsdlfk"
+            android:textColor="?attr/card_view_text"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/achievements_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jksdhkjsdkfsd"
+            android:textColor="?attr/card_view_text"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33"
+            /><androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.66"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.cardview.widget.CardView>

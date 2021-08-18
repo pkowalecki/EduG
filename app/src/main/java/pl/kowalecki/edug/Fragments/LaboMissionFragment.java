@@ -3,26 +3,19 @@ package pl.kowalecki.edug.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.InputFilter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.textfield.TextInputLayout;
 
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.SessionManagement;
@@ -44,23 +37,6 @@ public class LaboMissionFragment  extends Fragment {
     String mMissionNumber;
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
 
-
-    public static LaboMissionFragment newInstance(String codename, String missionStart , String missionText
-                                                  ,String missionFile, String finishTime,
-                                                  String finishText, String missionNumber){
-        LaboMissionFragment fragment = new LaboMissionFragment();
-        Bundle args = new Bundle();
-        args.putString(arg_codename, codename);
-        args.putString(arg_missionStart, missionStart);
-        args.putString(arg_missionText, missionText);
-        args.putString(arg_missionFile, missionFile);
-        args.putString(arg_finishTime, finishTime);
-        args.putString(arg_finishText, finishText);
-        args.putString(arg_missionNumber, missionNumber);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
 
 
     @Nullable
@@ -95,9 +71,8 @@ public class LaboMissionFragment  extends Fragment {
         mTextFinishText = (TextView) v.findViewById(R.id.labo_mission_finish_text);
 
 
-        mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mTextCodename.setText(Html.fromHtml(mCodename, HtmlCompat.FROM_HTML_MODE_LEGACY));
-        mTextCodename.setPaintFlags(mTextCodename.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 
         mTextMissionStart.setText(Html.fromHtml(mMissionStart, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionText.setText(Html.fromHtml(mMissionText, HtmlCompat.FROM_HTML_MODE_LEGACY));

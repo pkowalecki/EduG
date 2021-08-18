@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +55,7 @@ public class AgentFilesFragment extends Fragment {
     private AgentFilesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     TextView textView;
-    RelativeLayout filesText;
+    ConstraintLayout constraintLayoutBackground;
 
 
 
@@ -67,8 +68,8 @@ public class AgentFilesFragment extends Fragment {
         sessionManagement = new SessionManagement(getContext());
         String sGame = sessionManagement.getGame();
         receiveListFiles(sGame);
-        filesText = v.findViewById(R.id.files_text);
         mRecyclerView= v.findViewById(R.id.agent_files_recyclerView);
+        constraintLayoutBackground = v.findViewById(R.id.files_text);
         mRecyclerView.setHasFixedSize(true);
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_files);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
@@ -80,7 +81,7 @@ public class AgentFilesFragment extends Fragment {
 
     private void checkMode() {
         if (sessionManagement.loadNightModeState()){
-            filesText.setBackground(null);
+            constraintLayoutBackground.setBackground(null);
             mRecyclerView.setPadding(0,0,0,0);
         }
     }
@@ -92,42 +93,57 @@ public class AgentFilesFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()){
                         case R.id.labo_mission_item_topbar:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new AgentFilesAdapter(laboFileNameArray, laboUrlArray);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Niezbędnik Agenta Laboratoryjnego");
+                            if (laboFileNameArray.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else{
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new AgentFilesAdapter(laboFileNameArray, laboUrlArray);
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
 
-                            mAdapter.setOnItemClickListener(position -> {
-                                Uri uri = Uri.parse(laboUrlArray.get(position));
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
-                            });
+                                mAdapter.setOnItemClickListener(position -> {
+                                    Uri uri = Uri.parse(laboUrlArray.get(position));
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(intent);
+                                });
+                            }
+
                             break;
                         case R.id.spec_mission_item_topbar:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new AgentFilesAdapter(specFileNameArray, specUrlArray);
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Niezbędnik Agenta Specjalnego");
-
-                            mAdapter.setOnItemClickListener(position -> {
-                                Uri uri = Uri.parse(specUrlArray.get(position));
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
-                            });
+                            if (specFileNameArray.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new AgentFilesAdapter(specFileNameArray, specUrlArray);
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
+                                mAdapter.setOnItemClickListener(position -> {
+                                    Uri uri = Uri.parse(specUrlArray.get(position));
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(intent);
+                                });
+                            }
                             break;
                         case R.id.other_mission_item_topbar:
+                            textView.setText("Materiały dodatkowe");
+                            if (dodaFileNameArray.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else{
+                                mRecyclerView.setVisibility(View.VISIBLE);
                             mLayoutManager = new LinearLayoutManager(getContext());
                             mAdapter = new AgentFilesAdapter(dodaFileNameArray, dodaUrlArray);
                             mRecyclerView.setLayoutManager(mLayoutManager);
                             mRecyclerView.setAdapter(mAdapter);
-                            textView.setText("Materiały dodatkowe");
                             mAdapter.setOnItemClickListener(position -> {
                                 Uri uri = Uri.parse(dodaUrlArray.get(position));
                                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                 startActivity(intent);
                             });
+                            }
                             break;
                     }
                     return true;
@@ -165,17 +181,22 @@ public class AgentFilesFragment extends Fragment {
 
                     }
                 }
-
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new AgentFilesAdapter(laboFileNameArray, laboUrlArray);
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
                 textView.setText("Niezbędnik Agenta Laboratoryjnego");
-                mAdapter.setOnItemClickListener(position -> {
-                    Uri uri = Uri.parse(laboUrlArray.get(position));
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(intent);
-                });
+                if (laboFileNameArray.size() == 0){
+                    mRecyclerView.setVisibility(View.GONE);
+
+                }else {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    mAdapter = new AgentFilesAdapter(laboFileNameArray, laboUrlArray);
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.setOnItemClickListener(position -> {
+                        Uri uri = Uri.parse(laboUrlArray.get(position));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    });
+                }
 
             }
 

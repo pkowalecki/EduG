@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:padding="5dp"
         android:id="@+id/headBadgesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="@string/edug_odznaki"
         android:textColor="?attr/badges_text_header"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/headBadgesText">
+        android:layout_below="@id/headBadgesText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headBadgesText">
 
         <GridLayout
             android:layout_width="match_parent"
@@ -37,71 +44,73 @@
                 android:layout_gravity="fill"
                 android:layout_margin="8dp"
                 app:cardElevation="8dp">
-<LinearLayout
-    android:background="?attr/card_view_background"
-    android:layout_gravity="center"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/edug_cardView_background_header">
-
-
-        <TextView
-            android:padding="5dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="?attr/card_view_text"
-            android:id="@+id/specagentBadgeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
                 <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/specagentBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/specagentBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/specagentBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
+
+                        <TextView
+                            android:id="@+id/specagentBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/specagentBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/specagentBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/specagentBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
-</LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -115,71 +124,73 @@
                 android:layout_gravity="fill"
                 android:layout_margin="8dp"
                 app:cardElevation="8dp">
+
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/edug_cardView_background_header">
-
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textColor="?attr/card_view_text"
-                        android:id="@+id/laborantBadgeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
-                    android:orientation="vertical">
-
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/laborantBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/laborantBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/laborantBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/laborantBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/laborantBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/laborantBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/laborantBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -196,68 +207,69 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?attr/edug_cardView_background_header">
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
 
                         <TextView
-                            android:padding="5dp"
-                            android:textAlignment="center"
-                            android:textSize="20sp"
-                            android:textColor="?attr/card_view_text"
                             android:id="@+id/blyskawicaBadgeText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
                     </LinearLayout>
+
                     <LinearLayout
-                        android:paddingTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="5dp">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:id="@+id/blyskawicaBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
+                            <ImageView
+                                android:id="@+id/blyskawicaBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
 
-                        <ImageView
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/blyskawicaBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/blyskawicaBadgeButton"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/blyskawicaBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/blyskawicaBadgeButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -272,70 +284,72 @@
                 android:layout_gravity="fill"
                 android:layout_margin="8dp"
                 app:cardElevation="8dp">
+
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/edug_cardView_background_header">
-
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textColor="?attr/card_view_text"
-                        android:id="@+id/hazardzistaBadgeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/hazardzistatBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/hazardzistaBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/hazardzistaBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/hazardzistaBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/hazardzistatBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/hazardzistaBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/hazardzistaBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -352,68 +366,70 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/edug_cardView_background_header">
-
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textColor="?attr/card_view_text"
-                        android:id="@+id/nieprawiczekBadgeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
-                    android:orientation="vertical">
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/nieprawiczekBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/nieprawiczekBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/nieprawiczekBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/nieprawiczekBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/nieprawiczekBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/nieprawiczekBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/nieprawiczekBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -431,68 +447,70 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/edug_cardView_background_header">
-
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textColor="?attr/card_view_text"
-                        android:id="@+id/setnikBadgeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
-                    android:orientation="vertical">
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/setnikBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/setnikBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/setnikBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/setnikBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/setnikBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/setnikBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/setnikBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -509,69 +527,70 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/edug_cardView_background_header">
-
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textColor="?attr/card_view_text"
-                        android:id="@+id/globtroterBadgeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/globtroterBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/globtroterBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/globtroterBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/globtroterBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/globtroterBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/globtroterBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/globtroterBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -588,72 +607,74 @@
                 app:cardElevation="8dp">
 
                 <LinearLayout
-                    android:background="?attr/card_view_background"
-                    android:layout_gravity="center"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="?attr/card_view_background"
                     android:orientation="vertical">
 
-                <LinearLayout
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/edug_cardView_background_header">
-
-
-                    <TextView
-                        android:padding="5dp"
-                        android:textAlignment="center"
-                        android:textSize="20sp"
-                        android:textColor="?attr/card_view_text"
-                        android:id="@+id/personalizatorBadgeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-
-                    android:orientation="vertical">
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/personalizatorBadgeImage"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/badge_clip_drawable" />
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/badge_shape_rounded" />
-
-                        <TextView
-                            android:id="@+id/personalizatorBadgePercentage"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textColor="?attr/card_view_text"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
-
-                    <Button
-                        android:id="@+id/personalizatorBadgeButton"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edug_odznaki_get"
-                        android:textSize="12sp" />
+                        android:background="?attr/edug_cardView_background_header"
+                        android:gravity="center">
 
-                </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/personalizatorBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:textAlignment="center"
+                            android:textColor="?attr/card_view_text"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:orientation="vertical"
+
+                        android:paddingTop="5dp">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/personalizatorBadgeImage"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:background="@drawable/badge_clip_drawable" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/badge_shape_rounded" />
+
+                            <TextView
+                                android:id="@+id/personalizatorBadgePercentage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="?attr/card_view_text"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+
+                        <Button
+                            android:id="@+id/personalizatorBadgeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edug_odznaki_get"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </GridLayout>
     </ScrollView>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 

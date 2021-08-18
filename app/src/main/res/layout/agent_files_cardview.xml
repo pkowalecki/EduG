@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_centerInParent="true"
     app:cardCornerRadius="0dp">
 
-    <RelativeLayout
-        android:background="?attr/card_view_background"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        >
+        android:background="?attr/card_view_background">
+
         <ImageView
-            app:tint="?attr/card_view_icon"
+
             android:id="@+id/agent_files_image"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:src="@drawable/ic_baseline_file"/>
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_baseline_file"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/card_view_icon" />
+
         <TextView
-            android:textColor="?attr/card_view_text"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/agent_files_image"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="5dp"
             android:id="@+id/agent_filename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/agent_files_image"
+            android:text="jdsfhkjsdhdsjf"
+            android:textColor="?attr/card_view_text"
             android:textSize="15sp"
-            android:layout_marginStart="20dp"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

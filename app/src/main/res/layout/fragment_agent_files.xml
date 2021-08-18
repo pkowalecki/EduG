@@ -1,71 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    >
+    android:paddingBottom="20dp">
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:id="@+id/top_navigation_files"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         app:itemIconTint="?attr/topbar_menu_items"
         app:itemTextColor="?attr/topbar_menu_items"
-        app:menu="@menu/agent_files_menu"
         app:labelVisibilityMode="unlabeled"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/agent_files_menu" />
 
-        />
 
     <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/top_navigation_files"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/top_navigation_files">
 
 
-    <RelativeLayout
-        android:background="@drawable/shadow_frame"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/files_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/files_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/header_list_missions"
-            android:background="?attr/edug_cardView_background_header">
-        <TextView
-            android:textColor="?attr/card_view_header_text"
-            android:paddingStart="13dp"
-            android:paddingEnd="0dp"
-            android:id="@+id/file_mission_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:background="@drawable/shadow_frame">
 
 
-            />
-        </LinearLayout>
+            <TextView
+                android:id="@+id/file_mission_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/edug_cardView_background_header"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="kjafhkjsdhjfsd"
+                android:textColor="?attr/card_view_header_text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/empty_files_text"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="?attr/card_view_background"
+                android:gravity="center"
+                android:text="@string/empty_data"
+                android:textColor="?attr/card_view_text"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/file_mission_text" />
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/agent_files_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:scrollbars="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/file_mission_text">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:layout_below="@id/header_list_missions"
-        android:id="@+id/agent_files_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:scrollbars="vertical">
-
-    </androidx.recyclerview.widget.RecyclerView>
-    </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-</RelativeLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.09"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.91"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

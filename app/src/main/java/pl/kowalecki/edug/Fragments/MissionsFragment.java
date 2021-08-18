@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +55,7 @@ public class MissionsFragment extends Fragment {
 
     SessionManagement sessionManagement;
     UserService userService = ServiceGenerator.getRetrofit().create(UserService.class);
-    TextView textView;
+    TextView textView, emptyMissionsText;
     List<ListMission> listMissions = new ArrayList<>();
     Date currentDate = Calendar.getInstance().getTime();
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -76,8 +77,7 @@ public class MissionsFragment extends Fragment {
     private MissionsAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private final UserLogin userLogin = new UserLogin();
-    private RelativeLayout missionsText;
-
+    ConstraintLayout constraintLayout;
 
 
 
@@ -86,9 +86,9 @@ public class MissionsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
-
+        constraintLayout = v.findViewById(R.id.fragment_missions_constraint);
+        emptyMissionsText = v.findViewById(R.id.empty_missions_text);
         sessionManagement = new SessionManagement(getContext());
-        missionsText = v.findViewById(R.id.missions_text);
         date = simpleDateFormat.format(currentDate);
         mRecyclerView = v.findViewById(R.id.missions_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -108,10 +108,8 @@ public class MissionsFragment extends Fragment {
 
     private void checkMode() {
         if (sessionManagement.loadNightModeState()){
-            missionsText.setBackground(null);
             mRecyclerView.setPadding(0, 0, 0, 0);
-
-
+            constraintLayout.setBackground(null);
         }
     }
 
@@ -123,82 +121,102 @@ public class MissionsFragment extends Fragment {
                     switch (menuItem.getItemId()) {
 
                         case R.id.item_missions_menu_special:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(specActive, sessionManagement.loadNightModeState());
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misje Specjalne");
+                            if (specActive.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new MissionsAdapter(specActive, sessionManagement.loadNightModeState());
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
 
-                            mAdapter.setOnItemClickListener(position -> {
-                                mMenu = "spec";
-                                String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
-                                sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                                callSpecMission(sSys, sLang, sGame, specActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
-                            });
+
+                                mAdapter.setOnItemClickListener(position -> {
+                                    mMenu = "spec";
+                                    String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
+                                    sCrcSpec = MD5Cipher.md5(mCrcSpec);
+                                    callSpecMission(sSys, sLang, sGame, specActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
+                                });
+                            }
                             break;
 
                         case R.id.item_missions_menu_instant:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(fastActive, sessionManagement.loadNightModeState());
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misje Błyskawiczne");
+                            if (fastActive.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new MissionsAdapter(fastActive, sessionManagement.loadNightModeState());
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
 
-                            mAdapter.setOnItemClickListener(position -> {
-                                mMenu = "fast";
-                                Log.e(TAG, "Position" + position);
-                                String mCrc = userLogin.getPassword() + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
-                                sCrcFast = MD5Cipher.md5(mCrc);
-                                callFastMission(sSys, sLang, sGame, fastActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
-                                Log.e("Aint bottom sheet ", fastActive.get(position) + " " + position );
-                            });
+
+                                mAdapter.setOnItemClickListener(position -> {
+                                    mMenu = "fast";
+                                    Log.e(TAG, "Position" + position);
+                                    String mCrc = userLogin.getPassword() + sSys + sLang + sGame + fastActive.get(position) + sLogin + sHash;
+                                    sCrcFast = MD5Cipher.md5(mCrc);
+                                    callFastMission(sSys, sLang, sGame, fastActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+                                    Log.e("Aint bottom sheet ", fastActive.get(position) + " " + position);
+                                });
+                            }
                             break;
 
                         case R.id.item_missions_menu_labor:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(laboActive, sessionManagement.loadNightModeState());
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
                             textView.setText("Misje Laboratoryjne");
+                            if (laboActive.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new MissionsAdapter(laboActive, sessionManagement.loadNightModeState());
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
 
-                            mAdapter.setOnItemClickListener(position -> {
-                                mMenu = "labo";
-                                Log.e(TAG, "Position" + position);
-                                String mCrc = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
-                                sCrcLabo = MD5Cipher.md5(mCrc);
 
-                                callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
-                            });
+                                mAdapter.setOnItemClickListener(position -> {
+                                    mMenu = "labo";
+                                    Log.e(TAG, "Position" + position);
+                                    String mCrc = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
+                                    sCrcLabo = MD5Cipher.md5(mCrc);
+
+                                    callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
+                                });
+                            }
                             break;
 
                         case R.id.item_missions_menu_allround:
-                            mLayoutManager = new LinearLayoutManager(getContext());
-                            mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
-                            mRecyclerView.setLayoutManager(mLayoutManager);
-                            mRecyclerView.setAdapter(mAdapter);
+
                             textView.setText("Dostępne Misje");
+                            if (allActive.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
 
-                            mAdapter.setOnItemClickListener(position -> {
-                                mMenu = "all";
-                                Log.e(TAG, "Position" + position);
-                                if (allActiveType.get(position).equals("spec")){
-                                    String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                                    sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                                    callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
-                                }
-                                if (allActiveType.get(position).equals("labo")){
-                                    String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                                    sCrcLabo = MD5Cipher.md5(mCrc);
-                                    callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
-                                }
-                                if (allActiveType.get(position).equals("fast")){
-                                    String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                                    sCrcFast = MD5Cipher.md5(mCrc);
-                                    callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
-                                    Log.e("Aint bottom sheet ", allActive.get(position) + " " + position );
-                                }
-
-                            });
+                                mAdapter.setOnItemClickListener(position -> {
+                                    mMenu = "all";
+                                    if (allActiveType.get(position).equals("spec")) {
+                                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
+                                        callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
+                                    }
+                                    if (allActiveType.get(position).equals("labo")) {
+                                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                        sCrcLabo = MD5Cipher.md5(mCrc);
+                                        callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
+                                    }
+                                    if (allActiveType.get(position).equals("fast")) {
+                                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                        sCrcFast = MD5Cipher.md5(mCrc);
+                                        callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+                                    }
+                                });
+                            }
                             break;
 
 
@@ -255,36 +273,34 @@ public class MissionsFragment extends Fragment {
 
                 }
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
                 textView.setText("Dostępne Misje");
+                if (allActive.size() == 0){
+                    mRecyclerView.setVisibility(View.GONE);
+                }else {
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
-                textView.setText("Dostępne Misje");
-
-                mAdapter.setOnItemClickListener(position -> {
-                    mMenu = "all";
-                    if (allActiveType.get(position).equals("spec")){
-                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                        callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
-                    }
-                    if (allActiveType.get(position).equals("labo")){
-                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                        sCrcLabo = MD5Cipher.md5(mCrc);
-                        callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
-                    }
-                    if (allActiveType.get(position).equals("fast")){
-                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                        sCrcFast = MD5Cipher.md5(mCrc);
-                        callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
-                    }
-                });
+                    mAdapter.setOnItemClickListener(position -> {
+                        mMenu = "all";
+                        if (allActiveType.get(position).equals("spec")) {
+                            String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                            sCrcSpec = MD5Cipher.md5(mCrcSpec);
+                            callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
+                        }
+                        if (allActiveType.get(position).equals("labo")) {
+                            String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                            sCrcLabo = MD5Cipher.md5(mCrc);
+                            callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
+                        }
+                        if (allActiveType.get(position).equals("fast")) {
+                            String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                            sCrcFast = MD5Cipher.md5(mCrc);
+                            callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+                        }
+                    });
+                }
 
             }
 

@@ -71,7 +71,6 @@ public class FastMissionFragment extends Fragment {
     ImageView imageView;
     private final UserLogin userLogin = new UserLogin();
     Context context;
-    LinearLayout fastMissionLinearText;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,7 +82,6 @@ public class FastMissionFragment extends Fragment {
         sGame = sessionManagement.getGame();
         sLogin = sessionManagement.getLogin();
         sHash = sessionManagement.getHash();
-        fastMissionLinearText = v.findViewById(R.id.fast_mission_linear_textx);
         if (getArguments() != null) {
             mCodename = getArguments().getString(arg_codename);
             mPicture = getArguments().getString(arg_picture);
@@ -146,9 +144,8 @@ public class FastMissionFragment extends Fragment {
         if (sessionManagement.loadNightModeState()){
             mTextCodename.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_top));
             mTextIntroText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
-            fastMissionLinearText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
             mTextFinishText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
-
+            mTextMissionText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
         }
     }
 

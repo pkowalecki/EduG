@@ -1,166 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_height="match_parent"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/refreshLayout"
     xmlns:android="http://schemas.android.com/apk/res/android" >
-
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ecedf0"
-    tools:context=".Activities.MainActivity">
-
-       <ImageView
-           android:layout_marginTop="40dp"
-           android:id="@+id/edugLogo"
-           android:layout_height="wrap_content"
-           app:srcCompat="@drawable/logo"
-           android:contentDescription="@string/edugLogo"
-           android:layout_marginStart="20dp"
-           android:layout_marginBottom="10dp"
-           android:layout_width="200dp" />
-
-       <ImageView
-           android:id="@+id/loginView"
-           android:layout_width="match_parent"
-           android:layout_height="6dp"
-           android:layout_marginStart="20dp"
-           android:layout_marginEnd="20dp"
-           android:background="@drawable/red_panel_rounded"
-           android:layout_below="@+id/edugLogo"
-           />
-
-       <ImageView
-           android:id="@+id/loginShape"
-           android:layout_width="match_parent"
-           android:layout_height="50dp"
-           android:background="@drawable/login_panel"
-           android:layout_above="@+id/loginView"
-           android:layout_toEndOf="@id/edugLogo"
-           android:layout_marginStart="20dp"
-           android:layout_marginEnd="20dp"
-           android:layout_marginBottom="-2dp"
-           />
-
-       <TextView
-           android:id="@+id/loginlayoutText"
-           android:layout_width="fill_parent"
-           android:layout_height="fill_parent"
-           android:layout_alignStart="@+id/loginShape"
-           android:layout_alignTop="@+id/loginShape"
-           android:layout_alignEnd="@+id/loginShape"
-           android:layout_alignBottom="@+id/loginShape"
-           android:layout_centerHorizontal="true"
-           android:paddingStart="10dp"
-           android:paddingEnd="0dp"
-           android:gravity="center"
-           android:text="@string/login_pl"
-           android:textColor="#ffffff"
-           android:textSize="16sp"
-           android:textStyle="bold"
-
-           />
-
-       <ImageView
+       <ScrollView
            android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:fillViewport="true">
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+
+           android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           app:srcCompat="@drawable/ic_baseline_person_24_white"
-           android:layout_alignStart="@+id/loginlayoutText"
-           android:layout_alignTop="@+id/loginlayoutText"
-           android:paddingTop="18dp"
-           android:paddingStart="8dp"
-           android:paddingBottom="15dp"
-           />
+           android:background="#ecedf0"
+           tools:context=".Activities.MainActivity">
 
-       <RelativeLayout
-
-           android:id="@+id/relativeLayout"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:layout_below="@+id/loginView"
-           android:layout_centerHorizontal="true"
-           android:layout_marginTop="0dp"
-           android:paddingTop="30dp"
-           android:paddingStart="20dp"
-           android:paddingEnd="20dp"
-           android:layout_marginEnd="40dp"
-           android:layout_marginBottom="40dp"
-           android:background="@drawable/white_window_background"
-           android:paddingBottom="10dp"
-           >
-
-              <com.google.android.material.textfield.TextInputLayout
-                  android:id="@+id/loginField"
-                  android:layout_width="match_parent"
+              <ImageView
+                  android:id="@+id/edugLogo"
+                  android:layout_width="200dp"
                   android:layout_height="wrap_content"
-                  app:errorEnabled="true"
-                  android:theme="@style/floating_layout_style"
-                  style="@style/floating_layout_style">
+                  android:contentDescription="@string/edugLogo"
+                  app:layout_constraintStart_toStartOf="@+id/guideline1"
+                  app:layout_constraintTop_toTopOf="@+id/guideline3"
+                  app:srcCompat="@drawable/logo" />
 
-                     <com.google.android.material.textfield.TextInputEditText
-                         android:id="@+id/emailaddress"
-                         android:layout_width="match_parent"
+
+              <ImageView
+                  android:id="@+id/loginView"
+                  android:layout_width="0dp"
+                  android:layout_height="6dp"
+                  android:layout_below="@+id/edugLogo"
+                  android:background="@drawable/red_panel_rounded"
+                  app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                  app:layout_constraintHorizontal_bias="0.0"
+                  app:layout_constraintStart_toStartOf="@+id/guideline1"
+                  app:layout_constraintTop_toBottomOf="@+id/edugLogo" />
+
+              <ImageView
+                  android:id="@+id/loginShape"
+                  android:layout_width="0dp"
+                  android:layout_height="50dp"
+                  android:layout_above="@+id/loginView"
+                  android:layout_marginStart="20dp"
+                  android:layout_marginBottom="-2dp"
+                  android:layout_toEndOf="@id/edugLogo"
+                  android:background="@drawable/login_panel"
+                  app:layout_constraintBottom_toTopOf="@+id/loginView"
+                  app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                  app:layout_constraintStart_toEndOf="@+id/edugLogo" />
+
+              <TextView
+                  android:id="@+id/loginlayoutText"
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_alignStart="@+id/loginShape"
+                  android:layout_alignTop="@+id/loginShape"
+                  android:layout_alignEnd="@+id/loginShape"
+                  android:layout_alignBottom="@+id/loginShape"
+                  android:layout_centerHorizontal="true"
+                  android:layout_marginEnd="8dp"
+                  android:gravity="center"
+                  android:text="@string/login_pl"
+                  android:textColor="#ffffff"
+                  android:textSize="16sp"
+                  android:textStyle="bold"
+                  app:layout_constraintBottom_toBottomOf="@+id/loginShape"
+                  app:layout_constraintEnd_toEndOf="@+id/loginShape"
+                  app:layout_constraintStart_toEndOf="@+id/imageView17"
+                  app:layout_constraintTop_toTopOf="@+id/loginShape" />
+
+              <ImageView
+
+                  android:id="@+id/imageView17"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignStart="@+id/loginlayoutText"
+                  android:layout_alignTop="@+id/loginlayoutText"
+                  android:layout_marginStart="8dp"
+                  android:gravity="center"
+                  app:layout_constraintBottom_toBottomOf="@+id/loginShape"
+                  app:layout_constraintEnd_toStartOf="@+id/loginlayoutText"
+                  app:layout_constraintStart_toEndOf="@+id/edugLogo"
+                  app:layout_constraintStart_toStartOf="@+id/loginShape"
+                  app:layout_constraintTop_toTopOf="@+id/loginShape"
+                  app:srcCompat="@drawable/ic_baseline_person_24_white" />
+
+              <androidx.constraintlayout.widget.ConstraintLayout
+                  android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/white_window_background"
+                  app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                  app:layout_constraintStart_toStartOf="@+id/guideline1"
+                  app:layout_constraintTop_toBottomOf="@+id/loginView">
+
+                     <com.google.android.material.textfield.TextInputLayout
+                         android:id="@+id/loginField"
+                         style="@style/floating_layout_style"
+                         android:layout_width="0dp"
                          android:layout_height="wrap_content"
-                         android:layout_centerHorizontal="true"
-                         android:hint="@string/email_hint_pl"
-                         android:singleLine="true"/>
+                         android:theme="@style/floating_layout_style"
+                         app:errorEnabled="true"
+                         app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                         app:layout_constraintStart_toStartOf="@+id/guideline4"
+                         app:layout_constraintTop_toTopOf="@+id/guideline6">
 
-              </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/emailaddress"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:hint="@string/email_hint_pl"
+                                android:singleLine="true" />
 
-              <com.google.android.material.textfield.TextInputLayout
-                  android:id="@id/passwordField"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@id/loginField"
-                  app:passwordToggleEnabled="true"
-                  app:errorEnabled="true"
-                  android:theme="@style/floating_layout_style"
-                  style="@style/floating_layout_style">
+                     </com.google.android.material.textfield.TextInputLayout>
 
-              <com.google.android.material.textfield.TextInputEditText
+                     <com.google.android.material.textfield.TextInputLayout
+                         android:layout_marginTop="10dp"
+                         android:id="@id/passwordField"
+                         style="@style/floating_layout_style"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@id/loginField"
+                         android:theme="@style/floating_layout_style"
+                         app:errorEnabled="true"
+                         app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                         app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                         app:layout_constraintStart_toStartOf="@+id/guideline4"
+                         app:layout_constraintTop_toBottomOf="@+id/loginField"
+                         app:passwordToggleEnabled="true">
 
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:hint="@string/password_hint_pl"
-                  android:inputType="textPassword" />
+                            <com.google.android.material.textfield.TextInputEditText
 
-              </com.google.android.material.textfield.TextInputLayout>
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/password_hint_pl"
+                                android:inputType="textPassword" />
 
-              <Spinner
-                  android:id="@+id/spinner"
+                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                     <Spinner
+                         android:layout_marginTop="10dp"
+                         android:id="@+id/spinner"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/passwordField"
+                         app:layout_constraintStart_toStartOf="@+id/guideline4"
+                         app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+                     <Button
+                         android:layout_marginTop="10dp"
+                         android:id="@+id/loginButton"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@+id/passwordField"
+                         android:background="@drawable/login_button"
+                         android:text="@string/login_button_pl"
+                         android:textColor="@android:color/white"
+                         app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                         app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+
+                     <androidx.constraintlayout.widget.Guideline
+                         android:id="@+id/guideline4"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="vertical"
+                         app:layout_constraintGuide_percent="0.1" />
+
+                     <androidx.constraintlayout.widget.Guideline
+                         android:id="@+id/guideline5"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="vertical"
+                         app:layout_constraintGuide_percent="0.90" />
+
+                     <androidx.constraintlayout.widget.Guideline
+                         android:id="@+id/guideline6"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal"
+                         app:layout_constraintGuide_percent="0.1" />
+
+                     <androidx.constraintlayout.widget.Guideline
+                         android:id="@+id/guideline7"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal"
+                         app:layout_constraintGuide_percent="0.70" />
+
+
+              </androidx.constraintlayout.widget.ConstraintLayout>
+
+              <androidx.constraintlayout.widget.Guideline
+                  android:id="@+id/guideline1"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_below="@+id/passwordField"
-                  android:layout_alignLeft="@+id/passwordField"
+                  android:orientation="vertical"
+                  app:layout_constraintGuide_percent="0.05" />
 
-
-                  />
-
-              <Button
-                  android:id="@+id/loginButton"
+              <androidx.constraintlayout.widget.Guideline
+                  android:id="@+id/guideline2"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_below="@+id/passwordField"
-                  android:layout_alignRight="@+id/passwordField"
-                  android:background="@drawable/login_button"
-                  android:layout_marginTop="10dp"
-                  android:text="@string/login_button_pl"
-                  android:textColor="@android:color/white"
+                  android:orientation="vertical"
+                  app:layout_constraintGuide_percent="0.95" />
 
-                  />
+              <androidx.constraintlayout.widget.Guideline
+                  android:id="@+id/guideline3"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintGuide_percent="0.1"
+                  app:layout_constraintTop_toTopOf="parent" />
 
-       </RelativeLayout>
+              <androidx.constraintlayout.widget.Guideline
+                  android:id="@+id/guideline8"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  app:layout_constraintGuide_percent="0.55" />
 
-       <TextView
-           android:id="@+id/failedLoginAlert"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_centerHorizontal="true"
-           android:textSize="20sp"
-           android:visibility="invisible"/>
+<!--              <androidx.constraintlayout.widget.Barrier-->
+<!--                  android:id="@+id/barrier"-->
+<!--                  android:layout_width="wrap_content"-->
+<!--                  android:layout_height="wrap_content"-->
+<!--                  android:orientation="horizontal"-->
+<!--                  app:layout_constraintEnd_toEndOf="parent"-->
+<!--                  app:layout_constraintGuide_percent="0.55"-->
+<!--                  app:layout_constraintStart_toStartOf="parent"-->
+<!--                  app:layout_constraintTop_toTopOf="parent" />-->
 
-</RelativeLayout>
+              <TextView
+                  android:id="@+id/failedLoginAlert"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textSize="20sp"
+                  android:visibility="invisible"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toTopOf="parent" />
+
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+       </ScrollView>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

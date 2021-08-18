@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.solver.state.State;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,12 +57,10 @@ public class AchievementsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RelativeLayout mEmptyLayout;
     TextView textView;
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
-    LinearLayout linearLayout;
-    RelativeLayout relativeLayout;
+    ConstraintLayout constraintLayout;
 
 
     public static AchievementsFragment newInstance(String number){
@@ -75,15 +75,13 @@ public class AchievementsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_achievements, container, false);
-        relativeLayout = v.findViewById(R.id.achievements_text);
+        constraintLayout = v.findViewById(R.id.fragment_achievs_constraint);
         sessionManagement = new SessionManagement(getContext());
-        linearLayout = v.findViewById(R.id.missions_data_text);
         String sGame = sessionManagement.getGame();
         if (getArguments() != null){
             agentIdu = getArguments().getString(ARG_NUMBER);
         }
         mRecyclerView = v.findViewById(R.id.achievements_recyclerview);
-        mEmptyLayout = v.findViewById(R.id.empty_achievements_recyclerview);
         mRecyclerView.setHasFixedSize(true);
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.fragment_topbar_achievements);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
@@ -95,8 +93,8 @@ public class AchievementsFragment extends Fragment {
 
     private void checkMode() {
             if (sessionManagement.loadNightModeState()){
+                constraintLayout.setBackground(null);
                 mRecyclerView.setPadding(0,0,0,0);
-                relativeLayout.setBackground(null);
             }
         }
 
@@ -109,11 +107,8 @@ public class AchievementsFragment extends Fragment {
                         case R.id.item_achievement_menu_special:
                             textView.setText("Misje Specjalne");
                             if (specAchievementsIdmArray.size() == 0){
-                                mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
-                                linearLayout.setVisibility(View.GONE);
                             }else{ mRecyclerView.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.VISIBLE);
                             mLayoutManager = new LinearLayoutManager(getContext());
                             mAdapter = new AchievementsAdapter(specAchievementsIdmArray, specAchievementsCodenameArray, specAchievementsPointsArray);
                             mRecyclerView.setLayoutManager(mLayoutManager);
@@ -124,12 +119,9 @@ public class AchievementsFragment extends Fragment {
                         case R.id.item_achievement_menu_labor:
                             textView.setText("Misje Laboratoryjne");
                             if (laboAchievementsIdmArray.size() == 0){
-                                linearLayout.setVisibility(View.GONE);
-                                mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new AchievementsAdapter(laboAchievementsIdmArray, laboAchievementsCodenameArray, laboAchievementsPointsArray);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -140,12 +132,9 @@ public class AchievementsFragment extends Fragment {
                         case R.id.item_achievement_menu_instant:
                             textView.setText("Misje Błyskawiczne");
                             if (fastAchievementsIdmArray.size() == 0){
-                                linearLayout.setVisibility(View.GONE);
-                                mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new AchievementsAdapter(fastAchievementsIdmArray, fastAchievementsCodenameArray, fastAchievementsPointsArray);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -156,12 +145,9 @@ public class AchievementsFragment extends Fragment {
                         case R.id.item_achievement_menu_last:
                             textView.setText("Misja Ostateczna");
                             if (lastAchievementsIdmArray.size() == 0){
-                                linearLayout.setVisibility(View.GONE);
-                                mEmptyLayout.setVisibility(View.VISIBLE);
                                 mRecyclerView.setVisibility(View.GONE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new AchievementsAdapter(lastAchievementsIdmArray, lastAchievementsCodenameArray, lastAchievementsPointsArray);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -207,11 +193,8 @@ public class AchievementsFragment extends Fragment {
 
                 textView.setText("Misje Specjalne");
                 if (specAchievementsIdmArray.size() == 0){
-                    mEmptyLayout.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
-                    linearLayout.setVisibility(View.GONE);
                 }else{ mRecyclerView.setVisibility(View.VISIBLE);
-                    linearLayout.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     mAdapter = new AchievementsAdapter(specAchievementsIdmArray, specAchievementsCodenameArray, specAchievementsPointsArray);
                     mRecyclerView.setLayoutManager(mLayoutManager);

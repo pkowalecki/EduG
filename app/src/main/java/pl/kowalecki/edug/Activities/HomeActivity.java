@@ -649,8 +649,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 }
                             }
-                            notificationMissionsStart.put(simpleDateFormat.parse("2021-08-17 11:19:00"), "101");
-                            notificationMissionsFinish.put(simpleDateFormat.parse("2021-08-17 11:38:00"), "101");
 
                             if (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(response.body().getListMissions().get(i).getMission().getStart()).after(dateTimeNow)){
                                 notificationMissionsStart.put(simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStart()), response.body().getListMissions().get(i).getMission().getIdm());
@@ -667,14 +665,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                     //Stworzenie osobnej mapy do posortowania i wyciągnięcia najwcześniejszej daty.
                     TreeMap<Date, String> m1 = new TreeMap(notificationMissionsStart);
-                    //TODO:Hardcoded stringa wrzucić do <strings>
                     if (!sortData(m1).isEmpty()){
-                        startAlarmBefore(sortData(m1).firstKey(), "Dostępna nowa misja", "Rozpocznij nową misję, Agencie");
+                        startAlarmBefore(sortData(m1).firstKey(), "Dostępna nowa misja", "Rozpocznij misję " + sortData(m1).firstEntry().getValue() +  " Agencie");
                     }
                     TreeMap<Date, String> m2 = new TreeMap(notificationMissionsFinish);
                     if (!sortData(m2).isEmpty()){
-                        Log.e("Alarms", sortData(m2).firstKey() + "");
-                        startAlarmAfter(sortData(m2).firstKey(), "Czas dobiega końca", "Do końca misji pozozstało 15 minut, pospiesz się Agencie");
+                        startAlarmAfter(sortData(m2).firstKey(), "Czas dobiega końca", "Do końca misji "+ sortData(m2).firstEntry().getValue() + " pozozstało 15 minut, pospiesz się Agencie");
                     }
 
                     laboText.setText(String.valueOf(laboActive.size()));

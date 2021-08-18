@@ -28,7 +28,7 @@
         <receiver android:name=".NotificationsApp.AlertReceiverAfter"/>
 
         <activity android:name=".Activities.HomeActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

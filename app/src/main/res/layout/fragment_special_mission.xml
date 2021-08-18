@@ -1,441 +1,415 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-
-    <RelativeLayout
-        android:background="?attr/card_view_background"
-        android:id="@+id/pasek"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="40dp"
-            android:background="@drawable/spec_misssion_panel"
-            android:visibility="visible" />
-    </RelativeLayout>
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="?attr/card_view_header_text"
-                android:layout_marginStart="95dp"
-                android:layout_marginEnd="20dp"
-                android:textSize="20sp"
-                android:text="MISSION CODENAME"
-                android:id="@+id/spec_mission_codename"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@drawable/shadow_topframe"
-                />
-
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_linear_start"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spec_mission_codename"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_marginStart="18dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_clock"
-                    />
-            <TextView
-                android:layout_gravity="center"
-                android:layout_marginStart="28dp"
-                android:layout_marginEnd="20dp"
-                android:textSize="23sp"
-                android:padding="5dp"
-                android:textColor="@color/edug_red"
-                android:text="MISSION STARTCLOCK"
-                android:id="@+id/spec_mission_missionStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_linear_intro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spec_mission_linear_start"
-                android:orientation="horizontal">
-                <TextView
-                    android:background="@drawable/shadow_frame_missions"
-                    android:textColor="?attr/card_view_header_text"
-                    android:layout_marginStart="95dp"
-                    android:layout_marginEnd="20dp"
-                    android:id="@+id/spec_mission_introText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="INTRO TEZT" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_linear_q1"
-                android:layout_below="@id/spec_mission_linear_intro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_marginStart="1dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_question"
-                    />
-
-                <LinearLayout
-                    android:id="@+id/linear_q1"
-                    android:background="@drawable/shadow_frame_missions"
-                    android:layout_marginStart="79dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                <TextView
-                    android:textColor="?attr/card_view_header_text"
-                    android:textSize="20sp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_gravity="center"
-                    android:id="@+id/spec_mission_question1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SPEC MISSION QUESTION 1"
-                    />
-
-
-
-                <CheckBox
-                    android:id="@+id/spec_mission_question1_ans1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"/>
-
-                <CheckBox
-                    android:id="@+id/spec_mission_question1_ans2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"/>
-
-                <CheckBox
-                    android:id="@+id/spec_mission_question1_ans3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"/>
-
-                <CheckBox
-                    android:id="@+id/spec_mission_question1_ans4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="6dp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_linear_q2"
-                android:layout_below="@id/spec_mission_linear_q1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-
-                <ImageView
-                    android:layout_marginStart="1dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_question"
-                    />
-
-                <LinearLayout
-                    android:background="@drawable/shadow_frame_missions"
-                    android:id="@+id/linear_q2"
-                    android:layout_marginStart="79dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:textColor="?attr/card_view_header_text"
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:id="@+id/spec_mission_question2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SPEC MISSION QUESTION 2"
-                        />
-
-
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question2_ans1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question2_ans2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question2_ans3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question2_ans4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_linear_q3"
-                android:layout_below="@id/spec_mission_linear_q2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-
-                <ImageView
-                    android:layout_marginStart="1dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_question"
-                    />
-
-                <LinearLayout
-                    android:background="@drawable/shadow_frame_missions"
-                    android:id="@+id/linear_q3"
-                    android:layout_marginStart="79dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:textColor="?attr/card_view_header_text"
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:id="@+id/spec_mission_question3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SPEC MISSION QUESTION 3"
-                        />
-
-
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question3_ans1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question3_ans2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question3_ans3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question3_ans4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="17dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_linear_q4"
-                android:layout_below="@id/spec_mission_linear_q3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-
-                <ImageView
-                    android:layout_marginStart="1dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_question"
-                    />
-
-                <LinearLayout
-                    android:background="@drawable/shadow_frame_missions"
-                    android:id="@+id/linear_q4"
-                    android:layout_marginStart="79dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:textColor="?attr/card_view_header_text"
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:id="@+id/spec_mission_question4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SPEC MISSION QUESTION 4"
-                        />
-
-
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question4_ans1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question4_ans2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question4_ans3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                    <CheckBox
-                        android:id="@+id/spec_mission_question4_ans4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="23dp"
-                android:id="@+id/spec_mission_linear_finish_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spec_mission_linear_q4"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_marginStart="18dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_clock"
-                    />
-                <TextView
-                    android:padding="5dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginEnd="20dp"
-                    android:textSize="23sp"
-                    android:textColor="@color/edug_red"
-                    android:text="MISSION ENDCLOCK"
-                    android:id="@+id/spec_mission_finish_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
-                android:id="@+id/spec_linear_finish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spec_mission_linear_finish_time"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_marginStart="17dp"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_bomb"
-                    />
-
-                <TextView
-                    android:textSize="15sp"
-                    android:textColor="?attr/card_view_header_text"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/shadow_frame_missions"
-                    android:id="@+id/spec_mission_finish_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="FINISH TEXT"/>
-            </LinearLayout>
-
-            <Button
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:textColor="?attr/card_view_header_text"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="20dp"
-                android:id="@+id/spec_mission_button"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_below="@id/spec_linear_finish"
-                android:background="@drawable/rounded_corners_missions_button"
-                android:text="ODPOWIEDZ" />
-
-
-        </RelativeLayout>
-
-    </ScrollView>
-
-
-</RelativeLayout>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/relativeLayout3"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="5dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/spec_misssion_panel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintBottom_toBottomOf="@+id/spec_mission_missionStart"
+        app:layout_constraintEnd_toStartOf="@+id/spec_mission_missionStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spec_mission_missionStart" />
+
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_question"
+        app:layout_constraintBottom_toBottomOf="@+id/linear_q1"
+        app:layout_constraintEnd_toStartOf="@+id/linear_q1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linear_q1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_question"
+        app:layout_constraintBottom_toBottomOf="@+id/linear_q2"
+        app:layout_constraintEnd_toStartOf="@+id/linear_q2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linear_q2"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <ImageView
+        android:id="@+id/imageView14"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_question"
+        app:layout_constraintBottom_toBottomOf="@+id/linear_q4"
+        app:layout_constraintEnd_toStartOf="@+id/linear_q4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linear_q4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_question"
+        app:layout_constraintBottom_toBottomOf="@+id/linear_q3"
+        app:layout_constraintEnd_toStartOf="@+id/linear_q3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linear_q3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="7dp"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintBottom_toBottomOf="@+id/spec_mission_finish_time"
+        app:layout_constraintEnd_toStartOf="@+id/spec_mission_finish_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spec_mission_finish_time" />
+
+    <ImageView
+        android:id="@+id/imageView16"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_bomb"
+        app:layout_constraintBottom_toBottomOf="@+id/spec_mission_finish_text"
+        app:layout_constraintEnd_toStartOf="@+id/spec_mission_finish_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spec_mission_finish_text" />
+
+    <TextView
+        android:textAllCaps="true"
+        android:id="@+id/spec_mission_codename"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shadow_topframe"
+        android:gravity="center_horizontal"
+        android:text="MISSION CODENAME"
+        android:textColor="?attr/card_view_header_text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="wrap"/>
+
+    <TextView
+        android:id="@+id/spec_mission_missionStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="5dp"
+        android:text="MISSION STARTCLOCK"
+        android:textColor="@color/edug_red"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/spec_mission_codename" />
+
+    <TextView
+        android:id="@+id/spec_mission_introText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:text="INTRO TEZT"
+        android:textColor="?attr/card_view_header_text"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/spec_mission_missionStart"
+        app:layout_constraintWidth_max="wrap"/>
+
+    <LinearLayout
+        app:layout_constraintWidth_max="wrap"
+        android:id="@+id/linear_q1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/spec_mission_introText">
+
+        <TextView
+            android:id="@+id/spec_mission_question1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:text="SPEC MISSION QUESTION 1"
+
+            android:textColor="?attr/card_view_header_text"
+            android:textSize="20sp" />
+
+
+        <CheckBox
+            android:id="@+id/spec_mission_question1_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question1_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question1_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question1_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintWidth_max="wrap"
+        android:id="@+id/linear_q2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/linear_q1">
+
+        <TextView
+            android:id="@+id/spec_mission_question2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SPEC MISSION QUESTION 2"
+            android:textColor="?attr/card_view_header_text"
+            android:textSize="20sp" />
+
+
+        <CheckBox
+            android:id="@+id/spec_mission_question2_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question2_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question2_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question2_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_q3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/linear_q2"
+        app:layout_constraintWidth_max="wrap">
+
+        <TextView
+            android:id="@+id/spec_mission_question3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SPEC MISSION QUESTION 3"
+            android:textColor="?attr/card_view_header_text"
+            android:textSize="20sp" />
+
+
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question3_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_q4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/linear_q3"
+        app:layout_constraintWidth_max="wrap">
+
+        <TextView
+            android:id="@+id/spec_mission_question4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SPEC MISSION QUESTION 4"
+            android:textColor="?attr/card_view_header_text"
+            android:textSize="20sp" />
+
+
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+        <CheckBox
+            android:id="@+id/spec_mission_question4_ans4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/spec_mission_finish_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="5dp"
+        android:text="MISSION ENDCLOCK"
+        android:textColor="@color/edug_red"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/linear_q4" />
+
+
+    <TextView
+        android:id="@+id/spec_mission_finish_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:text="FINISH TEXT"
+        android:textColor="?attr/card_view_header_text"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/spec_mission_finish_time"
+        app:layout_constraintWidth_max="wrap" />
+
+    <Button
+        android:id="@+id/spec_mission_button"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/rounded_corners_missions_button"
+        android:text="ODPOWIEDZ"
+        android:textColor="?attr/card_view_header_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/spec_mission_finish_text" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

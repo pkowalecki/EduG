@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,25 +47,20 @@ public class LeaderboardFragment extends Fragment {
     ArrayList<String> fullLeaderboardsArrayListIdu = new ArrayList<>();
     ArrayList<String> fullLeaderboardsArrayListPts = new ArrayList<>();
 
-
-
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     TextView textView;
-    private RelativeLayout mEmptyLayout, rankingsBackground;
-    private LinearLayout linearLayout;
+    ConstraintLayout constraintLayoutBackground;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_rankings, container, false);
         sessionManagement = new SessionManagement(getContext());
-        rankingsBackground = v.findViewById(R.id.rankings_background);
+        constraintLayoutBackground = v.findViewById(R.id.fragment_ranking_constraint);
         String sGame = sessionManagement.getGame();
         receiveLeaderboards(sGame);
-        mEmptyLayout = v.findViewById(R.id.empty_achievements_recyclerview);
-        linearLayout = v.findViewById(R.id.missions_data_text);
         mRecyclerView = v.findViewById(R.id.rankings_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_rankings);
@@ -77,7 +73,7 @@ public class LeaderboardFragment extends Fragment {
     private void checkMode() {
         if (sessionManagement.loadNightModeState()){
             mRecyclerView.setPadding(0,0,0,0);
-            rankingsBackground.setBackground(null);
+            constraintLayoutBackground.setBackground(null);
         }
     }
 
@@ -89,10 +85,9 @@ public class LeaderboardFragment extends Fragment {
                         case R.id.item_ranking_menu_special:
                             textView.setText("Misja Specjalna");
                             if (specLeaderboardsArrayListIdu.size() == 0){
-                                mEmptyLayout.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.GONE);
+                                mRecyclerView.setVisibility(View.GONE);
                             }else{
-                                linearLayout.setVisibility(View.VISIBLE);
+                                mRecyclerView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new LeaderboardAdapter(specLeaderboardsArrayListIdu, specLeaderboardsArrayListPts);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -103,10 +98,9 @@ public class LeaderboardFragment extends Fragment {
                         case R.id.item_ranking_menu_labor:
                             textView.setText("Misja Laboratoryjna");
                             if (laboLeaderboardsArrayListIdu.size() == 0){
-                                mEmptyLayout.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.GONE);
+                                mRecyclerView.setVisibility(View.GONE);
                             }else {
-                                linearLayout.setVisibility(View.VISIBLE);
+                                mRecyclerView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new LeaderboardAdapter(laboLeaderboardsArrayListIdu, laboLeaderboardsArrayListPts);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -116,10 +110,9 @@ public class LeaderboardFragment extends Fragment {
                         case R.id.item_ranking_menu_instant:
                             textView.setText("Misja Błyskawiczna");
                             if (fastLeaderboardsArrayListIdu.size() == 0){
-                                mEmptyLayout.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.GONE);
+                                mRecyclerView.setVisibility(View.GONE);
                             }else{
-                                linearLayout.setVisibility(View.VISIBLE);
+                                mRecyclerView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new LeaderboardAdapter(fastLeaderboardsArrayListIdu, fastLeaderboardsArrayListPts);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -131,10 +124,9 @@ public class LeaderboardFragment extends Fragment {
                         case R.id.item_ranking_menu_allround:
                             textView.setText("Wszechagent");
                             if (fullLeaderboardsArrayListIdu.size() == 0){
-                                mEmptyLayout.setVisibility(View.VISIBLE);
-                                linearLayout.setVisibility(View.GONE);
+                                mRecyclerView.setVisibility(View.GONE);
                             }else {
-                                linearLayout.setVisibility(View.VISIBLE);
+                                mRecyclerView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new LeaderboardAdapter(fullLeaderboardsArrayListIdu, fullLeaderboardsArrayListPts);
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -178,10 +170,9 @@ public class LeaderboardFragment extends Fragment {
 
                 textView.setText("Misja Specjalna");
                 if (specLeaderboardsArrayListIdu.size() == 0){
-                    mEmptyLayout.setVisibility(View.VISIBLE);
-                    linearLayout.setVisibility(View.GONE);
+                    mRecyclerView.setVisibility(View.GONE);
                 }else{
-                    linearLayout.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     mAdapter = new LeaderboardAdapter(specLeaderboardsArrayListIdu, specLeaderboardsArrayListPts);
                     mRecyclerView.setLayoutManager(mLayoutManager);

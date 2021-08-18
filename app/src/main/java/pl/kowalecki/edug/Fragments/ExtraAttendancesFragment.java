@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,8 +48,7 @@ public class ExtraAttendancesFragment extends Fragment {
     TextView textView;
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
-    private LinearLayout linearLayout;
-    private RelativeLayout mEmptyRelative, extraAttendancesBackground;
+    ConstraintLayout extraAttendancesBackground;
 
     public static ExtraAttendancesFragment newInstance(String number){
         ExtraAttendancesFragment fragment = new ExtraAttendancesFragment();
@@ -70,8 +70,6 @@ public class ExtraAttendancesFragment extends Fragment {
             agentIdu = getArguments().getString(ARG_NUMBER);
         }
 
-        linearLayout = v.findViewById(R.id.missions_data_text);
-        mEmptyRelative = v.findViewById(R.id.empty_achievements_recyclerview);
         mRecycleView = (RecyclerView) v.findViewById(R.id.extra_attendances_list_recyclerview);
         mRecycleView.setHasFixedSize(true);
         mRecycleView.setAdapter(mAdapter);
@@ -99,10 +97,9 @@ public class ExtraAttendancesFragment extends Fragment {
                         case R.id.menu_spec_attendances:
                             textView.setText("Misje Specjalne");
                             if (attendancesLectureDate.size() == 0){
-                                linearLayout.setVisibility(View.GONE);
-                                mEmptyRelative.setVisibility(View.VISIBLE);
+                                mRecycleView.setVisibility(View.GONE);
                             }else{
-                                linearLayout.setVisibility(View.VISIBLE);
+                                mRecycleView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new ExtraAttendancesAdapter(attendancesLectureDate);
                                 mRecycleView.setLayoutManager(mLayoutManager);
@@ -112,10 +109,9 @@ public class ExtraAttendancesFragment extends Fragment {
                         case R.id.menu_labo_attendances:
                             textView.setText("Misje Laboratoryjne ");
                             if (attendancesLaboDate.size() == 0){
-                                linearLayout.setVisibility(View.GONE);
-                                mEmptyRelative.setVisibility(View.VISIBLE);
+                                mRecycleView.setVisibility(View.VISIBLE);
                             }else{
-                                linearLayout.setVisibility(View.VISIBLE);
+                                mRecycleView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
                                 mRecycleView.setLayoutManager(mLayoutManager);
@@ -147,10 +143,9 @@ public class ExtraAttendancesFragment extends Fragment {
 
                 textView.setText("Misje Laboratoryjne ");
                 if (attendancesLaboDate.size() == 0){
-                    linearLayout.setVisibility(View.GONE);
-                    mEmptyRelative.setVisibility(View.VISIBLE);
+                    mRecycleView.setVisibility(View.GONE);
                 }else{
-                    linearLayout.setVisibility(View.VISIBLE);
+                    mRecycleView.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
                     mRecycleView.setLayoutManager(mLayoutManager);
