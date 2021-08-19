@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout_navbar"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:gravity="bottom"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_gravatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="false"/>
+
+
+    <LinearLayout
+        android:layout_toEndOf="@id/image_gravatar"
+        android:id="@+id/data_linear"
+        android:paddingStart="10dp"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="false">
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#aab1bb"
+        android:clickable="false"
+        />
+    <TextView
+        android:id="@+id/user_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textColor="#ababab"
+        android:textSize="12sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:clickable="false"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/collapsible_menu_imagebutton"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/data_linear"
+        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+        android:background="@android:color/transparent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onClickImageButton"
+
+        />
+
+</RelativeLayout>
+</LinearLayout>

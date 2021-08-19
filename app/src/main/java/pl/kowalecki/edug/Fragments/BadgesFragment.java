@@ -115,7 +115,6 @@ public class BadgesFragment extends Fragment {
     private void receiveBadges(String sLang, String agentIdu, String sGame, int agentBadge) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         Call<ListBadge> call = userService.extraBadges(sLang, sGame, agentIdu);
-        Log.e(TAG, "RESPO URL: " + call.request().url().toString());
         call.enqueue(new Callback<ListBadge>() {
             @Override
             public void onResponse(Call<ListBadge> call, Response<ListBadge> response) {
@@ -146,13 +145,11 @@ public class BadgesFragment extends Fragment {
                         laboBn.setText(response.body().getExtraBadges().get(i).getBadge().getName());
                         laboDesc = response.body().getExtraBadges().get(i).getBadge().getDesc();
                         if (response.body().getExtraBadges().get(i).getBadge().getPerc() < 100) {
-                            Log.e(TAG, "LABO PERCETAGE: " + response.body().getExtraBadges().get(i).getBadge().getPerc());
                             percentage = response.body().getExtraBadges().get(i).getBadge().getPerc();
                             laboPer.setText(percentage + "%");
                             laboI.getBackground().setLevel(percentage * 100);
                         } else {
                             Picasso.get().load(url + response.body().getExtraBadges().get(i).getBadge().getFile()).into(laboI);
-                            Log.e(TAG, "Image url: " + url + response.body().getExtraBadges().get(i).getBadge().getFile());
                         }
                     }
 

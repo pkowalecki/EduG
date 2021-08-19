@@ -186,6 +186,7 @@ public class AgentFilesFragment extends Fragment {
                     mRecyclerView.setVisibility(View.GONE);
 
                 }else {
+
                     mRecyclerView.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     mAdapter = new AgentFilesAdapter(laboFileNameArray, laboUrlArray);

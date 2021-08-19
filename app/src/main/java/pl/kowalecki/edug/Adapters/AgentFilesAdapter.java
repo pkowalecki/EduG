@@ -2,6 +2,7 @@ package pl.kowalecki.edug.Adapters;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
 
     @Override
     public void onBindViewHolder(@NonNull AgentfileViewHolder holder, int position) {
+
         String currentFilename = mExampleFilename.get(position);
         holder.mFilename.setText(currentFilename);
     }

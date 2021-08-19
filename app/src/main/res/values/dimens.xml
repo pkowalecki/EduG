@@ -4,4 +4,10 @@
     <dimen name="design_bottom_navigation_active_text_size">12sp</dimen>
     <dimen name="design_bottom_navigation_text_size">12sp</dimen>
     <dimen name="design_navigation_icon_size" tools:override="true">20dp</dimen>
+    <dimen name="hdpi_card_view_text_size">18sp</dimen>
+    <dimen name="ldpi_card_view_text_size">15sp</dimen>
+    <dimen name="mdpi_card_view_text_size">15sp</dimen>
+    <dimen name="xdpi_card_view_text_size">18sp</dimen>
+    <dimen name="xxdpi_card_view_text_size">18sp</dimen>
+    <dimen name="xxxdpi_card_view_text_size">18sp</dimen>
 </resources>

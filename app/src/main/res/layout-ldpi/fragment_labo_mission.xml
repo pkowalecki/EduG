@@ -1,0 +1,182 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="5dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/spec_misssion_panel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintBottom_toBottomOf="@+id/labo_mission_missionStart"
+        app:layout_constraintEnd_toStartOf="@+id/labo_mission_missionStart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/labo_mission_missionStart" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_file"
+        app:layout_constraintBottom_toBottomOf="@+id/labo_mission_file"
+        app:layout_constraintEnd_toStartOf="@+id/labo_mission_file"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/labo_mission_file" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintBottom_toBottomOf="@+id/labo_mission_finish_time"
+        app:layout_constraintEnd_toStartOf="@+id/labo_mission_finish_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/labo_mission_finish_time" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_bomb"
+        app:layout_constraintBottom_toBottomOf="@+id/labo_mission_finish_text"
+        app:layout_constraintEnd_toStartOf="@+id/labo_mission_finish_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/labo_mission_finish_text" />
+
+    <TextView
+        android:id="@+id/labo_mission_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shadow_topframe"
+        android:gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:textColor="?attr/card_view_header_text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="wrap" />
+
+    <TextView
+        android:id="@+id/labo_mission_missionStart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="5dp"
+        android:text="MISSION STARTCLOCK"
+        android:textColor="@color/edug_red"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/labo_mission_name" />
+
+    <TextView
+        android:id="@+id/labo_mission_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:text="INTRO TEZT"
+        android:textColor="?attr/card_view_header_text"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/labo_mission_missionStart"
+        app:layout_constraintWidth_max="wrap" />
+
+    <TextView
+        android:id="@+id/labo_mission_file"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="FILE"
+        android:textColor="@color/edug_red"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/labo_mission_text"
+        app:layout_constraintWidth_max="wrap" />
+
+    <TextView
+        android:id="@+id/labo_mission_finish_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="5dp"
+        android:text="MISSION FINISH"
+        android:textColor="@color/edug_red"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/labo_mission_file" />
+
+
+    <TextView
+        android:id="@+id/labo_mission_finish_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/shadow_frame_missions"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="FILE"
+        android:textColor="?attr/card_view_header_text"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline02"
+        app:layout_constraintTop_toBottomOf="@+id/labo_mission_finish_time"
+        app:layout_constraintWidth_max="wrap" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.93" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
