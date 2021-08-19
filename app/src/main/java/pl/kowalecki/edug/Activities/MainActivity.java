@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e("Density",  getResources().getDisplayMetrics().density + "");
         //mQueue = Volley.newRequestQueue(this);
         spinner=(Spinner) findViewById(R.id.spinner);
         loginInputField=(TextInputLayout) findViewById(R.id.loginField);
