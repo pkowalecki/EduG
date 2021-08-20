@@ -243,8 +243,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }else{
                 sessionManagement.setNightModeState(true);
             }
-            mDrawerLayout.closeDrawer(GravityCompat.START);
             restartApp();
+            mDrawerLayout.closeDrawer(GravityCompat.START);
             bottomSheetDialogHeader.dismiss();
 
         });
@@ -536,10 +536,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     userName = findViewById(R.id.user_name);
                     userInfo = findViewById(R.id.user_info);
-
                     userData = response.body();
-
-
 
                     userAccount.setCountMission(userData.getUserAccount().getCountMission());
                     userAccount.setCountAvatar(userData.getUserAccount().getCountAvatar());

@@ -6,7 +6,6 @@
     <string name="password_hint_eng">Password</string>
     <string name="login_button_pl">Zaloguj</string>
     <string name="login_button_eng">Log in</string>
-    <string name="edugLogo">edugLogo</string>
     <string name="login_pl">LOGOWANIE</string>
     <string name="login_eng">LOGIN FORM</string>
     <string name="navbar_open_pl">OTWRÓRZ</string>
@@ -22,22 +21,54 @@
     <string name="empty_data">Brak danych do wyświetlenia</string>
 
 
-    <string name="group1">Menu Główne</string>
-    <string name="group2">Niezbędnik Agenta</string>
-    <string name="group3">Misja Specjalna</string>
-    <string name="group4">Misja Laboratoryjna</string>
-    <string name="group5">Misja Błyskawiczna</string>
-    <string name="group6">Misja Hazardowa</string>
-    <string name="group7">Misja Ostateczna</string>
-    <string name="group8">Odznaczenia</string>
-    <string name="group9">Osiągnięcia</string>
-    <string name="group10">Rankingi</string>
-    <string name="group11">Obecności</string>
-    <string name="group12">Wyloguj</string>
     <string name="wybierz_opcje">Wybierz opcję:</string>
     <string name="edug_wyloguj">Wyloguj</string>
     <string name="edug_motyw_odznak_1">Motyw odznak 1</string>
     <string name="edug_odznaki">Odznaki</string>
     <string name="edug_odznaki_get">Jak mnie zdobyć?</string>
+
+
+    <string name="edugLogo">edugLogo</string>
+    <string name="activity_main_loginpanel">loginPanel</string>
+    <string name="activity_main_loginheader">loginHeader</string>
+    <string name="activity_main_loginheaderimage">loginHeaderImage</string>
+    <string name="agent_files_cardview_file_image">file_image</string>
+    <string name="badge_background">badge_background</string>
+    <string name="badge_frame">badge_frame</string>
+    <string name="bottom_sheet_header_top_switch_bar">top_switch_bar</string>
+    <string name="bottom_header_logout_image">logout_image</string>
+    <string name="bottom_header_badges_image">badges_image</string>
+    <string name="bottom_header_mode_image">mode_image</string>
+    <string name="tryb_jasny_ciemny">Tryb jasny/ciemny</string>
+    <string name="nazwa_misji">Nazwa misji</string>
+    <string name="hash">#</string>
+    <string name="kryptonim">KRYPTONIM</string>
+    <string name="pkt">PKT</string>
+    <string name="data">DATA</string>
+    <string name="bitcoin">₿</string>
+    <string name="mission_bar">mission_bar</string>
+    <string name="mission_clock">mission_clock</string>
+    <string name="mission_question">mission_question</string>
+    <string name="fast_mission_image">fast_mission_image</string>
+    <string name="mission_chat">mission_chat</string>
+    <string name="mission_bomb">mission_bomb</string>
+    <string name="mission_startclock">MISSION STARTCLOCK</string>
+    <string name="wyslij">WYŚLIJ</string>
+    <string name="mission_finish">MISSION FINISH</string>
+    <string name="mission_file">mission_file</string>
+    <string name="odpowiedz">ODPOWIEDZ</string>
+    <string name="missionc_cardview_missions_image">missions_image</string>
+    <string name="image_arrow">image_arrow</string>
+    <string name="menu_glowne">Menu główne</string>
+    <string name="niezbednik_agenta">Niezbędnik agenta</string>
+    <string name="misja_specjalna">Misja Specjalna</string>
+    <string name="misja_laboratoryjna">Misja Laboratoryjna</string>
+    <string name="misja_b_yskawiczna">Misja Błyskawiczna</string>
+    <string name="misja_hazardowa">Misja Hazardowa</string>
+    <string name="misja_ostateczna">Misja Ostateczna</string>
+    <string name="odznaczenia">Odznaczenia</string>
+    <string name="osi_gni_cia">Osiągnięcia</string>
+    <string name="rankingi">Rankingi</string>
+    <string name="obecnosci">Obecności</string>
 
 </resources>

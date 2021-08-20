@@ -1,219 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
 
 
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/fast_mission_main_relative">
-
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="5dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/spec_misssion_panel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fast_mission_main_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="5dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/spec_misssion_panel"
+            android:contentDescription="@string/mission_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_clock"
-        app:layout_constraintBottom_toBottomOf="@+id/fast_mission_start"
-        app:layout_constraintEnd_toStartOf="@+id/guideline02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fast_mission_start" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/mission_clock"
+            android:src="@drawable/ic_clock"
+            app:layout_constraintBottom_toBottomOf="@+id/fast_mission_start"
+            app:layout_constraintEnd_toStartOf="@+id/guideline02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fast_mission_start" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_question"
-        app:layout_constraintBottom_toBottomOf="@+id/fast_mission_text"
-        app:layout_constraintEnd_toStartOf="@+id/fast_mission_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fast_mission_text" />
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/mission_question"
+            android:src="@drawable/ic_question"
+            app:layout_constraintBottom_toBottomOf="@+id/fast_mission_text"
+            app:layout_constraintEnd_toStartOf="@+id/fast_mission_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fast_mission_text" />
 
-    <ImageView
-        android:id="@+id/fast_mission_image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/fast_mission_text" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_clock"
-        app:layout_constraintBottom_toBottomOf="@+id/fast_mission_finish_time"
-        app:layout_constraintEnd_toStartOf="@+id/fast_mission_finish_time"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fast_mission_finish_time" />
-
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_chat"
-        app:layout_constraintBottom_toBottomOf="@+id/answerField"
-        app:layout_constraintEnd_toStartOf="@+id/guideline01"
-        app:layout_constraintStart_toStartOf="@id/guideline01"
-        app:layout_constraintTop_toTopOf="@+id/answerField" />
-
-    <ImageView
-        android:id="@+id/imageView0"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_bomb"
-        app:layout_constraintBottom_toBottomOf="@+id/fast_mission_finish_text"
-        app:layout_constraintEnd_toStartOf="@+id/fast_mission_finish_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fast_mission_finish_text" />
-
-    <TextView
-        android:gravity="center_horizontal"
-        android:id="@+id/fast_mission_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shadow_topframe"
-        android:textAllCaps="true"
-        android:textColor="?attr/card_view_header_text"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_max="wrap" />
-
-
-    <TextView
-        android:id="@+id/fast_mission_start"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:padding="5dp"
-        android:text="MISSION STARTCLOCK"
-        android:textColor="@color/edug_red"
-        android:textSize="23sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/fast_mission_name" />
-
-    <TextView
-        android:id="@+id/fast_mission_intro_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/shadow_frame_missions"
-        android:text="INTRO TEZT"
-        android:textColor="?attr/card_view_header_text"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/fast_mission_start"
-        app:layout_constraintWidth_max="wrap" />
-
-    <TextView
-        app:layout_constraintWidth_max="wrap"
-        android:id="@+id/fast_mission_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/shadow_frame_missions"
-        android:text="fast mission start"
-
-        android:textColor="?attr/card_view_header_text"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/fast_mission_intro_text" />
-
-    <com.google.android.material.textfield.TextInputLayout
-
-        android:id="@+id/answerField"
-        style="@style/floating_layout_style"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:theme="@style/floating_layout_style"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toStartOf="@+id/fast_mission_answer_button"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/fast_mission_image">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fast_mission_answer"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/fast_mission_image"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/fast_answer"
-            android:singleLine="true"
-            />
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/fast_mission_image"
+            android:maxWidth="300dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/fast_mission_text" />
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/mission_clock"
+            android:src="@drawable/ic_clock"
+            app:layout_constraintBottom_toBottomOf="@+id/fast_mission_finish_time"
+            app:layout_constraintEnd_toStartOf="@+id/fast_mission_finish_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fast_mission_finish_time" />
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/mission_chat"
+            android:src="@drawable/ic_chat"
+            app:layout_constraintBottom_toBottomOf="@+id/answerField"
+            app:layout_constraintEnd_toStartOf="@+id/guideline01"
+            app:layout_constraintStart_toStartOf="@id/guideline01"
+            app:layout_constraintTop_toTopOf="@+id/answerField" />
 
-    <Button
-        android:id="@+id/fast_mission_answer_button"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/rounded_corners_missions_button"
-        android:gravity="center"
-        android:text="WYŚLIJ"
-        android:textColor="?attr/card_view_header_text"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toTopOf="@+id/answerField" />
+        <ImageView
+            android:id="@+id/imageView0"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/mission_bomb"
+            android:src="@drawable/ic_bomb"
+            app:layout_constraintBottom_toBottomOf="@+id/fast_mission_finish_text"
+            app:layout_constraintEnd_toStartOf="@+id/fast_mission_finish_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fast_mission_finish_text" />
 
-    <TextView
-        android:id="@+id/fast_mission_finish_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:padding="5dp"
-        android:text="MISSION FINISH"
-        android:textColor="@color/edug_red"
-        android:textSize="23sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/answerField" />
-
-
-    <TextView
-        android:id="@+id/fast_mission_finish_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/shadow_frame_missions"
-        android:text="fast mission start"
-        android:textColor="?attr/card_view_header_text"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline02"
-        app:layout_constraintTop_toBottomOf="@+id/fast_mission_finish_time"
-        app:layout_constraintWidth_max="wrap" />
+        <TextView
+            android:id="@+id/fast_mission_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_topframe"
+            android:gravity="center_horizontal"
+            android:textAllCaps="true"
+            android:textColor="?attr/card_view_header_text"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="wrap" />
 
 
-    <androidx.constraintlayout.widget.Guideline
+        <TextView
+            android:id="@+id/fast_mission_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:padding="5dp"
+            android:text="@string/mission_startclock"
+            android:textColor="@color/edug_red"
+            android:textSize="23sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/fast_mission_name" />
+
+        <TextView
+            android:id="@+id/fast_mission_intro_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/shadow_frame_missions"
+            android:textColor="?attr/card_view_header_text"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/fast_mission_start"
+            app:layout_constraintWidth_max="wrap" />
+
+        <TextView
+            android:id="@+id/fast_mission_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/shadow_frame_missions"
+            android:textColor="?attr/card_view_header_text"
+
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/fast_mission_intro_text"
+            app:layout_constraintWidth_max="wrap" />
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:id="@+id/answerField"
+            style="@style/floating_layout_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:theme="@style/floating_layout_style"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toStartOf="@+id/fast_mission_answer_button"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/fast_mission_image">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fast_mission_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fast_answer"
+                android:singleLine="true" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/fast_mission_answer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/rounded_corners_missions_button"
+            android:gravity="center"
+            android:text="@string/wyslij"
+            android:textColor="?attr/card_view_header_text"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="@+id/answerField" />
+
+        <TextView
+            android:id="@+id/fast_mission_finish_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:padding="5dp"
+            android:text="@string/mission_finish"
+            android:textColor="@color/edug_red"
+            android:textSize="23sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/answerField" />
+
+
+        <TextView
+            android:id="@+id/fast_mission_finish_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/shadow_frame_missions"
+            android:textColor="?attr/card_view_header_text"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline02"
+            app:layout_constraintTop_toBottomOf="@+id/fast_mission_finish_time"
+            app:layout_constraintWidth_max="wrap" />
+
+
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -234,21 +234,13 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.90" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.93" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93" />
 
 
-
-
-
-
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

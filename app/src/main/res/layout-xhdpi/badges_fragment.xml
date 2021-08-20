@@ -19,9 +19,10 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/headBadgesText"
+        android:paddingBottom="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headBadgesText">
@@ -66,7 +67,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -85,12 +86,14 @@
                                 android:id="@+id/specagentBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/specagentBadgePercentage"
@@ -146,7 +149,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -166,12 +169,14 @@
                                 android:id="@+id/laborantBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/laborantBadgePercentage"
@@ -227,7 +232,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -245,12 +250,14 @@
                                 android:id="@+id/blyskawicaBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/blyskawicaBadgePercentage"
@@ -306,7 +313,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -325,12 +332,14 @@
                                 android:id="@+id/hazardzistatBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/hazardzistaBadgePercentage"
@@ -386,7 +395,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -405,12 +414,14 @@
                                 android:id="@+id/nieprawiczekBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/nieprawiczekBadgePercentage"
@@ -467,7 +478,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -486,12 +497,14 @@
                                 android:id="@+id/setnikBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/setnikBadgePercentage"
@@ -547,7 +560,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -566,12 +579,14 @@
                                 android:id="@+id/globtroterBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/globtroterBadgePercentage"
@@ -627,7 +642,7 @@
                             android:padding="5dp"
                             android:textAlignment="center"
                             android:textColor="?attr/card_view_text"
-                            android:textSize="25sp" />
+                            android:textSize="23sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -646,12 +661,14 @@
                                 android:id="@+id/personalizatorBadgeImage"
                                 android:layout_width="125dp"
                                 android:layout_height="125dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/personalizatorBadgePercentage"

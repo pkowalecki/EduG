@@ -55,7 +55,7 @@ public class BadgesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_badges, container, false);
+        View v = inflater.inflate(R.layout.badges_fragment, container, false);
         sessionManagement = new SessionManagement(getContext());
         String sGame = sessionManagement.getGame();
         String sLang = sessionManagement.getLang();

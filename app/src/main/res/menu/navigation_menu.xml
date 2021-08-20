@@ -1,76 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:showIn="navigation_view"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group
+        android:id="@+id/firstGroup"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/main_menu"
+            android:icon="@drawable/home"
+            android:title="@string/menu_glowne" />
+        <item
+            android:id="@+id/agent_start_files_item"
+            android:icon="@drawable/ic_agent_start_files"
+            android:title="@string/niezbednik_agenta"
 
+            />
 
+    </group>
 
-        <group android:id="@+id/firstGroup"
-            android:checkableBehavior="single">
-            <item
-                android:id="@+id/main_menu"
-                android:icon="@drawable/home"
-                android:title="Menu główne"/>
-            <item
-                android:id="@+id/agent_start_files_item"
-                android:icon="@drawable/ic_agent_start_files"
-                android:title="Niezbędnik agenta"
+    <group
+        android:id="@+id/secondGroup"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/spec_mission_item"
+            android:icon="@drawable/ic_spec_mission"
+            android:title="@string/misja_specjalna"
+            app:actionViewClass="android.widget.TextView" />
+        <item
+            android:id="@+id/labor_mission_item"
+            android:icon="@drawable/ic_labo_mission"
+            android:title="@string/misja_laboratoryjna"
+            app:actionViewClass="android.widget.TextView" />
+        <item
+            android:id="@+id/instant_mission_item"
+            android:icon="@drawable/ic_instant_mission"
+            android:title="@string/misja_b_yskawiczna"
+            app:actionViewClass="android.widget.TextView" />
+        <item
+            android:id="@+id/hazard_mission_item"
+            android:icon="@drawable/ic_hazard_mission"
+            android:title="@string/misja_hazardowa"
+            app:actionViewClass="android.widget.TextView" />
+        <item
+            android:id="@+id/last_mission_item"
+            android:icon="@drawable/ic_last_mission"
+            android:title="@string/misja_ostateczna"
+            app:actionViewClass="android.widget.TextView" />
+    </group>
 
-                />
-
-
-        </group>
-
-        <group android:id="@+id/secondGroup"
-            android:checkableBehavior="single">
-            <item
-                android:id="@+id/spec_mission_item"
-                android:icon="@drawable/ic_spec_mission"
-                android:title="Misja Specjalna"
-                app:actionViewClass="android.widget.TextView" />
-            <item
-                android:id="@+id/labor_mission_item"
-                android:icon="@drawable/ic_labo_mission"
-                android:title="Misja Laboratoryjna"
-                app:actionViewClass="android.widget.TextView"/>
-            <item
-                android:id="@+id/instant_mission_item"
-                android:icon="@drawable/ic_instant_mission"
-                android:title="Misja Błyskawiczna"
-                app:actionViewClass="android.widget.TextView"/>
-            <item
-                android:id="@+id/hazard_mission_item"
-                android:icon="@drawable/ic_hazard_mission"
-                android:title="Misja Hazardowa"
-                app:actionViewClass="android.widget.TextView"/>
-            <item
-                android:id="@+id/last_mission_item"
-                android:icon="@drawable/ic_last_mission"
-                android:title="Misja Ostateczna"
-                app:actionViewClass="android.widget.TextView"/>
-        </group>
-
-        <group android:id="@+id/thirdGroup"
-            android:checkableBehavior="single">
-            <item
-                android:id="@+id/badges_item"
-                android:icon="@drawable/ic_badges"
-                android:title="Odznaczenia" />
-            <item
-                android:id="@+id/achievs_item"
-                android:icon="@drawable/ic_achievs"
-                android:title="Osiągnięcia" />
-            <item
-                android:id="@+id/rankings_item"
-                android:icon="@drawable/ic_rankings"
-                android:title="Rankingi" />
-            <item
-                android:id="@+id/extra_attendances_item"
-                android:icon="@drawable/ic_obecnosci_v1"
-                android:title="Obecności" />
-        </group>
+    <group
+        android:id="@+id/thirdGroup"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/badges_item"
+            android:icon="@drawable/ic_badges"
+            android:title="@string/odznaczenia" />
+        <item
+            android:id="@+id/achievs_item"
+            android:icon="@drawable/ic_achievs"
+            android:title="@string/osi_gni_cia" />
+        <item
+            android:id="@+id/rankings_item"
+            android:icon="@drawable/ic_rankings"
+            android:title="@string/rankingi" />
+        <item
+            android:id="@+id/extra_attendances_item"
+            android:icon="@drawable/ic_obecnosci_v1"
+            android:title="@string/obecnosci" />
+    </group>
 
 
 </menu>

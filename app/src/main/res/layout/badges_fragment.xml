@@ -85,12 +85,14 @@
                                 android:id="@+id/specagentBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/specagentBadgePercentage"
@@ -166,12 +168,14 @@
                                 android:id="@+id/laborantBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/laborantBadgePercentage"
@@ -245,12 +249,14 @@
                                 android:id="@+id/blyskawicaBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/blyskawicaBadgePercentage"
@@ -325,12 +331,14 @@
                                 android:id="@+id/hazardzistatBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/hazardzistaBadgePercentage"
@@ -405,12 +413,14 @@
                                 android:id="@+id/nieprawiczekBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/nieprawiczekBadgePercentage"
@@ -486,12 +496,14 @@
                                 android:id="@+id/setnikBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/setnikBadgePercentage"
@@ -566,12 +578,14 @@
                                 android:id="@+id/globtroterBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/globtroterBadgePercentage"
@@ -646,12 +660,14 @@
                                 android:id="@+id/personalizatorBadgeImage"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:background="@drawable/badge_clip_drawable" />
+                                android:background="@drawable/badge_clip_drawable"
+                                android:contentDescription="@string/badge_background" />
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/badge_shape_rounded" />
+                                android:background="@drawable/badge_shape_rounded"
+                                android:contentDescription="@string/badge_frame" />
 
                             <TextView
                                 android:id="@+id/personalizatorBadgePercentage"

@@ -2,7 +2,6 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="20dp">
@@ -25,10 +24,10 @@
 
     <ScrollView
         android:id="@+id/scrollView3"
-        android:paddingBottom="80dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_navigation_files"
+        android:paddingBottom="80dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline1"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/top_navigation_files">
@@ -48,7 +47,6 @@
                 android:background="?attr/edug_cardView_background_header"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="kjafhkjsdhjfsd"
                 android:textColor="?attr/card_view_header_text"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +67,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/file_mission_text" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:fitsSystemWindows="true"
                 android:id="@+id/agent_files_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
                 android:scrollbars="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,18 +89,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.09"
-        />
+        app:layout_constraintGuide_percent="0.09" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.91"
-        />
-
-
-
+        app:layout_constraintGuide_percent="0.91" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

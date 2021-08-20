@@ -28,6 +28,7 @@
         android:layout_toEndOf="@id/image_gravatar"
         android:id="@+id/data_linear"
         android:paddingStart="10dp"
+        android:paddingEnd="0dp"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -53,6 +54,7 @@
     </LinearLayout>
 
     <ImageButton
+        android:contentDescription="@string/image_arrow"
         android:id="@+id/collapsible_menu_imagebutton"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@id/data_linear"

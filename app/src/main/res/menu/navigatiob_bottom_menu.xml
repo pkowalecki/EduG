@@ -1,36 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:id="@+id/missionsItem"
-        android:title="@string/misje"
-        android:icon="@drawable/missions"
         android:enabled="true"
-        />
+        android:icon="@drawable/missions"
+        android:title="@string/misje" />
     <item
         android:id="@+id/avatarsItem"
-        android:title="@string/avatary"
-        android:icon="@drawable/avatars"
         android:enabled="true"
-        />
+        android:icon="@drawable/avatars"
+        android:title="@string/avatary" />
     <item
         android:id="@+id/bitcoinsItem"
-        android:title="@string/bitcoin_y"
-        android:icon="@drawable/bitcoin"
         android:enabled="true"
-        />
+        android:icon="@drawable/bitcoin"
+        android:title="@string/bitcoin_y" />
     <item
         android:id="@+id/exacoinsItem"
-        android:title="@string/exacoin_y"
-        android:icon="@drawable/exacoins"
         android:enabled="true"
-        />
+        android:icon="@drawable/exacoins"
+        android:title="@string/exacoin_y" />
     <item
         android:id="@+id/pointsItem"
-        android:title="@string/punkty"
-        android:icon="@drawable/points"
         android:enabled="true"
-        />
-
-
+        android:icon="@drawable/points"
+        android:title="@string/punkty" />
 </menu>

@@ -1,92 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
+    android:contentDescription="@string/bottom_header_mode_image"
 
-    >
+    android:orientation="vertical">
+
     <ImageView
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:background="@drawable/bottom_sheet_rounded_bar"
         android:layout_width="100dp"
-        android:layout_height="5dp"/>
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bottom_sheet_rounded_bar"
+        android:contentDescription="@string/bottom_sheet_header_top_switch_bar" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:padding="10dp"
         android:text="@string/wybierz_opcje"
-        android:padding="10dp"
-        android:textColor="?attr/card_view_header_text"/>
+        android:textColor="?attr/card_view_header_text"
+        android:textSize="20sp" />
 
-<LinearLayout
-    android:onClick="logout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/logout_bottom_sheet"
-    android:gravity="center_vertical"
-    android:padding="10dp">
-    <ImageView
-
-        app:tint="?attr/card_view_text"
-        android:layout_marginStart="10dp"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/ic_baseline_power"/>
-    <TextView
-        android:layout_marginStart="30dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edug_wyloguj"
-        android:textSize="15sp"
-        android:textColor="?attr/card_view_text"/>
-</LinearLayout>
     <LinearLayout
-        android:padding="10dp"
+        android:id="@+id/logout_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:id="@+id/badges_style_1"
-        android:gravity="center_vertical">
+        android:padding="10dp">
+
         <ImageView
 
-            app:tint="?attr/card_view_text"
-            android:layout_marginStart="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_badges"/>
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/bottom_header_logout_image"
+            android:src="@drawable/ic_baseline_power"
+            app:tint="?attr/card_view_text" />
+
         <TextView
-            android:layout_marginStart="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edug_motyw_odznak_1"
-            android:textSize="15sp"
-            android:textColor="?attr/card_view_text"/>
+            android:layout_marginStart="30dp"
+            android:text="@string/edug_wyloguj"
+            android:textColor="?attr/card_view_text"
+            android:textSize="15sp" />
     </LinearLayout>
+
     <LinearLayout
-        android:padding="10dp"
+        android:id="@+id/badges_style_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/bottom_header_badges_image"
+            android:src="@drawable/ic_badges"
+            app:tint="?attr/card_view_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/edug_motyw_odznak_1"
+            android:textColor="?attr/card_view_text"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/app_theme"
-        android:gravity="center_vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <ImageView
             android:id="@+id/theme_image"
-            app:tint="?attr/card_view_text"
-            android:layout_marginStart="10dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/ic_baseline_mode"/>
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_baseline_mode"
+            app:tint="?attr/card_view_text" />
+
         <TextView
-            android:layout_marginStart="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tryb jasny/ciemny"
-            android:textSize="15sp"
-            android:textColor="?attr/card_view_text"/>
+            android:layout_marginStart="30dp"
+            android:text="@string/tryb_jasny_ciemny"
+            android:textColor="?attr/card_view_text"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

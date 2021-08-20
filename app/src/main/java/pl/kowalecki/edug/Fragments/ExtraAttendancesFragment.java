@@ -45,7 +45,7 @@ public class ExtraAttendancesFragment extends Fragment {
     private RecyclerView mRecycleView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    TextView textView;
+    TextView textView, emptyText;
     private static final String ARG_NUMBER = "argNumber";
     private String agentIdu;
     ConstraintLayout extraAttendancesBackground;
@@ -63,7 +63,7 @@ public class ExtraAttendancesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_extra_attendances, container, false);
         sessionManagement = new SessionManagement(getContext());
-
+        emptyText = v.findViewById(R.id.empty_data);
         extraAttendancesBackground = v.findViewById(R.id.attendances_text);
         String sGame = sessionManagement.getGame();
         if (getArguments() != null) {
@@ -98,8 +98,10 @@ public class ExtraAttendancesFragment extends Fragment {
                             textView.setText("Misje Specjalne");
                             if (attendancesLectureDate.size() == 0){
                                 mRecycleView.setVisibility(View.GONE);
+                                emptyText.setVisibility(View.VISIBLE);
                             }else{
                                 mRecycleView.setVisibility(View.VISIBLE);
+                                emptyText.setVisibility(View.GONE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new ExtraAttendancesAdapter(attendancesLectureDate);
                                 mRecycleView.setLayoutManager(mLayoutManager);
@@ -109,8 +111,10 @@ public class ExtraAttendancesFragment extends Fragment {
                         case R.id.menu_labo_attendances:
                             textView.setText("Misje Laboratoryjne ");
                             if (attendancesLaboDate.size() == 0){
+                                emptyText.setVisibility(View.VISIBLE);
                                 mRecycleView.setVisibility(View.VISIBLE);
                             }else{
+                                emptyText.setVisibility(View.GONE);
                                 mRecycleView.setVisibility(View.VISIBLE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
@@ -144,7 +148,9 @@ public class ExtraAttendancesFragment extends Fragment {
                 textView.setText("Misje Laboratoryjne ");
                 if (attendancesLaboDate.size() == 0){
                     mRecycleView.setVisibility(View.GONE);
+                    emptyText.setVisibility(View.VISIBLE);
                 }else{
+                    emptyText.setVisibility(View.GONE);
                     mRecycleView.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);

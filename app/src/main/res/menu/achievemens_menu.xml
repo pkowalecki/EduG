@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item
-            android:id="@+id/item_achievement_menu_special"
-            android:icon="@drawable/ic_spec_mission"
-            android:title=""/>
+    <item
+        android:id="@+id/item_achievement_menu_special"
+        android:icon="@drawable/ic_spec_mission"
+        android:title="" />
     <item
         android:id="@+id/item_achievement_menu_labor"
         android:icon="@drawable/ic_labo_mission"
@@ -11,9 +11,9 @@
     <item
         android:id="@+id/item_achievement_menu_instant"
         android:icon="@drawable/ic_instant_mission"
-        android:title=""/>
+        android:title="" />
     <item
         android:id="@+id/item_achievement_menu_last"
         android:icon="@drawable/ic_last_mission"
-        android:title=""/>
+        android:title="" />
 </menu>

@@ -93,6 +93,7 @@ public class FastMissionFragment extends Fragment {
             mFinishText = getArguments().getString(arg_finishText);
             mMissionNumber = getArguments().getString(arg_missionNumber);
         }
+
         answerInputField=(TextInputLayout) v.findViewById(R.id.answerField);
         mTextCodename =(TextView) v.findViewById(R.id.fast_mission_name);
         mTextCodename.setFilters(new InputFilter[]{new InputFilter.AllCaps()});

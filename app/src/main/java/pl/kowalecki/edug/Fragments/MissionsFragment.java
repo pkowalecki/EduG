@@ -124,8 +124,10 @@ public class MissionsFragment extends Fragment {
                             textView.setText("Misje Specjalne");
                             if (specActive.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
+                                emptyMissionsText.setVisibility(View.VISIBLE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
+                                emptyMissionsText.setVisibility(View.GONE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new MissionsAdapter(specActive, sessionManagement.loadNightModeState());
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -145,8 +147,10 @@ public class MissionsFragment extends Fragment {
                             textView.setText("Misje Błyskawiczne");
                             if (fastActive.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
+                                emptyMissionsText.setVisibility(View.VISIBLE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
+                                emptyMissionsText.setVisibility(View.GONE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new MissionsAdapter(fastActive, sessionManagement.loadNightModeState());
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -168,8 +172,10 @@ public class MissionsFragment extends Fragment {
                             textView.setText("Misje Laboratoryjne");
                             if (laboActive.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
+                                emptyMissionsText.setVisibility(View.VISIBLE);
                             }else {
                                 mRecyclerView.setVisibility(View.VISIBLE);
+                                emptyMissionsText.setVisibility(View.GONE);
                                 mLayoutManager = new LinearLayoutManager(getContext());
                                 mAdapter = new MissionsAdapter(laboActive, sessionManagement.loadNightModeState());
                                 mRecyclerView.setLayoutManager(mLayoutManager);
@@ -192,8 +198,10 @@ public class MissionsFragment extends Fragment {
                             textView.setText("Dostępne Misje");
                             if (allActive.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
+                                emptyMissionsText.setVisibility(View.VISIBLE);
                             }else {
                                 mLayoutManager = new LinearLayoutManager(getContext());
+                                emptyMissionsText.setVisibility(View.GONE);
                                 mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
                                 mRecyclerView.setLayoutManager(mLayoutManager);
                                 mRecyclerView.setAdapter(mAdapter);
@@ -276,8 +284,10 @@ public class MissionsFragment extends Fragment {
                 textView.setText("Dostępne Misje");
                 if (allActive.size() == 0){
                     mRecyclerView.setVisibility(View.GONE);
+                    emptyMissionsText.setVisibility(View.VISIBLE);
                 }else {
                     mLayoutManager = new LinearLayoutManager(getContext());
+                    emptyMissionsText.setVisibility(View.GONE);
                     mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setAdapter(mAdapter);
