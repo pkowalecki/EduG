@@ -2,6 +2,7 @@ package pl.kowalecki.edug.Adapters;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
     @Override
     public void onBindViewHolder(@NonNull MissionsViewHolder holder, int position) {
         String currentIdu = mListMissions.get(position);
+        Log.e("size", mListMissions.size() + "" );
         if (Integer.parseInt(currentIdu)>=100){
             holder.mMissionNameText.setText("Misja Błyskawiczna");
             holder.mMissionImage.setImageResource(R.drawable.ic_instant_mission_menu);

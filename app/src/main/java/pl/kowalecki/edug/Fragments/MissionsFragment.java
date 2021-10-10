@@ -120,6 +120,41 @@ public class MissionsFragment extends Fragment {
 
                     switch (menuItem.getItemId()) {
 
+                        case R.id.item_missions_menu_allround:
+                            textView.setText("Dostępne Misje");
+                            Log.e("size", allActive.size()+ "" );
+                            if (allActive.size() == 0){
+                                mRecyclerView.setVisibility(View.GONE);
+                                emptyMissionsText.setVisibility(View.VISIBLE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                                mLayoutManager = new LinearLayoutManager(getContext());
+                                emptyMissionsText.setVisibility(View.GONE);
+                                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
+                                mRecyclerView.setLayoutManager(mLayoutManager);
+                                mRecyclerView.setAdapter(mAdapter);
+
+                                mAdapter.setOnItemClickListener(position -> {
+                                    mMenu = "all";
+                                    if (allActiveType.get(position).equals("spec")) {
+                                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
+                                        callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
+                                    }
+                                    if (allActiveType.get(position).equals("labo")) {
+                                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                        sCrcLabo = MD5Cipher.md5(mCrc);
+                                        callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
+                                    }
+                                    if (allActiveType.get(position).equals("fast")) {
+                                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
+                                        sCrcFast = MD5Cipher.md5(mCrc);
+                                        callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
+                                    }
+                                });
+                            }
+                            break;
+
                         case R.id.item_missions_menu_special:
                             textView.setText("Misje Specjalne");
                             if (specActive.size() == 0){
@@ -132,8 +167,6 @@ public class MissionsFragment extends Fragment {
                                 mAdapter = new MissionsAdapter(specActive, sessionManagement.loadNightModeState());
                                 mRecyclerView.setLayoutManager(mLayoutManager);
                                 mRecyclerView.setAdapter(mAdapter);
-
-
                                 mAdapter.setOnItemClickListener(position -> {
                                     mMenu = "spec";
                                     String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + specActive.get(position) + sLogin + sHash;
@@ -193,39 +226,7 @@ public class MissionsFragment extends Fragment {
                             }
                             break;
 
-                        case R.id.item_missions_menu_allround:
 
-                            textView.setText("Dostępne Misje");
-                            if (allActive.size() == 0){
-                                mRecyclerView.setVisibility(View.GONE);
-                                emptyMissionsText.setVisibility(View.VISIBLE);
-                            }else {
-                                mLayoutManager = new LinearLayoutManager(getContext());
-                                emptyMissionsText.setVisibility(View.GONE);
-                                mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());
-                                mRecyclerView.setLayoutManager(mLayoutManager);
-                                mRecyclerView.setAdapter(mAdapter);
-
-                                mAdapter.setOnItemClickListener(position -> {
-                                    mMenu = "all";
-                                    if (allActiveType.get(position).equals("spec")) {
-                                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                                        callSpecMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcSpec, position, mMenu);
-                                    }
-                                    if (allActiveType.get(position).equals("labo")) {
-                                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                                        sCrcLabo = MD5Cipher.md5(mCrc);
-                                        callLaboMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
-                                    }
-                                    if (allActiveType.get(position).equals("fast")) {
-                                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allActive.get(position) + sLogin + sHash;
-                                        sCrcFast = MD5Cipher.md5(mCrc);
-                                        callFastMission(sSys, sLang, sGame, allActive.get(position), sLogin, sHash, sCrcFast, position, mMenu);
-                                    }
-                                });
-                            }
-                            break;
 
 
 
@@ -286,6 +287,7 @@ public class MissionsFragment extends Fragment {
                     mRecyclerView.setVisibility(View.GONE);
                     emptyMissionsText.setVisibility(View.VISIBLE);
                 }else {
+                    mRecyclerView.setVisibility(View.VISIBLE);
                     mLayoutManager = new LinearLayoutManager(getContext());
                     emptyMissionsText.setVisibility(View.GONE);
                     mAdapter = new MissionsAdapter(allActive, sessionManagement.loadNightModeState());

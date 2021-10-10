@@ -21,7 +21,6 @@ import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.SessionManagement;
 
 public class LaboMissionFragment  extends Fragment {
-    Uri uri;
     private static final String arg_codename = "arg_codename";
     private static final String arg_missionStart = "arg_missionStart";
     private static final String arg_missionText = "arg_missionText";
@@ -36,8 +35,6 @@ public class LaboMissionFragment  extends Fragment {
     Context context;
     String mMissionNumber;
     private String sSys, sLang, sGame, sLogin, sHash, sCrc;
-
-
 
     @Nullable
     @Override
@@ -97,4 +94,6 @@ public class LaboMissionFragment  extends Fragment {
             mTextFinishText.setBackground(ContextCompat.getDrawable(context, R.drawable.rounded_corners_missions_all));
         }
     }
+
+
 }
