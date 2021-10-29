@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -51,7 +53,6 @@ import pl.kowalecki.edug.UserService;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private TextView mTextViewResult;
     SwipeRefreshLayout swipeRefreshLayout;
    // private RequestQueue mQueue;
@@ -78,7 +79,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.edug_black));
         //mQueue = Volley.newRequestQueue(this);
         spinner=(Spinner) findViewById(R.id.spinner);
         loginInputField=(TextInputLayout) findViewById(R.id.loginField);
@@ -181,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             String url = userService.login(sys, lang, game, login, hash, crc).request().url().toString();
             Log.e(TAG,"URL DO ODPOWIEDZI " + url);
             String jsonStr = sh.makeServiceCall(url);
-
+            //TODO Change Volley usage to Retrofit
             Log.e(TAG, "Response from url: " + jsonStr);
             if(jsonStr != null){
                 try{

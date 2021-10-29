@@ -285,7 +285,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startAlarmAfter(Date entry, String notifTitle, String notifContent) {
-        //TODO: Ogarnąć, żeby przy odminimalizownaiu apki metoda "callListMission" się wykonywała
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiverAfter.class);
         intent.putExtra("NOTIF_TITLE_AFTER", notifTitle);
@@ -637,7 +636,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }catch (ParseException ignored) {
                 }
 
-
+                //TODO:Fix treeMap
                 //Stworzenie osobnej mapy do posortowania i wyciągnięcia najwcześniejszej daty.
                 TreeMap<Date, String> m1 = new TreeMap(notificationMissionsStart);
                 if (!sortData(m1).isEmpty()) {
@@ -652,7 +651,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<Missions> call, Throwable t) {
-                //TODO: Tutaj muszę coś wyświetlić
             }
         });
     }
@@ -716,7 +714,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<Missions> call, Throwable t) {
-                //TODO: Tutaj muszę coś wyświetlić
             }
         });
     }
