@@ -1,5 +1,7 @@
 package pl.kowalecki.edug.Adapters;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,61 +11,57 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import pl.kowalecki.edug.Model.Achievements.Achievements;
+import pl.kowalecki.edug.Model.Achievements.ExtraAchievement;
+import pl.kowalecki.edug.Model.Attendances.ExtraAttendance;
 import pl.kowalecki.edug.R;
 
-public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.AchievementsViewHolder> {
-    private ArrayList<String> mAchievementIdm;
-    private ArrayList<String> mAchievementCodename;
-    private ArrayList<String> mAchievementPoint;
+public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder> {
 
-    public static class AchievementsViewHolder extends RecyclerView.ViewHolder{
-        public TextView mIdm;
-        public TextView mCodename;
-        public TextView mPoints;
-
-        public AchievementsViewHolder(@NonNull View itemView){
-            super(itemView);
-
-            mIdm = itemView.findViewById(R.id.achievements_idm);
-            mCodename = itemView.findViewById(R.id.achievements_codename);
-            mPoints = itemView.findViewById(R.id.achievements_points);
-        }
-    }
-
-    public AchievementsAdapter(ArrayList<String> achievementIdm, ArrayList<String> achievementCodename, ArrayList<String> achievementPoint){
-        this.mAchievementIdm = achievementIdm;
-        this.mAchievementCodename = achievementCodename;
-        this.mAchievementPoint = achievementPoint;
-    }
+    private static final String TAG = AchievementsAdapter.class.getSimpleName();
+    private List<ExtraAchievement> achievementsArrayList = new ArrayList<>();
 
     @NonNull
     @Override
-    public AchievementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_achievements, parent, false);
-        AchievementsViewHolder evh = new AchievementsViewHolder(v);
-        return evh;
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AchievementsViewHolder holder, int position) {
-        String idm = mAchievementIdm.get(position);
-        String codename = mAchievementCodename.get(position);
-        String points = mAchievementPoint.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ExtraAchievement achievements = achievementsArrayList.get(position);
+                holder.idm.setText(achievements.getAchievements().getIdm());
+                holder.codename.setText(achievements.getAchievements().getCodename());
+                holder.points.setText(achievements.getAchievements().getPoints());
 
-
-        holder.mIdm.setText(idm);
-        holder.mCodename.setText(codename);
-        holder.mPoints.setText(points);
-    }
+        }
 
     @Override
     public int getItemCount() {
-        return mAchievementIdm.size();
+        return achievementsArrayList.size();
     }
 
+    public void setResults(List<ExtraAchievement> results){
+        this.achievementsArrayList = results;
+        notifyDataSetChanged();
+    }
 
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        private final TextView idm;
+        private final TextView codename;
+        private final TextView points;
 
+        public ViewHolder(@NonNull View itemView){
+            super(itemView);
+
+            idm = itemView.findViewById(R.id.achievements_idm);
+            codename = itemView.findViewById(R.id.achievements_codename);
+            points = itemView.findViewById(R.id.achievements_points);
+        }
+    }
 
 
 }

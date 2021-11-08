@@ -4,6 +4,8 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 @Generated("jsonschema2pojo")
 public class Achievements {
 
@@ -19,6 +21,17 @@ public class Achievements {
     @SerializedName("points")
     @Expose
     private String points;
+
+
+    public Achievements() {
+    }
+
+    public Achievements(String type, String idm, String codename, String points) {
+        this.type = type;
+        this.idm = idm;
+        this.codename = codename;
+        this.points = points;
+    }
 
     public String getType() {
         return type;
@@ -52,4 +65,13 @@ public class Achievements {
         this.points = points;
     }
 
+    @Override
+    public String toString() {
+        return "Achievements{" +
+                "type='" + type + '\'' +
+                ", idm='" + idm + '\'' +
+                ", codename='" + codename + '\'' +
+                ", points='" + points + '\'' +
+                '}';
+    }
 }

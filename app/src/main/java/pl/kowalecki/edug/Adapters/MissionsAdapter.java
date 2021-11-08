@@ -13,26 +13,78 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import pl.kowalecki.edug.Model.Files.ListFile;
+import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.R;
 
-public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.MissionsViewHolder> {
+public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.ViewHolder> {
 
-    private ArrayList<String> mListMissions;
+    private static final String TAG = MissionsAdapter.class.getSimpleName();
+    private List<ListMission> listMissions = new ArrayList<>();
     private OnItemClickListener mListener;
     private Boolean b;
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.missions_cardview, parent, false);
+        ViewHolder lvh = new ViewHolder(v, mListener);
+        return lvh;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ListMission model = listMissions.get(position);
+        if (Integer.parseInt(model.getMission().getIdm())>=100){
+            holder.mMissionNameText.setText("Misja Błyskawiczna");
+            holder.mMissionImage.setImageResource(R.drawable.ic_instant_mission_menu);
+        }
+        if (Integer.parseInt(model.getMission().getIdm())>=200){
+            holder.mMissionNameText.setText("Misja Laboratoryjna");
+            holder.mMissionImage.setImageResource(R.drawable.ic_labo_mission_menu);
+        }
+        if (Integer.parseInt(model.getMission().getIdm())>=300){
+            holder.mMissionNameText.setText("Misja Specjalna");
+            holder.mMissionImage.setImageResource(R.drawable.ic_spec_mission_menu);
+        }
+        holder.mMissionIdu.setText(model.getMission().getIdm());
+
+        if (b){
+            holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.parseColor("#bfbdc0"), PorterDuff.Mode.MULTIPLY);
+        }else{
+            holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return listMissions.size();
+    }
+
+    public void setResults(List<ListMission> results, boolean b){
+        this.listMissions = results;
+        this.b = b;
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){mListener = listener;}
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
 
-    public static class MissionsViewHolder extends RecyclerView.ViewHolder {
-        public TextView mMissionIdu;
-        public TextView mMissionNameText;
-        public ImageView mMissionImage;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public MissionsViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        private final TextView mMissionIdu;
+        private final TextView mMissionNameText;
+        private final ImageView mMissionImage;
+
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
             mMissionIdu = itemView.findViewById(R.id.mission_idu);
@@ -50,58 +102,5 @@ public class MissionsAdapter extends RecyclerView.Adapter<MissionsAdapter.Missio
         }
 
     }
-
-
-    public MissionsAdapter(ArrayList<String> listMissions, boolean b) {
-        this.mListMissions = listMissions;
-        this.b=b;
-    }
-
-    @NonNull
-    @Override
-    public MissionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.missions_cardview, parent, false);
-        MissionsViewHolder lvh = new MissionsViewHolder(v, mListener);
-        return lvh;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull MissionsViewHolder holder, int position) {
-        String currentIdu = mListMissions.get(position);
-        Log.e("size", mListMissions.size() + "" );
-        if (Integer.parseInt(currentIdu)>=100){
-            holder.mMissionNameText.setText("Misja Błyskawiczna");
-            holder.mMissionImage.setImageResource(R.drawable.ic_instant_mission_menu);
-        }
-        if (Integer.parseInt(currentIdu)>=200){
-            holder.mMissionNameText.setText("Misja Laboratoryjna");
-            holder.mMissionImage.setImageResource(R.drawable.ic_labo_mission_menu);
-        }
-        if (Integer.parseInt(currentIdu)>=300){
-            holder.mMissionNameText.setText("Misja Specjalna");
-            holder.mMissionImage.setImageResource(R.drawable.ic_spec_mission_menu);
-        }
-        holder.mMissionIdu.setText(currentIdu);
-
-        if (b){
-            holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.parseColor("#bfbdc0"), PorterDuff.Mode.MULTIPLY);
-        }else{
-
-            holder.mMissionImage.getDrawable().getCurrent().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
-        }
-
-
-
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mListMissions.size();
-    }
-
-
-
-
 }
 

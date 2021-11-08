@@ -19,4 +19,17 @@ public class ExtraAchievement {
         this.achievements = achievements;
     }
 
+    public ExtraAchievement() {
+    }
+
+    public ExtraAchievement(Achievements achievements) {
+        this.achievements = achievements;
+    }
+
+    @Override
+    public String toString() {
+        return "ExtraAchievement{" +
+                "achievements=" + achievements +
+                '}';
+    }
 }

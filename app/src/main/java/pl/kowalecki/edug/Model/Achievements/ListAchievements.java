@@ -20,4 +20,17 @@ public class ListAchievements {
         this.extraAchievements = extraAchievements;
     }
 
+    public ListAchievements() {
+    }
+
+    public ListAchievements(List<ExtraAchievement> extraAchievements) {
+        this.extraAchievements = extraAchievements;
+    }
+
+    @Override
+    public String toString() {
+        return "ListAchievements{" +
+                "extraAchievements=" + extraAchievements +
+                '}';
+    }
 }

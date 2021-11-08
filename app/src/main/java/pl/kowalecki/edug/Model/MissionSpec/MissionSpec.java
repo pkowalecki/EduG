@@ -19,4 +19,10 @@ public class MissionSpec {
         this.missionSpecModel = missionSpecModel;
     }
 
+    @Override
+    public String toString() {
+        return "MissionSpec{" +
+                "missionSpecModel=" + missionSpecModel +
+                '}';
+    }
 }

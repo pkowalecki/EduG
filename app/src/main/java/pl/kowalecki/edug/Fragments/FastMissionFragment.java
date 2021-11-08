@@ -1,10 +1,7 @@
 package pl.kowalecki.edug.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Html;
@@ -13,14 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,12 +24,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import pl.kowalecki.edug.Activities.MainActivity;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.Model.MissionFast.MissionFast;
@@ -45,7 +31,7 @@ import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
-import pl.kowalecki.edug.UserService;
+import pl.kowalecki.edug.Retrofit.ApiRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +46,7 @@ public class FastMissionFragment extends Fragment {
     private static final String arg_finishTime = "arg_finishTime";
     private static final String arg_finishText = "arg_finishText";
     private static final String arg_missionNumber = "arg_missionNumber";
-    UserService userService = ServiceGenerator.getRetrofit().create(UserService.class);
+    ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
     SessionManagement sessionManagement;
     private String mCodename, mPicture, mIntroTime, mIntroText, mMissionStart, mMissionText, mFinishTime, mFinishText;
     TextView mTextCodename, mTextIntroText, mTextMissionStart, mTextMissionText, mTextFinishTime, mTextFinishText;
@@ -151,7 +137,7 @@ public class FastMissionFragment extends Fragment {
     }
 
     private void finishMission(String sSys, String sLang, String sGame, String mMissionNumber, String answer, String sLogin, String sHash, String sCrc) {
-        Call<MissionFast> call = userService.setFastMissionData(sSys, sLang, sGame, mMissionNumber, answer , sLogin, sHash, sCrc);
+        Call<MissionFast> call = apiRequest.setFastMissionData(sSys, sLang, sGame, mMissionNumber, answer , sLogin, sHash, sCrc);
         call.enqueue(new Callback<MissionFast>() {
             @Override
             public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {

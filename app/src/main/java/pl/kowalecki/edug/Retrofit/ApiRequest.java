@@ -1,4 +1,4 @@
-package pl.kowalecki.edug;
+package pl.kowalecki.edug.Retrofit;
 
 
 import java.util.ArrayList;
@@ -17,12 +17,13 @@ import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
 import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.Model.Missions.Missions;
 import pl.kowalecki.edug.Model.User.UserData;
+import pl.kowalecki.edug.ResObj;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface UserService {
+public interface ApiRequest {
 
     @GET("user_login.php")
     Call <ResObj> login(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
@@ -62,8 +63,6 @@ public interface UserService {
 
     @GET("mission_labo.php")
     Call <MissionLabo> getLaboMissionData(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("mission") String mission, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
-
-
 
 
 }

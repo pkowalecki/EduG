@@ -3,7 +3,6 @@ package pl.kowalecki.edug.Retrofit;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import pl.kowalecki.edug.UserService;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,8 +21,6 @@ public class ServiceGenerator {
                     baseUrl(WEB_SERVICE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-
-
         }
         return retrofit;
     }

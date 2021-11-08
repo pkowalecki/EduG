@@ -19,4 +19,10 @@ public class ListMission {
         this.mission = mission;
     }
 
+    @Override
+    public String toString() {
+        return "ListMission{" +
+                "mission=" + mission +
+                '}';
+    }
 }

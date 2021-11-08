@@ -27,6 +27,7 @@ import pl.kowalecki.edug.Model.User.UserAccount;
 
 import pl.kowalecki.edug.Model.User.UserData;
 import pl.kowalecki.edug.Model.WebServiceData;
+import pl.kowalecki.edug.Retrofit.ApiRequest;
 import pl.kowalecki.edug.TestRetrofit.ServiceGenerator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayout linearLayout;
     UserAccount userAccount = new UserAccount();
     UserData userData = new UserData();
-    UserService userService;
+    ApiRequest apiRequest;
     WebServiceData webServiceData;
     String sSys, sLang, sGame, sLogin, sHash, sCrc;
     ImageBadgeView missionsToolbar, avatarsToolbar, bitcoinsToolbar, exacoinsToolbar, missionsPointsToolbar;
@@ -84,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void callService() {
-        UserService service = ServiceGenerator.getRetrofit().create(UserService.class);
+        ApiRequest service = ServiceGenerator.getRetrofit().create(ApiRequest.class);
         Call<UserData> call = service.userAccount(sSys, sLang, sGame, sLogin, sHash, sCrc);
         call.enqueue(new Callback<UserData>() {
             @Override

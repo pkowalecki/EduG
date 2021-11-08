@@ -167,4 +167,25 @@ public class MissionSpecModel {
     }
 
     public String getComment() {return comment;}
+
+    @Override
+    public String toString() {
+        return "MissionSpecModel{" +
+                "result=" + result +
+                ", codename='" + codename + '\'' +
+                ", missionStart='" + missionStart + '\'' +
+                ", introText='" + introText + '\'' +
+                ", question1='" + question1 + '\'' +
+                ", answers1=" + answers1 +
+                ", question2='" + question2 + '\'' +
+                ", answers2=" + answers2 +
+                ", question3='" + question3 + '\'' +
+                ", answers3=" + answers3 +
+                ", question4='" + question4 + '\'' +
+                ", answers4=" + answers4 +
+                ", finishTime='" + finishTime + '\'' +
+                ", finishText='" + finishText + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

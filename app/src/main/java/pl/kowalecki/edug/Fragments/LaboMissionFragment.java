@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,10 +68,8 @@ public class LaboMissionFragment  extends Fragment {
         mTextFinishTime = (TextView) v.findViewById(R.id.labo_mission_finish_time);
         mTextFinishText = (TextView) v.findViewById(R.id.labo_mission_finish_text);
 
-
         mTextCodename.setText(Html.fromHtml(mCodename, HtmlCompat.FROM_HTML_MODE_LEGACY));
-
-
+        Log.e("Labo", mCodename);
         mTextMissionStart.setText(Html.fromHtml(mMissionStart, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionText.setText(Html.fromHtml(mMissionText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionFile.setText(laboMissionName[6]);

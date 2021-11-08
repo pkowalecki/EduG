@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.AlarmManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -22,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -46,17 +43,13 @@ import pl.kowalecki.edug.Model.WebServiceData;
 import pl.kowalecki.edug.HttpHandler;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
 import pl.kowalecki.edug.R;
-import pl.kowalecki.edug.ReceiveData;
 import pl.kowalecki.edug.SessionManagement;
-import pl.kowalecki.edug.UserService;
+import pl.kowalecki.edug.Retrofit.ApiRequest;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextViewResult;
     SwipeRefreshLayout swipeRefreshLayout;
-   // private RequestQueue mQueue;
-    ArrayList<HashMap<String, String>> gamesList;
     private String TAG = MainActivity.class.getSimpleName();
     private Spinner spinner;
     private TextInputLayout loginInputField, passwordInputField;
@@ -64,16 +57,13 @@ public class MainActivity extends AppCompatActivity {
     private Button submit;
     MD5Cipher md5Cipher = new MD5Cipher();
     ArrayList<String> listOfGames = new ArrayList<>();
-    UserService userService;
+    ApiRequest apiRequest;
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Handler handler = new Handler(Looper.getMainLooper());
     WebServiceData webServiceData = new WebServiceData();
     UserLogin userLogin = new UserLogin();
-    UserAccount userAccount = new UserAccount();
     ListGames listGames = new ListGames();
     SessionManagement sessionManagement;
-    CircleImageView ivResult;
-    ReceiveData receiveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +73,14 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(this.getResources().getColor(R.color.edug_black));
-        //mQueue = Volley.newRequestQueue(this);
+
         spinner=(Spinner) findViewById(R.id.spinner);
         loginInputField=(TextInputLayout) findViewById(R.id.loginField);
         emailaddress=(TextInputEditText) findViewById(R.id.emailaddress);
         emailaddress.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this,R.drawable.ic_baseline_person_24), null);
         passwordInputField=(TextInputLayout) findViewById(R.id.passwordField);
         submit=(Button)findViewById(R.id.loginButton);
-        userService = ApiUtils.getUserService();
+        apiRequest = ApiUtils.getUserService();
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.refreshLayout);
         sessionManagement = new SessionManagement(getApplicationContext());
         getGames();
@@ -177,12 +167,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+
+
+
     private void doLogin(final String sys,final String lang,final String game,final String login,final String hash,final String crc){
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         executorService.execute(() -> {
 
             HttpHandler sh = new HttpHandler();
-            String url = userService.login(sys, lang, game, login, hash, crc).request().url().toString();
+            String url = apiRequest.login(sys, lang, game, login, hash, crc).request().url().toString();
             Log.e(TAG,"URL DO ODPOWIEDZI " + url);
             String jsonStr = sh.makeServiceCall(url);
             //TODO Change Volley usage to Retrofit

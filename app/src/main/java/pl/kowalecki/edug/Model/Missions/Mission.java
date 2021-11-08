@@ -54,4 +54,13 @@ public class Mission {
         this.stop = stop;
     }
 
+    @Override
+    public String toString() {
+        return "Mission{" +
+                "idm='" + idm + '\'' +
+                ", type='" + type + '\'' +
+                ", start='" + start + '\'' +
+                ", stop='" + stop + '\'' +
+                '}';
+    }
 }

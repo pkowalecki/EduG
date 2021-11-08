@@ -11,55 +11,56 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import pl.kowalecki.edug.Model.Achievements.ExtraAchievement;
+import pl.kowalecki.edug.Model.Attendances.ExtraAttendance;
+import pl.kowalecki.edug.Model.Leaderboards.ExtraLeaderboard;
+import pl.kowalecki.edug.Model.Leaderboards.ListLeaderboards;
 import pl.kowalecki.edug.R;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder> {
-    private ArrayList<String> mExampleIdu;
-    private ArrayList<String> mExamplePts;
+public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder> {
 
-    public static class LeaderboardViewHolder extends  RecyclerView.ViewHolder{
-
-        public TextView mLeaderboardAgentName;
-        public TextView mLeaderboardAgentPts;;
-
-        public LeaderboardViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-
-            mLeaderboardAgentName = itemView.findViewById(R.id.leaderboard_agent);
-            mLeaderboardAgentPts = itemView.findViewById(R.id.leaderboard_agent_pts);
-        }
-    }
-
-    public LeaderboardAdapter(ArrayList<String> exampleIdu, ArrayList<String> examplePts){
-        this.mExampleIdu = exampleIdu;
-        this.mExamplePts = examplePts;
-    }
+    private static final String TAG = LeaderboardAdapter.class.getSimpleName();
+    private List<ExtraLeaderboard> listLeaderboards = new ArrayList<>();
 
     @NonNull
     @Override
-    public LeaderboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_cardview, parent, false);
-        LeaderboardViewHolder lvh = new LeaderboardViewHolder(v);
-        return lvh;
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
-        String currentIdu = mExampleIdu.get(position);
-        String currentPts = mExamplePts.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ExtraLeaderboard extraLeaderboard = listLeaderboards.get(position);
 
-            holder.mLeaderboardAgentName.setText("Agent " + currentIdu);
-            holder.mLeaderboardAgentPts.setText(currentPts);
+        holder.mLeaderboardAgentName.setText("Agent " + extraLeaderboard.getPosition().getIdu());
+        holder.mLeaderboardAgentPts.setText(extraLeaderboard.getPosition().getPoints());
 
     }
 
     @Override
     public int getItemCount() {
-        return mExampleIdu.size();
+        return listLeaderboards.size();
     }
 
+    public void setResults(List<ExtraLeaderboard> results){
+        this.listLeaderboards = results;
+        notifyDataSetChanged();
+    }
 
+    public static class ViewHolder extends  RecyclerView.ViewHolder{
+
+        private final TextView mLeaderboardAgentName;
+        private final TextView mLeaderboardAgentPts;;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            mLeaderboardAgentName = itemView.findViewById(R.id.leaderboard_agent);
+            mLeaderboardAgentPts = itemView.findViewById(R.id.leaderboard_agent_pts);
+        }
+    }
 
 }

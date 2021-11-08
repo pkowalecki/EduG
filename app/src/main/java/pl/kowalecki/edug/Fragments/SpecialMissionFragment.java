@@ -39,7 +39,7 @@ import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
-import pl.kowalecki.edug.UserService;
+import pl.kowalecki.edug.Retrofit.ApiRequest;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +69,7 @@ public class SpecialMissionFragment extends Fragment {
     private ArrayList<Answers4> answers4s;
     private CheckBox q1a1,q1a2,q1a3,q1a4,q2a1,q2a2,q2a3,q2a4,q3a1,q3a2,q3a3,q3a4,q4a1,q4a2,q4a3,q4a4;
     private TextView codename, missionStart, introText, question1, question2, question3, question4, finishText, finishTime;
-    UserService userService = ServiceGenerator.getRetrofit().create(UserService.class);
+    ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
     ArrayList<String> orderedAnswers1 = new ArrayList<>();
     ArrayList<String> mixedAns1 = new ArrayList<>();
     ArrayList<String> mixedKeys1 = new ArrayList<>();
@@ -384,7 +384,7 @@ public class SpecialMissionFragment extends Fragment {
 
 
     private void finishMission(String sSys, String sLang, String sGame, String mMissionNumber, String str1, String str2, String str3, String str4, String sLogin, String sHash, String mCrc) {
-        Call<MissionSpec> call = userService.setSpecMissionData(sSys, sLang, sGame, mMissionNumber, str1, str2, str3, str4, sLogin, sHash, mCrc);
+        Call<MissionSpec> call = apiRequest.setSpecMissionData(sSys, sLang, sGame, mMissionNumber, str1, str2, str3, str4, sLogin, sHash, mCrc);
 
         call.enqueue(new Callback<MissionSpec>() {
             @Override

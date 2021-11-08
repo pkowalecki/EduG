@@ -8,15 +8,49 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.R;
 
-public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.BottomSheetViewHolder> {
+public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.ViewHolder> {
 
-    private ArrayList<String> mExampleMissionNumber;
+    private static final String TAG = BottomSheetAdapter.class.getSimpleName();
+    private List<ListMission> listMissions = new ArrayList<>();
     private String mExampleMissionType;
     private OnItemClickListener mListener;
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.bottom_sheet_cardview, parent, false);
+        return new ViewHolder(v, mListener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        ListMission model = listMissions.get(position);
+
+        holder.mMissionNumber.setText(model.getMission().getIdm());
+        holder.mMissionType.setText(mExampleMissionType);
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return listMissions.size();
+    }
+
+    public void setResults(List<ListMission> results, String mExampleMissionType){
+            this.listMissions = results;
+            this.mExampleMissionType = mExampleMissionType;
+            notifyDataSetChanged();
+    }
+
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -24,12 +58,12 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
     public void setOnItemClickListener(OnItemClickListener listener){ mListener = listener;}
 
-    public static class BottomSheetViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView mMissionNumber;
-        public TextView mMissionType;
+        private final TextView mMissionNumber;
+        private final TextView mMissionType;
 
-        public BottomSheetViewHolder(@NonNull View itemView, OnItemClickListener listener){
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener){
             super(itemView);
 
             mMissionNumber = itemView.findViewById(R.id.mission_number_bottomSheet);
@@ -47,32 +81,4 @@ public class BottomSheetAdapter extends RecyclerView.Adapter<BottomSheetAdapter.
 
     }
 
-    public BottomSheetAdapter(ArrayList<String> exampleMissionNumber,String exampleMissionType ){
-        this.mExampleMissionNumber = exampleMissionNumber;
-        this.mExampleMissionType = exampleMissionType;
-    }
-
-    @NonNull
-    @Override
-    public BottomSheetViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.bottom_sheet_cardview, parent, false);
-        BottomSheetViewHolder avh = new BottomSheetViewHolder(v, mListener);
-        return avh;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull BottomSheetViewHolder holder, int position) {
-
-        String currentMissionNumber = mExampleMissionNumber.get(position);
-        String currentMissionType = mExampleMissionType;
-
-        holder.mMissionNumber.setText(currentMissionNumber);
-        holder.mMissionType.setText(currentMissionType);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mExampleMissionNumber.size();
-    }
 }

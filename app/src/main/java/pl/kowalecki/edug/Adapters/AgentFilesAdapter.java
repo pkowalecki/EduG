@@ -15,14 +15,46 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import pl.kowalecki.edug.Model.Achievements.ExtraAchievement;
+import pl.kowalecki.edug.Model.Files.FilesList;
+import pl.kowalecki.edug.Model.Files.ListFile;
 import pl.kowalecki.edug.R;
 
-public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.AgentfileViewHolder> {
+public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.ViewHolder> {
 
-    private ArrayList<String> mExampleFilename;
-    private ArrayList<String> mExampleUrl;
+    private static final String TAG = AgentFilesAdapter.class.getSimpleName();
+    private List<ListFile> filesArrayList = new ArrayList<>();
     private OnItemClickListener mListener;
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agent_files_cardview, parent, false);
+        return new ViewHolder(v, mListener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ListFile filesList = filesArrayList.get(position);
+
+            Log.e(TAG, String.valueOf(filesArrayList.get(position)));
+
+
+        holder.mFilename.setText(filesList.getFileData().getFilemane());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return filesArrayList.size();
+    }
+
+    public void setResults(List<ListFile> results){
+        this.filesArrayList = results;
+        notifyDataSetChanged();
+    }
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -32,11 +64,11 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
         mListener = listener;
     }
 
-    public static class AgentfileViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView mFilename;
+        private final TextView mFilename;
 
-        public AgentfileViewHolder(@NonNull View itemView, OnItemClickListener listener){
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener){
             super(itemView);
 
             mFilename = itemView.findViewById(R.id.agent_filename);
@@ -51,32 +83,5 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Ag
         }
 
     }
-
-    public AgentFilesAdapter(ArrayList<String> exampleFilename, ArrayList<String> exampleUrl){
-        this.mExampleFilename = exampleFilename;
-        this.mExampleUrl = exampleUrl;
-    }
-
-    @NonNull
-    @Override
-    public AgentfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agent_files_cardview, parent, false);
-        AgentfileViewHolder avh = new AgentfileViewHolder(v, mListener);
-        return  avh;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull AgentfileViewHolder holder, int position) {
-
-        String currentFilename = mExampleFilename.get(position);
-        holder.mFilename.setText(currentFilename);
-    }
-
-    @Override
-    public int getItemCount() {
-        return mExampleFilename.size();
-    }
-
-
 
 }

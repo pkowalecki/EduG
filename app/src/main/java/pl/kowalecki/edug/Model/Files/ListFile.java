@@ -19,4 +19,10 @@ public class ListFile {
         this.fileData = fileData;
     }
 
+    @Override
+    public String toString() {
+        return "ListFile{" +
+                "fileData=" + fileData +
+                '}';
+    }
 }

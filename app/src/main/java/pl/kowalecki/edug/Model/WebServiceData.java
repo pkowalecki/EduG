@@ -16,13 +16,13 @@ import pl.kowalecki.edug.Activities.HomeActivity;
 import pl.kowalecki.edug.HttpHandler;
 import pl.kowalecki.edug.Model.User.UserAccount;
 import pl.kowalecki.edug.Model.User.UserLogin;
-import pl.kowalecki.edug.UserService;
+import pl.kowalecki.edug.Retrofit.ApiRequest;
 
 public class WebServiceData {
 
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     HomeActivity homeActivity = new HomeActivity();
-    UserService userService = ApiUtils.getUserService();
+    ApiRequest apiRequest = ApiUtils.getUserService();
     UserAccount userAccount = new UserAccount();
     UserLogin userLogin = new UserLogin();
     private String TAG = WebServiceData.class.getSimpleName();
@@ -33,7 +33,7 @@ public class WebServiceData {
             @Override
             public void run() {
                 HttpHandler sh = new HttpHandler();
-                String url = userService.userAccount(sys, lang, game, login, hash, crc).request().url().toString();
+                String url = apiRequest.userAccount(sys, lang, game, login, hash, crc).request().url().toString();
                 final String jsonStr = sh.makeServiceCall(url);
 
                 handler.post(new Runnable() {
