@@ -39,9 +39,6 @@ public class AgentFilesAdapter extends RecyclerView.Adapter<AgentFilesAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ListFile filesList = filesArrayList.get(position);
 
-            Log.e(TAG, String.valueOf(filesArrayList.get(position)));
-
-
         holder.mFilename.setText(filesList.getFileData().getFilemane());
 
     }

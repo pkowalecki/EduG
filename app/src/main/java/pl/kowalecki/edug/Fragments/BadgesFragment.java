@@ -13,22 +13,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.squareup.picasso.Picasso;
 
-import pl.kowalecki.edug.Model.Badges.Badge;
 import pl.kowalecki.edug.Model.Badges.ListBadge;
 import pl.kowalecki.edug.R;
-import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import pl.kowalecki.edug.SessionManagement;
-import pl.kowalecki.edug.Retrofit.ApiRequest;
 import pl.kowalecki.edug.ViewModel.BadgesViewModel;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class BadgesFragment extends Fragment {
 
@@ -40,8 +34,8 @@ public class BadgesFragment extends Fragment {
     TextView specBn, specPer, laboBn, laboPer, blysBn, blysPer, hazaBn, hazaPer, niepBn, niepPer, setnBn, setnPer, globBn, globPer, persBn, persPer;
     CardView specCard, laboCard, blysCard, hazaCard, niepCard, setCard, globCard, persCard;
     Button specButton, laboButton, blysButton, hazaButton, niepButton, setnButton, globButton, persButton;
-    Badge badge;
     String specDesc, laboDesc, blysDesc, hazarDesc, niepDesc, setDesc, globDesc, persDesc;
+    LifecycleOwner _lifecycleOwner;
     private String agentIdu;
     private int agentBadge;
     private BadgesViewModel badgesViewModel;
@@ -55,76 +49,79 @@ public class BadgesFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sessionManagement = new SessionManagement(getContext());
+        String sGame = sessionManagement.getGame();
+        String sLang = sessionManagement.getLang();
+        if (getArguments() != null) {
+            agentIdu = getArguments().getString(ARG_NUMBER);
+            agentBadge = getArguments().getInt(ARG_BADGE);
+        }
+
+        badgesViewModel = new ViewModelProvider(this).get(BadgesViewModel.class);
+        searchAllBadges(sLang, agentIdu, sGame, agentBadge);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.badges_fragment, container, false);
-        sessionManagement = new SessionManagement(getContext());
-        badgesViewModel = ViewModelProviders.of(this).get(BadgesViewModel.class);
-        badgesViewModel.init();
-        String sGame = sessionManagement.getGame();
-        String sLang = sessionManagement.getLang();
-        badge = new Badge();
+
+        _lifecycleOwner = getViewLifecycleOwner();
+
         specI = (ImageView) v.findViewById(R.id.specagentBadgeImage);
         specBn = (TextView) v.findViewById(R.id.specagentBadgeText);
         specPer = (TextView) v.findViewById(R.id.specagentBadgePercentage);
         specCard = (CardView) v.findViewById(R.id.specagentCardView);
         specButton = (Button) v.findViewById(R.id.specagentBadgeButton);
+
         laboI = (ImageView) v.findViewById(R.id.laborantBadgeImage);
         laboBn = (TextView) v.findViewById(R.id.laborantBadgeText);
         laboPer = (TextView) v.findViewById(R.id.laborantBadgePercentage);
         laboCard = (CardView) v.findViewById(R.id.laborantCardView);
         laboButton = (Button) v.findViewById(R.id.laborantBadgeButton);
+
         blysI = (ImageView) v.findViewById(R.id.blyskawicaBadgeImage);
         blysBn = (TextView) v.findViewById(R.id.blyskawicaBadgeText);
         blysPer = (TextView) v.findViewById(R.id.blyskawicaBadgePercentage);
         blysCard = (CardView) v.findViewById(R.id.blyskawicaCardView);
         blysButton = (Button) v.findViewById(R.id.blyskawicaBadgeButton);
+
         hazaI = (ImageView) v.findViewById(R.id.hazardzistatBadgeImage);
         hazaBn = (TextView) v.findViewById(R.id.hazardzistaBadgeText);
         hazaPer = (TextView) v.findViewById(R.id.hazardzistaBadgePercentage);
         hazaCard = (CardView) v.findViewById(R.id.hazardzistaCardView);
         hazaButton = (Button) v.findViewById(R.id.hazardzistaBadgeButton);
+
         niepI = (ImageView) v.findViewById(R.id.nieprawiczekBadgeImage);
         niepBn = (TextView) v.findViewById(R.id.nieprawiczekBadgeText);
         niepPer = (TextView) v.findViewById(R.id.nieprawiczekBadgePercentage);
         niepCard = (CardView) v.findViewById(R.id.nieprawiczekCardView);
         niepButton = (Button) v.findViewById(R.id.nieprawiczekBadgeButton);
+
         setnI = (ImageView) v.findViewById(R.id.setnikBadgeImage);
         setnBn = (TextView) v.findViewById(R.id.setnikBadgeText);
         setnPer = (TextView) v.findViewById(R.id.setnikBadgePercentage);
         setCard = (CardView) v.findViewById(R.id.setnikCardView);
         setnButton = (Button) v.findViewById(R.id.setnikBadgeButton);
+
         globI = (ImageView) v.findViewById(R.id.globtroterBadgeImage);
         globBn = (TextView) v.findViewById(R.id.globtroterBadgeText);
         globPer = (TextView) v.findViewById(R.id.globtroterBadgePercentage);
         globCard = (CardView) v.findViewById(R.id.globtroterCardView);
         globButton = (Button) v.findViewById(R.id.globtroterBadgeButton);
+
         persI = (ImageView) v.findViewById(R.id.personalizatorBadgeImage);
         persBn = (TextView) v.findViewById(R.id.personalizatorBadgeText);
         persPer = (TextView) v.findViewById(R.id.personalizatorBadgePercentage);
         persCard = (CardView) v.findViewById(R.id.personalizatorCardView);
         persButton = (Button) v.findViewById(R.id.personalizatorBadgeButton);
 
-        if (getArguments() != null) {
-            agentIdu = getArguments().getString(ARG_NUMBER);
-            agentBadge = getArguments().getInt(ARG_BADGE);
-        }
-
-        searchAllBadges(sLang, agentIdu, sGame, agentBadge);
-        receiveBadges();
-
-
-        return v;
-    }
-
-    private void searchAllBadges(String sLang, String agentIdu, String sGame, int agentBadge) {
-        badgesViewModel.getAllBadges(sLang, agentIdu, sGame);
-    }
-
-    private void receiveBadges() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        badgesViewModel.getListBadgeLiveData().observe(getViewLifecycleOwner(), new Observer<ListBadge>() {
+
+        badgesViewModel.getListBadgeLiveData().observe(_lifecycleOwner, new Observer<ListBadge>() {
             @Override
             public void onChanged(ListBadge listBadge) {
                 if (listBadge != null) {
@@ -227,65 +224,72 @@ public class BadgesFragment extends Fragment {
                                 Picasso.get().load(url + listBadge.getExtraBadges().get(i).getBadge().getFile()).into(persI);
                             }
                         }
-                        specButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(specDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        blysButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(blysDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        globButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(globDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        hazaButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(hazarDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        laboButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(laboDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        niepButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(niepDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        persButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(persDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
-                        setnButton.setOnClickListener(v -> {
-                            builder.setTitle("Jak mnie zdobyć?")
-                                    .setMessage(setDesc)
-                                    .setCancelable(true)
-                                    .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
-                            builder.show();
-                        });
                     }
-                }
+                    specButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(specDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    blysButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(blysDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    globButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(globDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    hazaButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(hazarDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    laboButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(laboDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    niepButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(niepDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    persButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(persDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                    setnButton.setOnClickListener(v -> {
+                        builder.setTitle("Jak mnie zdobyć?")
+                                .setMessage(setDesc)
+                                .setCancelable(true)
+                                .setPositiveButton("ok", (dialog, which) -> dialog.cancel());
+                        builder.show();
+                    });
+                } badgesViewModel.getListBadgeLiveData().removeObservers(_lifecycleOwner);
             }
         });
+        return v;
     }
+
+    private void searchAllBadges(String sLang, String agentIdu, String sGame, int agentBadge) {
+        badgesViewModel.getAllBadges(sLang, agentIdu, sGame);
+    }
+
+
 }

@@ -18,12 +18,10 @@ public class BadgesViewModel extends AndroidViewModel {
 
     public BadgesViewModel(@NonNull Application application) {
         super(application);
-    }
-
-    public void init(){
         badgesRepository = new BadgesRepository();
         listBadgeLiveData = badgesRepository.listBadgeLiveData();
     }
+
 
     public void getAllBadges(String sLang, String agentIdu, String sGame){
         badgesRepository.getBadges(sLang, agentIdu, sGame);
