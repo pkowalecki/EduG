@@ -4,6 +4,7 @@ package pl.kowalecki.edug.Repository;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,24 +23,21 @@ public class AgentFilesRepository {
 
     private static final String TAG = AgentFilesRepository.class.getSimpleName();
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
-    private MutableLiveData<FilesList> filesListMutableLiveData;
-    private MutableLiveData<List<ListFile>> laboFilesListMutableLiveData;
-    private MutableLiveData<List<ListFile>> specFilesListMutableLiveData;
-    private MutableLiveData<List<ListFile>> additionalFilesListMutableLiveData;
-    private List<ListFile> list1;
-    private List<ListFile> list2;
-    private List<ListFile> list3;
+
+    private MutableLiveData<List<ListFile>> specFilesListMutable;
+    private List<ListFile> laboList;
+    private List<ListFile> specList;
+    private List<ListFile> dodaList;
     private final ExecutorService executorService;
 
     public AgentFilesRepository(){
-        filesListMutableLiveData = new MutableLiveData<>();
-        laboFilesListMutableLiveData = new MutableLiveData<>();
-        specFilesListMutableLiveData = new MutableLiveData<>();
-        additionalFilesListMutableLiveData = new MutableLiveData<>();
-        list1 = new ArrayList<>();
-        list2 = new ArrayList<>();
-        list3 = new ArrayList<>();
+
         executorService = Executors.newSingleThreadExecutor();
+        specFilesListMutable = new MutableLiveData<>();
+        laboList = new ArrayList<>();
+        specList = new ArrayList<>();
+        dodaList = new ArrayList<>();
+
     }
 
     public void getAgentFiles(String idg){
@@ -48,53 +46,44 @@ public class AgentFilesRepository {
                 @Override
                 public void onResponse(Call<FilesList> call, Response<FilesList> response) {
                     if (response.body() !=null){
-                        filesListMutableLiveData.setValue(response.body());
 
-                        for (int i = 0; i<filesListMutableLiveData.getValue().getListFiles().size(); i++){
+                        for (int i = 0; i<response.body().getListFiles().size(); i++){
                             if (response.body().getListFiles().get(i).getFileData().getCategory().equals("spec")){
-                                list2.add(response.body().getListFiles().get(i));
-                                specFilesListMutableLiveData.setValue(list2);
+                                specList.add(response.body().getListFiles().get(i));
+                                specFilesListMutable.setValue(specList);
                             }
                             if (response.body().getListFiles().get(i).getFileData().getCategory().equals("labo")){
-                                list1.add(response.body().getListFiles().get(i));
-                                laboFilesListMutableLiveData.setValue(list1);
+                                laboList.add(response.body().getListFiles().get(i));
                             }
                             if (response.body().getListFiles().get(i).getFileData().getCategory().equals("doda")){
-                                list3.add(response.body().getListFiles().get(i));
-                                additionalFilesListMutableLiveData.setValue(list3);
+                                dodaList.add(response.body().getListFiles().get(i));
                             }
                         }
-                        if (specFilesListMutableLiveData.getValue() == null){
-                            specFilesListMutableLiveData.setValue(null);
-                        }
-                        if (laboFilesListMutableLiveData.getValue() == null){
-                            laboFilesListMutableLiveData.setValue(null);
-                        }
-                        if (additionalFilesListMutableLiveData.getValue() == null){
-                            additionalFilesListMutableLiveData.setValue(null);
-                        }
+
                     }
                 }
 
                 @Override
                 public void onFailure(Call<FilesList> call, Throwable t) {
-                    filesListMutableLiveData.setValue(null);
+
                 }
             });
         });
     }
 
-    public LiveData<FilesList> getFilesResponseLiveData(){
-        return filesListMutableLiveData;
+    public MutableLiveData<List<ListFile>> getSpecFilesListMutable() {
+        return specFilesListMutable;
     }
 
-    public LiveData<List<ListFile>> getLaboFilesResponseLiveData(){
-        return  laboFilesListMutableLiveData;
+    public List<ListFile> getLaboList() {
+        return laboList;
     }
-    public LiveData<List<ListFile>> getSpecFilesResponseLiveData(){
-        return  specFilesListMutableLiveData;
+
+    public List<ListFile> getSpecList() {
+        return specList;
     }
-    public LiveData<List<ListFile>> getAdditionalFilesResponseLiveData(){
-        return  additionalFilesListMutableLiveData;
+
+    public List<ListFile> getDodaList() {
+        return dodaList;
     }
 }

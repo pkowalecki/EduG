@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,10 +35,14 @@ public class AchievementsFragment extends Fragment {
     private AchievementsViewModel achievementsViewModel;
     private AchievementsAdapter achievementsAdapter;
     private RecyclerView recyclerView;
-    TextView textView, emptyAchievs;
+
+    private TextView textView;
+    private TextView emptyAchievsText;
+
     private static final String ARG_NUMBER = "argNumber";
     SessionManagement sessionManagement;
     ConstraintLayout constraintLayout;
+    LifecycleOwner _lifecycleOwner;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -44,77 +50,23 @@ public class AchievementsFragment extends Fragment {
         public boolean onNavigationItemSelected(MenuItem menuItem) {
             switch(menuItem.getItemId()){
                 case R.id.item_achievement_menu_special:
-                    textView.setText("Misja Specjalna");
-                    achievementsViewModel.getSpecAchievementsLiveData().observe(getViewLifecycleOwner(), new Observer<List<ExtraAchievement>>() {
-                        @Override
-                        public void onChanged(List<ExtraAchievement> specListAchievements) {
-                            if (specListAchievements != null){
-                                achievementsAdapter.setResults(specListAchievements);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                emptyAchievs.setVisibility(View.GONE);
-                            }else{
-                                recyclerView.setVisibility(View.GONE);
-                                emptyAchievs.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+                    initMenuView("Misja Specjalna", achievementsViewModel.getSpecAchievementsList());
                     break;
 
                 case R.id.item_achievement_menu_labor:
-                    textView.setText("Misja Laboratoryjna");
-                        achievementsViewModel.getLaboAchievementsLiveData().observe(getViewLifecycleOwner(), new Observer<List<ExtraAchievement>>() {
-                            @Override
-                            public void onChanged(List<ExtraAchievement> laboListAchievements) {
-                                if (laboListAchievements != null){
-                                    achievementsAdapter.setResults(laboListAchievements);
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                    emptyAchievs.setVisibility(View.GONE);
-                                }else{
-                                    recyclerView.setVisibility(View.GONE);
-                                    emptyAchievs.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        });
+                    initMenuView("Misja Laboratoryjna", achievementsViewModel.getLaboAchievementsList());
                     break;
-
 
                 case R.id.item_achievement_menu_instant:
-                    textView.setText("Misja Błyskawiczna");
-                    achievementsViewModel.getFastAchievementsLiveData().observe(getViewLifecycleOwner(), new Observer<List<ExtraAchievement>>() {
-                        @Override
-                        public void onChanged(List<ExtraAchievement> fastListAchievements) {
-                            if (fastListAchievements != null){
-                                achievementsAdapter.setResults(fastListAchievements);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                emptyAchievs.setVisibility(View.GONE);
-                            }else{
-                                recyclerView.setVisibility(View.GONE);
-                                emptyAchievs.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+                    initMenuView("Misja Błyskawiczna", achievementsViewModel.getFastAchievementsList());
                     break;
+
                 case R.id.item_achievement_menu_last:
-                    textView.setText("Misja Ostateczna");
-                    achievementsViewModel.getLastAchievementsLiveData().observe(getViewLifecycleOwner(), new Observer<List<ExtraAchievement>>() {
-                        @Override
-                        public void onChanged(List<ExtraAchievement> lastListAchievements) {
-                            if (lastListAchievements != null){
-                                achievementsAdapter.setResults(lastListAchievements);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                emptyAchievs.setVisibility(View.GONE);
-                            }else{
-                                recyclerView.setVisibility(View.GONE);
-                                emptyAchievs.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+                    initMenuView("Misja Ostateczna", achievementsViewModel.getLastAchievementsList());
                     break;
 
             }return true;
         }};
-
-
 
 
     public static AchievementsFragment newInstance(String number) {
@@ -125,50 +77,68 @@ public class AchievementsFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        achievementsViewModel = new ViewModelProvider(this).get(AchievementsViewModel.class);
+        sessionManagement = new SessionManagement(getContext());
+        if (getArguments() != null) {
+            agentIdu = getArguments().getString(ARG_NUMBER);
+        }
+        String sGame = sessionManagement.getGame();
+        searchAchievs(sGame, agentIdu);
+
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_achievements, container, false);
-        achievementsAdapter = new AchievementsAdapter();
-        BottomNavigationView bottomNavigationView = v.findViewById(R.id.fragment_topbar_achievements);
-        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+
+        _lifecycleOwner = getViewLifecycleOwner();
         constraintLayout = v.findViewById(R.id.fragment_achievs_constraint);
-        emptyAchievs = v.findViewById(R.id.empty_achievements_text);
+        emptyAchievsText = v.findViewById(R.id.empty_achievements_text);
         textView = (TextView) v.findViewById(R.id.achievement_group_text);
-        sessionManagement = new SessionManagement(getContext());
-        String sGame = sessionManagement.getGame();
-        if (getArguments() != null) {
-            agentIdu = getArguments().getString(ARG_NUMBER);
-        }
+
         recyclerView = v.findViewById(R.id.achievements_recyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(achievementsAdapter);
 
-        textView.setText("Misja Specjalna");
-        achievementsViewModel = ViewModelProviders.of(this).get(AchievementsViewModel.class);
-        achievementsViewModel.init();
-        achievementsViewModel.getSpecAchievementsLiveData().observe(getViewLifecycleOwner(), new Observer<List<ExtraAchievement>>() {
+        BottomNavigationView bottomNavigationView = v.findViewById(R.id.fragment_topbar_achievements);
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.item_achievement_menu_special);
+
+        achievementsViewModel.getSpecAchievementListLiveData().observe(_lifecycleOwner, new Observer<List<ExtraAchievement>>() {
             @Override
-            public void onChanged(List<ExtraAchievement> listAchievements) {
-                if (listAchievements != null){
-                    achievementsAdapter.setResults(listAchievements);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyAchievs.setVisibility(View.GONE);
-                }else{
-                    recyclerView.setVisibility(View.GONE);
-                    emptyAchievs.setVisibility(View.VISIBLE);
+            public void onChanged(List<ExtraAchievement> achievements) {
+                if (achievements != null){
+                    initMenuView("Misja Specjalna", achievements);
                 }
+                achievementsViewModel.getSpecAchievementListLiveData().removeObservers(_lifecycleOwner);
             }
         });
-        searchAchievs(sGame, agentIdu);
+
         checkMode();
+
         return v;
     }
 
     private void searchAchievs(String sGame, String agentIdu) {
         achievementsViewModel.getAchievements(sGame, agentIdu);
+    }
+
+    private void initMenuView(String achievementType, List<ExtraAchievement> achievements) {
+        textView.setText(achievementType);
+        if (achievements.size() != 0){
+            achievementsAdapter = new AchievementsAdapter();
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(achievementsAdapter);
+            achievementsAdapter.setResults(achievements);
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyAchievsText.setVisibility(View.GONE);
+        }else{
+            recyclerView.setVisibility(View.GONE);
+            emptyAchievsText.setVisibility(View.VISIBLE);
+        }
     }
 
 

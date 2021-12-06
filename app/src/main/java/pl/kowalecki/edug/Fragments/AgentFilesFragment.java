@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,9 +47,12 @@ public class AgentFilesFragment extends Fragment {
     private AgentFilesViewModel agentFilesViewModel;
     private AgentFilesAdapter agentFilesAdapter;
     private RecyclerView recyclerView;
-    TextView textView, emptyFiles;
+    TextView textView;
+    TextView emptyFilesText;
     SessionManagement sessionManagement;
     ConstraintLayout constraintLayoutBackground;
+
+    LifecycleOwner _lifecycleOwner;
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,13 +60,13 @@ public class AgentFilesFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch(menuItem.getItemId()){
                         case R.id.labo_mission_item_topbar:
-                            initAdapter("Niezbędnik Agenta Laboratoryjnego", agentFilesViewModel.getLaboFilesLiveData());
+                            initAdapter("Niezbędnik Agenta Laboratoryjnego", agentFilesViewModel.getLaboFiles());
                             break;
                         case R.id.spec_mission_item_topbar:
-                            initAdapter("Niezbędnik Agenta Specjalnego", agentFilesViewModel.getSpecFilesLiveData());
+                            initAdapter("Niezbędnik Agenta Specjalnego", agentFilesViewModel.getSpecFiles());
                             break;
                         case R.id.other_mission_item_topbar:
-                            initAdapter("Materiały dodatkowe", agentFilesViewModel.getAdditionalFilesLiveData());
+                            initAdapter("Materiały dodatkowe", agentFilesViewModel.getAdditionalFiles());
                             break;
 
                     }
@@ -69,30 +74,36 @@ public class AgentFilesFragment extends Fragment {
                 }
             };
 
-    private void initAdapter(String text, LiveData liveData) {
+    private void initAdapter(String text, List<ListFile> files) {
         textView.setText(text);
-            liveData.observe(getViewLifecycleOwner(), new Observer<List<ListFile>>() {
-                @Override
-                public void onChanged(List<ListFile> listFiles) {
-                        if (listFiles != null){
+                        if (files.size() != 0){
                             agentFilesAdapter = new AgentFilesAdapter();
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             recyclerView.setAdapter(agentFilesAdapter);
-                            agentFilesAdapter.setResults(listFiles);
+                            agentFilesAdapter.setResults(files);
                             recyclerView.setVisibility(View.VISIBLE);
-                            emptyFiles.setVisibility(View.GONE);
+                            emptyFilesText.setVisibility(View.GONE);
                             agentFilesAdapter.setOnItemClickListener(position3 -> {
-                                Uri uri = Uri.parse(listFiles.get(position3).getFileData().getLocation());
+                                Uri uri = Uri.parse(files.get(position3).getFileData().getLocation());
                                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                                 startActivity(intent);
                             });
                         }else{
                             recyclerView.setVisibility(View.GONE);
-                            emptyFiles.setVisibility(View.VISIBLE);
+                            emptyFilesText.setVisibility(View.VISIBLE);
                         }
                     }
-                });
 
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        agentFilesViewModel = new ViewModelProvider(this).get(AgentFilesViewModel.class);
+        agentFilesViewModel.init();
+        sessionManagement = new SessionManagement(getContext());
+        String sGame = sessionManagement.getGame();
+        searchAgentFiles(sGame);
 
     }
 
@@ -100,21 +111,31 @@ public class AgentFilesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_agent_files, container, false);
-        BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_files);
-        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+
+        _lifecycleOwner = getViewLifecycleOwner();
         constraintLayoutBackground = v.findViewById(R.id.files_text);
-        emptyFiles = v.findViewById(R.id.empty_files_text);
-        sessionManagement = new SessionManagement(getContext());
+        emptyFilesText = v.findViewById(R.id.empty_files_text);
         textView = (TextView) v.findViewById(R.id.file_mission_text);
-        String sGame = sessionManagement.getGame();
+
         recyclerView= v.findViewById(R.id.agent_files_recyclerView);
         recyclerView.setHasFixedSize(true);
-        agentFilesViewModel = ViewModelProviders.of(this).get(AgentFilesViewModel.class);
-        agentFilesViewModel.init();
-        initAdapter("Niezbędnik Agenta Laboratoryjnego", agentFilesViewModel.getLaboFilesLiveData());
-        searchAgentFiles(sGame);
-        checkMode();
 
+        BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_files);
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.spec_mission_item);
+
+        agentFilesViewModel.getFilesListLiveData().observe(_lifecycleOwner, new Observer<List<ListFile>>() {
+                    @Override
+                    public void onChanged(List<ListFile> listFiles) {
+                        if (listFiles !=null){
+                            initAdapter("Niezbędnik Agenta Laboratoryjnego", listFiles);
+                            agentFilesViewModel.getFilesListLiveData().removeObservers(_lifecycleOwner);
+                        }
+
+                    }
+                });
+
+                checkMode();
         return v;
     }
 

@@ -19,41 +19,45 @@ import pl.kowalecki.edug.Repository.AgentFilesRepository;
 public class AgentFilesViewModel extends AndroidViewModel {
 
     private AgentFilesRepository agentFilesRepository;
-    private LiveData<FilesList> agentFilesLiveData;
-    private LiveData<List<ListFile>> specFilesLiveData;
-    private LiveData<List<ListFile>> laboFilesLiveData;
-    private LiveData<List<ListFile>> additionalFilesLiveData;
+
+    private LiveData<List<ListFile>> filesListLiveData;
+
+    private List<ListFile> specFiles;
+    private List<ListFile> laboFiles;
+    private List<ListFile> additionalFiles;
 
 
     public AgentFilesViewModel(@NonNull Application application) {
         super(application);
+
+        agentFilesRepository = new AgentFilesRepository();
+        filesListLiveData = agentFilesRepository.getSpecFilesListMutable();
+        specFiles = agentFilesRepository.getSpecList();
+        laboFiles = agentFilesRepository.getLaboList();
+        additionalFiles = agentFilesRepository.getDodaList();
     }
 
     public void init(){
-        agentFilesRepository = new AgentFilesRepository();
-        agentFilesLiveData = agentFilesRepository.getFilesResponseLiveData();
-        specFilesLiveData = agentFilesRepository.getSpecFilesResponseLiveData();
-        laboFilesLiveData = agentFilesRepository.getLaboFilesResponseLiveData();
-        additionalFilesLiveData = agentFilesRepository.getAdditionalFilesResponseLiveData();
+
     }
 
     public void getFiles(String sGame){
             agentFilesRepository.getAgentFiles(sGame);
     }
 
-    public LiveData<FilesList> getAgentFilesLiveData(){
-        return agentFilesLiveData;
+    public LiveData<List<ListFile>> getFilesListLiveData() {
+        return filesListLiveData;
     }
 
-    public LiveData<List<ListFile>> getSpecFilesLiveData() {
-        return specFilesLiveData;
+    public List<ListFile> getSpecFiles() {
+        return specFiles;
     }
 
-    public LiveData<List<ListFile>> getLaboFilesLiveData() {
-        return laboFilesLiveData;
+    public List<ListFile> getLaboFiles() {
+        return laboFiles;
     }
 
-    public LiveData<List<ListFile>> getAdditionalFilesLiveData() {
-        return additionalFilesLiveData;
+    public List<ListFile> getAdditionalFiles() {
+        return additionalFiles;
     }
 }

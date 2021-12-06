@@ -24,28 +24,23 @@ public class AchievementsRepository {
 
     private static final String TAG = AchievementsRepository.class.getSimpleName();
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
-    private MutableLiveData<ListAchievements> achievementsResponseMutableLiveData;
-    private MutableLiveData<List<ExtraAchievement>> specAchievementsResponseMutableLiveData;
-    private MutableLiveData<List<ExtraAchievement>> laboAchievementsResponseMutableLiveData;
-    private MutableLiveData<List<ExtraAchievement>> fastAchievementsResponseMutableLiveData;
-    private MutableLiveData<List<ExtraAchievement>> lastAchievementsResponseMutableLiveData;
-    private List<ExtraAchievement> list1;
-    private List<ExtraAchievement> list2;
-    private List<ExtraAchievement> list3;
-    private List<ExtraAchievement> list4;
+
+    private MutableLiveData<List<ExtraAchievement>> specListMutable;
+    private List<ExtraAchievement> specList;
+    private List<ExtraAchievement> laboList;
+    private List<ExtraAchievement> fastList;
+    private List<ExtraAchievement> lastList;
     private final ExecutorService executorService;
 
     public AchievementsRepository(){
-            list1 = new ArrayList<>();
-            list2 = new ArrayList<>();
-            list3 = new ArrayList<>();
-            list4 = new ArrayList<>();
-            achievementsResponseMutableLiveData = new MutableLiveData<>();
-            specAchievementsResponseMutableLiveData = new MutableLiveData<>();
-            laboAchievementsResponseMutableLiveData = new MutableLiveData<>();
-            fastAchievementsResponseMutableLiveData = new MutableLiveData<>();
-            lastAchievementsResponseMutableLiveData = new MutableLiveData<>();
-            executorService = Executors.newSingleThreadExecutor();
+        executorService = Executors.newSingleThreadExecutor();
+
+        specListMutable = new MutableLiveData<>();
+
+        specList = new ArrayList<>();
+        laboList = new ArrayList<>();
+        fastList = new ArrayList<>();
+        lastList = new ArrayList<>();
     }
 
     public void getAchievements(String idg, String idu){
@@ -55,68 +50,51 @@ public class AchievementsRepository {
                     @Override
                     public void onResponse(Call<ListAchievements> call, Response<ListAchievements> response) {
                         if (response.body()!=null){
-                            achievementsResponseMutableLiveData.setValue(response.body());
 
-                            for (int i = 0 ; i<achievementsResponseMutableLiveData.getValue().getExtraAchievements().size(); i++){
+                            for (int i = 0 ; i<response.body().getExtraAchievements().size(); i++){
                                 if (response.body().getExtraAchievements().get(i).getAchievements().getType().equals("spec")){
-                                    list1.add(response.body().getExtraAchievements().get(i));
-                                    specAchievementsResponseMutableLiveData.setValue(list1);
+                                    specList.add(response.body().getExtraAchievements().get(i));
+                                    specListMutable.setValue(specList);
                                 }
                                 if (response.body().getExtraAchievements().get(i).getAchievements().getType().equals("labo")){
-                                    list2.add(response.body().getExtraAchievements().get(i));
-                                    laboAchievementsResponseMutableLiveData.setValue(list2);
+                                    laboList.add(response.body().getExtraAchievements().get(i));
                                 }
                                 if (response.body().getExtraAchievements().get(i).getAchievements().getType().equals("fast")){
-                                    list3.add(response.body().getExtraAchievements().get(i));
-                                    fastAchievementsResponseMutableLiveData.setValue(list3);
+                                    fastList.add(response.body().getExtraAchievements().get(i));
                                 }
                                 if (response.body().getExtraAchievements().get(i).getAchievements().getType().equals("last")){
-                                    list4.add(response.body().getExtraAchievements().get(i));
-                                    lastAchievementsResponseMutableLiveData.setValue(list4);
+                                    lastList.add(response.body().getExtraAchievements().get(i));
                                 }
                             }
-                            if (specAchievementsResponseMutableLiveData.getValue() == null){
-                                specAchievementsResponseMutableLiveData.setValue(null);
-                            }
 
-                            if (laboAchievementsResponseMutableLiveData.getValue() == null){
-                                laboAchievementsResponseMutableLiveData.setValue(null);
-                            }
-                            if (fastAchievementsResponseMutableLiveData.getValue() == null){
-                                fastAchievementsResponseMutableLiveData.setValue(null);
-                            }
-                            if (specAchievementsResponseMutableLiveData.getValue() == null){
-                                specAchievementsResponseMutableLiveData.setValue(null);
-                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ListAchievements> call, Throwable t) {
-                        achievementsResponseMutableLiveData.setValue(null);
+
                     }
                 }));
 
     }
 
-    public LiveData<ListAchievements> getAchievementsResponseLiveData(){
-        return achievementsResponseMutableLiveData;
-
-    }
-    public LiveData<List<ExtraAchievement>> getSpecAchievementsResponseLiveData(){
-        return specAchievementsResponseMutableLiveData;
-
-    }
-    public LiveData<List<ExtraAchievement>> getLaboAchievementsResponseLiveData(){
-        return laboAchievementsResponseMutableLiveData;
-
-    }
-    public LiveData<List<ExtraAchievement>> getFastAchievementsResponseLiveData(){
-        return fastAchievementsResponseMutableLiveData;
-
-    }
-    public LiveData<List<ExtraAchievement>> getLastAchievementsResponseLiveData(){
-        return lastAchievementsResponseMutableLiveData;
+    public MutableLiveData<List<ExtraAchievement>> getSpecListMutable() {
+        return specListMutable;
     }
 
+    public List<ExtraAchievement> getFastList() {
+        return fastList;
+    }
+
+    public List<ExtraAchievement> getSpecList() {
+        return specList;
+    }
+
+    public List<ExtraAchievement> getLaboList() {
+        return laboList;
+    }
+
+    public List<ExtraAchievement> getLastList() {
+        return lastList;
+    }
 }

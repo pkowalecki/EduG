@@ -1,10 +1,12 @@
 package pl.kowalecki.edug.ViewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -13,47 +15,50 @@ import pl.kowalecki.edug.Model.Leaderboards.ListLeaderboards;
 import pl.kowalecki.edug.Repository.LeaderboardsRepository;
 
 public class LeaderboardsViewModel extends AndroidViewModel {
+    private static final String TAG = LeaderboardsViewModel.class.getSimpleName();
     private LeaderboardsRepository leaderboardsRepository;
-    private LiveData<ListLeaderboards> listLeaderboardsLiveData;
-    private LiveData<List<ExtraLeaderboard>> specLeaderboardsLiveData;
-    private LiveData<List<ExtraLeaderboard>> laboLeaderboardsLiveData;
-    private LiveData<List<ExtraLeaderboard>> fastLeaderboardsLiveData;
-    private LiveData<List<ExtraLeaderboard>> allLeaderboardsLiveData;
+    private List<ExtraLeaderboard> specLeaderboards;
+    private LiveData<List<ExtraLeaderboard>> specLeaderboardsMutable;
+    private List<ExtraLeaderboard> laboLeaderboards;
+    private List<ExtraLeaderboard> fastLeaderboards;
+    private List<ExtraLeaderboard> topLeaderboards;
+
+
 
     public LeaderboardsViewModel(@NonNull Application application) {
         super(application);
-    }
-
-    public void init(){
         leaderboardsRepository = new LeaderboardsRepository();
-        listLeaderboardsLiveData = leaderboardsRepository.listLeaderboardsLiveData();
-        specLeaderboardsLiveData = leaderboardsRepository.specListLeaderboardsLiveData();
-        laboLeaderboardsLiveData = leaderboardsRepository.laboListLeaderboardsLiveData();
-        fastLeaderboardsLiveData = leaderboardsRepository.fastListLeaderboardsLiveData();
-        allLeaderboardsLiveData = leaderboardsRepository.allListLeaderboardsLiveData();
+        specLeaderboardsMutable = leaderboardsRepository.getSpecListMutable();
+        specLeaderboards = leaderboardsRepository.getSpecList();
+        laboLeaderboards = leaderboardsRepository.getLaboList();
+        fastLeaderboards = leaderboardsRepository.getFastList();
+        topLeaderboards = leaderboardsRepository.getTopList();
+
     }
 
     public void getAllLeaderboards(String sGame){
         leaderboardsRepository.getLeaderboards(sGame);
     }
 
-    public LiveData<ListLeaderboards> getListLeaderboardsLiveData(){
-        return listLeaderboardsLiveData;
+
+    public LiveData<List<ExtraLeaderboard>> getSpecLeaderboardsMutable() {
+        return specLeaderboardsMutable;
     }
 
-    public LiveData<List<ExtraLeaderboard>> getSpecLeaderboardsLiveData(){
-        return specLeaderboardsLiveData;
+    public List<ExtraLeaderboard> getSpecLeaderboards() {
+        return specLeaderboards;
     }
 
-    public LiveData<List<ExtraLeaderboard>> getLaboLeaderboardsLiveData() {
-        return laboLeaderboardsLiveData;
+    public List<ExtraLeaderboard> getLaboLeaderboards() {
+        return laboLeaderboards;
     }
 
-    public LiveData<List<ExtraLeaderboard>> getFastLeaderboardsLiveData() {
-        return fastLeaderboardsLiveData;
+    public List<ExtraLeaderboard> getFastLeaderboards() {
+        return fastLeaderboards;
     }
 
-    public LiveData<List<ExtraLeaderboard>> getAllLeaderboardsLiveData() {
-        return allLeaderboardsLiveData;
+    public List<ExtraLeaderboard> getTopLeaderboards() {
+        return topLeaderboards;
     }
+
 }

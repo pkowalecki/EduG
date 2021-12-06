@@ -16,49 +16,49 @@ import pl.kowalecki.edug.Repository.AchievementsRepository;
 public class AchievementsViewModel extends AndroidViewModel {
 
     private AchievementsRepository achievementsRepository;
-    private LiveData<ListAchievements> achievementsLiveData;
-    private LiveData<List<ExtraAchievement>> specAchievementsLiveData;
-    private LiveData<List<ExtraAchievement>> lastAchievementsLiveData;
-    private LiveData<List<ExtraAchievement>> fastAchievementsLiveData;
-    private LiveData<List<ExtraAchievement>> laboAchievementsLiveData;
+
+    private LiveData<List<ExtraAchievement>> specAchievementListLiveData;
+
+    private List<ExtraAchievement> specAchievementsList;
+    private List<ExtraAchievement> lastAchievementsList;
+    private List<ExtraAchievement> fastAchievementsList;
+    private List<ExtraAchievement> laboAchievementsList;
 
     public AchievementsViewModel(@NonNull Application application) {
         super(application);
+        achievementsRepository = new AchievementsRepository();
+
+        specAchievementListLiveData = achievementsRepository.getSpecListMutable();
+
+        specAchievementsList = achievementsRepository.getSpecList();
+        lastAchievementsList = achievementsRepository.getLastList();
+        fastAchievementsList = achievementsRepository.getFastList();
+        laboAchievementsList = achievementsRepository.getLaboList();
     }
 
-    public void init() {
-        achievementsRepository = new AchievementsRepository();
-        achievementsLiveData = achievementsRepository.getAchievementsResponseLiveData();
-        specAchievementsLiveData = achievementsRepository.getSpecAchievementsResponseLiveData();
-        lastAchievementsLiveData = achievementsRepository.getLastAchievementsResponseLiveData();
-        fastAchievementsLiveData = achievementsRepository.getFastAchievementsResponseLiveData();
-        laboAchievementsLiveData = achievementsRepository.getLaboAchievementsResponseLiveData();
-    }
 
     public void getAchievements(String idg, String idu) {
         achievementsRepository.getAchievements(idg, idu);
     }
 
-    public LiveData<ListAchievements> getAchievementsLiveData() {
-        return achievementsLiveData;
-
+    public LiveData<List<ExtraAchievement>> getSpecAchievementListLiveData() {
+        return specAchievementListLiveData;
     }
 
-    public LiveData<List<ExtraAchievement>> getSpecAchievementsLiveData() {
-        return specAchievementsLiveData;
+    public List<ExtraAchievement> getSpecAchievementsList() {
+        return specAchievementsList;
     }
 
-    public LiveData<List<ExtraAchievement>> getLaboAchievementsLiveData() {
-        return laboAchievementsLiveData;
+    public List<ExtraAchievement> getLastAchievementsList() {
+        return lastAchievementsList;
     }
 
-    public LiveData<List<ExtraAchievement>> getFastAchievementsLiveData() {
-        return fastAchievementsLiveData;
-
-    }
-    public LiveData<List<ExtraAchievement>> getLastAchievementsLiveData() {
-        return lastAchievementsLiveData;
+    public List<ExtraAchievement> getFastAchievementsList() {
+        return fastAchievementsList;
     }
 
+    public List<ExtraAchievement> getLaboAchievementsList() {
+        return laboAchievementsList;
+    }
 
 }
