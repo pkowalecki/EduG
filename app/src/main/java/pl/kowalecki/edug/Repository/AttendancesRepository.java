@@ -1,6 +1,5 @@
 package pl.kowalecki.edug.Repository;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
@@ -19,55 +18,44 @@ import retrofit2.Response;
 public class AttendancesRepository {
 
     public static final String TAG = AttendancesRepository.class.getSimpleName();
-    ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
-    public MutableLiveData<ListAttendances> attendancesMutableLiveData;
-    public MutableLiveData<List<ExtraAttendance>> laboAttendancesMutableLiveData;
-    public MutableLiveData<List<ExtraAttendance>> specAttendancesMutableLiveData;
-    List<ExtraAttendance> list1;
-    List<ExtraAttendance> list2;
     private final ExecutorService executorService;
+    public MutableLiveData<List<ExtraAttendance>> laboAttendancesMutableLiveData;
+    public List<ExtraAttendance> laboAttendancesList;
+    public List<ExtraAttendance> specAttendancesList;
+    ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
 
-    public AttendancesRepository(){
-        attendancesMutableLiveData = new MutableLiveData<>();
+    public AttendancesRepository() {
         laboAttendancesMutableLiveData = new MutableLiveData<>();
-        specAttendancesMutableLiveData = new MutableLiveData<>();
-        list1 = new ArrayList<>();
-        list2 = new ArrayList<>();
+        laboAttendancesList = new ArrayList<>();
+        specAttendancesList = new ArrayList<>();
         executorService = Executors.newSingleThreadExecutor();
     }
 
-    public void getAttendances(String idg, String idu){
+    public void getAttendances(String idg, String idu) {
         executorService.execute(() -> {
             apiRequest.extraAttendances(idg, idu).enqueue(new Callback<ListAttendances>() {
                 @Override
                 public void onResponse(Call<ListAttendances> call, Response<ListAttendances> response) {
-                    if(response.body() != null){
-                        attendancesMutableLiveData.setValue(response.body());
+                    if (response.body() != null) {
 
-                        for (int i = 0; i<attendancesMutableLiveData.getValue().getExtraAttendances().size(); i++){
-                            if(response.body().getExtraAttendances().get(i).getAttendance().getType().equals("L")){
-                                list1.add(response.body().getExtraAttendances().get(i));
-                                laboAttendancesMutableLiveData.setValue(list1);
+                        for (int i = 0; i < response.body().getExtraAttendances().size(); i++) {
+                            if (response.body().getExtraAttendances().get(i).getAttendance().getType().equals("L")) {
+                                laboAttendancesList.add(response.body().getExtraAttendances().get(i));
+                                laboAttendancesMutableLiveData.setValue(laboAttendancesList);
                             }
-                            if (response.body().getExtraAttendances().get(i).getAttendance().getType().equals("W")){
-                                list2.add(response.body().getExtraAttendances().get(i));
-                                specAttendancesMutableLiveData.setValue(list2);
+                            if (response.body().getExtraAttendances().get(i).getAttendance().getType().equals("W")) {
+                                specAttendancesList.add(response.body().getExtraAttendances().get(i));
                             }
                         }
 
-                        if (laboAttendancesMutableLiveData.getValue() == null){
-                            laboAttendancesMutableLiveData.setValue(null);
-                        }
-                        if (specAttendancesMutableLiveData.getValue() == null){
-                            specAttendancesMutableLiveData.setValue(null);
-                        }
+
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<ListAttendances> call, Throwable t) {
-                    attendancesMutableLiveData.setValue(null);
+                    laboAttendancesMutableLiveData.setValue(null);
                 }
             });
 
@@ -75,15 +63,15 @@ public class AttendancesRepository {
 
     }
 
-    public LiveData<ListAttendances> getAttendancesResponseLiveData(){
-        return attendancesMutableLiveData;
-    }
-
-    public LiveData<List<ExtraAttendance>> getLaboAttendancesResponseLiveData(){
+    public MutableLiveData<List<ExtraAttendance>> getLaboAttendancesMutableLiveData() {
         return laboAttendancesMutableLiveData;
     }
 
-    public LiveData<List<ExtraAttendance>> getSpecAttendancesResponseLiveData(){
-        return specAttendancesMutableLiveData;
+    public List<ExtraAttendance> getLaboAttendancesList() {
+        return laboAttendancesList;
+    }
+
+    public List<ExtraAttendance> getSpecAttendancesList() {
+        return specAttendancesList;
     }
 }

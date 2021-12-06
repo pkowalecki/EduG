@@ -16,35 +16,35 @@ import pl.kowalecki.edug.Repository.AttendancesRepository;
 public class AttendancesViewModel extends AndroidViewModel {
 
     private AttendancesRepository attendancesRepository;
-    private LiveData<ListAttendances> listAttendancesLiveData;
+
     private LiveData<List<ExtraAttendance>> laboAttendancesLiveData;
-    private LiveData<List<ExtraAttendance>> specAttendancesLiveData;
+
+    private List<ExtraAttendance> laboAttendancesList;
+    private List<ExtraAttendance> specAttendancesList;
 
 
     public AttendancesViewModel(@NonNull Application application) {
         super(application);
+        attendancesRepository = new AttendancesRepository();
+        laboAttendancesLiveData = attendancesRepository.getLaboAttendancesMutableLiveData();
+        laboAttendancesList = attendancesRepository.getLaboAttendancesList();
+        specAttendancesList = attendancesRepository.getSpecAttendancesList();
     }
 
-    public void init(){
-        attendancesRepository = new AttendancesRepository();
-        listAttendancesLiveData = attendancesRepository.getAttendancesResponseLiveData();
-        laboAttendancesLiveData = attendancesRepository.getLaboAttendancesResponseLiveData();
-        specAttendancesLiveData = attendancesRepository.getSpecAttendancesResponseLiveData();
-    }
 
     public void getAttendances(String idu, String idg){
         attendancesRepository.getAttendances(idu, idg);
-    }
-
-    public LiveData<ListAttendances> getListAttendancesLiveData(){
-        return listAttendancesLiveData;
     }
 
     public LiveData<List<ExtraAttendance>> getLaboAttendancesLiveData() {
         return laboAttendancesLiveData;
     }
 
-    public LiveData<List<ExtraAttendance>> getSpecAttendancesLiveData() {
-        return specAttendancesLiveData;
+    public List<ExtraAttendance> getLaboAttendancesList() {
+        return laboAttendancesList;
+    }
+
+    public List<ExtraAttendance> getSpecAttendancesList() {
+        return specAttendancesList;
     }
 }
