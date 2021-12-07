@@ -14,21 +14,18 @@ public class MissionLaboViewModel extends AndroidViewModel {
     private MissionsLaboRepository missionsLaboRepository;
     private LiveData<MissionLabo> missionLaboLiveData;
 
-    public MissionLaboViewModel(@NonNull Application application){
+    public MissionLaboViewModel(@NonNull Application application) {
         super(application);
-
-    }
-
-    public void init(){
         missionsLaboRepository = new MissionsLaboRepository();
         missionLaboLiveData = missionsLaboRepository.getLaboMissionResponseLiveData();
+
     }
 
-    public void getLaboMission(String sSys, String sLang, String sGame, String mMission, String sLogin, String sHash, String sCrc){
+    public void getLaboMission(String sSys, String sLang, String sGame, String mMission, String sLogin, String sHash, String sCrc) {
         missionsLaboRepository.callLaboMission(sSys, sLang, sGame, mMission, sLogin, sHash, sCrc);
     }
 
-    public LiveData<MissionLabo> getLaboMissionLiveData(){
+    public LiveData<MissionLabo> getLaboMissionLiveData() {
         return missionLaboLiveData;
     }
 }

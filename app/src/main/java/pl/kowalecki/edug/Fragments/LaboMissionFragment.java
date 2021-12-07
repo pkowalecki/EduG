@@ -22,6 +22,10 @@ import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.SessionManagement;
 
 public class LaboMissionFragment  extends Fragment {
+
+    SessionManagement sessionManagement;
+    Context context;
+
     private static final String arg_codename = "arg_codename";
     private static final String arg_missionStart = "arg_missionStart";
     private static final String arg_missionText = "arg_missionText";
@@ -29,18 +33,17 @@ public class LaboMissionFragment  extends Fragment {
     private static final String arg_finishTime = "arg_finishTime";
     private static final String arg_finishText = "arg_finishText";
     private static final String arg_missionNumber = "arg_missionNumber";
-    String path;
-    SessionManagement sessionManagement;
+
     private String mCodename, mMissionStart, mMissionText, mMissionFile, mFinishTime, mFinishText;
-    TextView mTextCodename, mTextMissionStart, mTextMissionText, mTextMissionFile, mTextFinishTime, mTextFinishText;
-    Context context;
-    String mMissionNumber;
-    private String sSys, sLang, sGame, sLogin, sHash, sCrc;
+    private TextView mTextCodename, mTextMissionStart, mTextMissionText, mTextMissionFile, mTextFinishTime, mTextFinishText;
+
+    private String sSys, sLang, sGame, sLogin, sHash, sCrc, path, mMissionNumber;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_labo_mission, container, false);
+
         context = getContext();
         sessionManagement = new SessionManagement(getContext());
         sSys = sessionManagement.getSys();
@@ -62,17 +65,20 @@ public class LaboMissionFragment  extends Fragment {
         String[] laboMissionName = path.split("/");
 
         mTextCodename = (TextView) v.findViewById(R.id.labo_mission_name);
+
         mTextMissionStart = (TextView) v.findViewById(R.id.labo_mission_missionStart);
         mTextMissionText = (TextView) v.findViewById(R.id.labo_mission_text);
         mTextMissionFile = (TextView) v.findViewById(R.id.labo_mission_file);
+
         mTextFinishTime = (TextView) v.findViewById(R.id.labo_mission_finish_time);
         mTextFinishText = (TextView) v.findViewById(R.id.labo_mission_finish_text);
 
         mTextCodename.setText(Html.fromHtml(mCodename, HtmlCompat.FROM_HTML_MODE_LEGACY));
-        Log.e("Labo", mCodename);
+
         mTextMissionStart.setText(Html.fromHtml(mMissionStart, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionText.setText(Html.fromHtml(mMissionText, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextMissionFile.setText(laboMissionName[6]);
+
         mTextFinishTime.setText(Html.fromHtml(mFinishTime, HtmlCompat.FROM_HTML_MODE_LEGACY));
         mTextFinishText.setText(Html.fromHtml(mFinishText, HtmlCompat.FROM_HTML_MODE_LEGACY));
 

@@ -1,5 +1,7 @@
 package pl.kowalecki.edug.Repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,39 +19,57 @@ public class MissionsFastRepository {
 
     private static final String TAG = MissionsFastRepository.class.getSimpleName();
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
-    private MutableLiveData<MissionFast> missionFastMutableLiveData;
     ExecutorService executorService;
+    private MutableLiveData<MissionFast> missionFastMutableLiveData;
 
 
-    public MissionsFastRepository(){
+    public MissionsFastRepository() {
         missionFastMutableLiveData = new MutableLiveData<>();
         executorService = Executors.newSingleThreadExecutor();
     }
 
-    public void callFastMission(String sSys, String sLang, String sGame, String mMission, String sLogin, String sHash, String sCrc){
+    public void callFastMission(String sSys, String sLang, String sGame, String mMission, String sLogin, String sHash, String sCrc) {
         executorService.execute(() ->
                 apiRequest.getFastMissionData(sSys, sLang, sGame, mMission, sLogin, sHash, sCrc)
                         .enqueue(new Callback<MissionFast>() {
-                    @Override
-                    public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {
-                        if (response.body() != null){
-                            missionFastMutableLiveData.setValue(response.body());
-
-                            if (missionFastMutableLiveData.getValue() == null){
-                                missionFastMutableLiveData.setValue(null);
+                            @Override
+                            public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {
+                                if (response.body() != null) {
+                                    missionFastMutableLiveData.setValue(response.body());
+                                    if (missionFastMutableLiveData.getValue() == null) {
+                                        missionFastMutableLiveData.setValue(null);
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<MissionFast> call, Throwable t) {
-
-                    }
-                }));
+                            @Override
+                            public void onFailure(Call<MissionFast> call, Throwable t) {
+                            }
+                        }));
 
     }
 
-    public LiveData<MissionFast> getFastMissionLiveData(){
+    public void finishMission(String sSys, String sLang, String sGame, String mMissionNumber, String answer, String sLogin, String sHash, String sCrc) {
+        executorService.execute(() -> {
+            apiRequest.setFastMissionData(sSys, sLang, sGame, mMissionNumber, answer, sLogin, sHash, sCrc)
+                    .enqueue(new Callback<MissionFast>() {
+                        @Override
+                        public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {
+                            Log.i("respo", response.body().toString());
+                            Log.i("url", call.request().url().toString());
+                        }
+
+                        @Override
+                        public void onFailure(Call<MissionFast> call, Throwable t) {
+                        }
+                    });
+        });
+
+    }
+
+    public LiveData<MissionFast> getFastMissionLiveData() {
         return missionFastMutableLiveData;
     }
+
+
 }

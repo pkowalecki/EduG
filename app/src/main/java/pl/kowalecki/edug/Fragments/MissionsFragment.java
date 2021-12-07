@@ -17,8 +17,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,15 +64,20 @@ import retrofit2.Response;
 
 public class MissionsFragment extends Fragment {
 
+    Bundle bundle = new Bundle();
+    SessionManagement sessionManagement;
+    LifecycleOwner _lifecycleOwner;
+    private final UserLogin userLogin = new UserLogin();
+
     private final static String TAG = MissionsFragment.class.getSimpleName();
+
     private MissionsAdapter missionsAdapter;
     private RecyclerView recyclerView;
     private TextView emptyMissionsText, textView;
-    SessionManagement sessionManagement;
-    ConstraintLayout constraintLayout;
+
+    private ConstraintLayout constraintLayout;
     private String sSys, sLang, sGame, sLogin, sHash, sCrcSpec, sCrcLabo, sCrcFast, mMenu;
-    Bundle bundle = new Bundle();
-    private final UserLogin userLogin = new UserLogin();
+
     private MissionsViewModel missionsViewModel;
     private MissionLaboViewModel missionLaboViewModel;
     private MissionsSpecViewModel missionSpecViewModel;
@@ -83,19 +90,19 @@ public class MissionsFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.item_missions_menu_allround:
-                            initMissions("Dostępne Misje", missionsViewModel.getAllActiveMissionListLiveData());
+                            initMissions("Dostępne Misje", missionsViewModel.getAllListMissions());
                             break;
 
                         case R.id.item_missions_menu_special:
-                            initMissions("Misje Specjalne", missionsViewModel.getSpecMissionListLiveData());
+                            initMissions("Misje Specjalne", missionsViewModel.getSpecMissionList());
                             break;
 
                         case R.id.item_missions_menu_labor:
-                            initMissions("Misje Laboratoryjne", missionsViewModel.getLaboMissionListLiveData());
+                            initMissions("Misje Laboratoryjne", missionsViewModel.getLaboMissionList());
                             break;
 
                         case R.id.item_missions_menu_instant:
-                            initMissions("Misje Błyskawiczne", missionsViewModel.getFastMissionListLiveData());
+                            initMissions("Misje Błyskawiczne", missionsViewModel.getFastMissionList());
                             break;
 
                     }
@@ -103,25 +110,21 @@ public class MissionsFragment extends Fragment {
             }};
 
 
-    private void initMissions(String text, LiveData<List<ListMission>> missionsList) {
+    private void initMissions(String text, List<ListMission> missionsList) {
         textView.setText(text);
-        missionsList.observe(getViewLifecycleOwner(), new Observer<List<ListMission>>() {
-            @Override
-            public void onChanged(List<ListMission> allListMissions) {
-                if (allListMissions != null){
+                if (missionsList.size() != 0){
                     missionsAdapter = new MissionsAdapter();
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     recyclerView.setAdapter(missionsAdapter);
-                    missionsAdapter.setResults(allListMissions, sessionManagement.loadNightModeState());
+                    missionsAdapter.setResults(missionsList, sessionManagement.loadNightModeState());
                     recyclerView.setVisibility(View.VISIBLE);
                     emptyMissionsText.setVisibility(View.GONE);
-
                     missionsAdapter.setOnItemClickListener(position -> {
-                        if (allListMissions.get(position).getMission().getType().equals("spec")){
-                            Log.e(TAG, allListMissions.get(position).getMission().getIdm());
-                            String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + allListMissions.get(position).getMission().getIdm() + sLogin + sHash;
+                        if (missionsList.get(position).getMission().getType().equals("spec")){
+                            Log.e(TAG, missionsList.get(position).getMission().getIdm());
+                            String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + missionsList.get(position).getMission().getIdm() + sLogin + sHash;
                             sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                            missionSpecViewModel.getSpecMission(sSys, sLang, sGame, allListMissions.get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
+                            missionSpecViewModel.getSpecMission(sSys, sLang, sGame, missionsList.get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
                             missionSpecViewModel.getMissionSpecLiveData().observe(getViewLifecycleOwner(), new Observer<MissionSpec>() {
                                 @Override
                                 public void onChanged(MissionSpec missionSpec) {
@@ -154,7 +157,9 @@ public class MissionsFragment extends Fragment {
                                         fragment.setArguments(bundle);
                                         getActivity().getSupportFragmentManager().beginTransaction()
                                                 .replace(R.id.parent_fragment_container, fragment).commit();
+                                        missionSpecViewModel.getMissionSpecLiveData().removeObservers(_lifecycleOwner);
                                             }else{
+                                                missionSpecViewModel.getMissionSpecLiveData().removeObservers(_lifecycleOwner);
                                                 showDialog("Misja Specjalna", missionSpec.getMissionSpecModel().getComment());
                                             }
                                     }else{
@@ -166,12 +171,12 @@ public class MissionsFragment extends Fragment {
                             });
                         }
 
-                        if (allListMissions.get(position).getMission().getType().equals("labo")) {
-                            Log.e(TAG, allListMissions.get(position).getMission().getIdm());
-                            String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allListMissions.get(position).getMission().getIdm() + sLogin + sHash;
+                        if (missionsList.get(position).getMission().getType().equals("labo")) {
+                            Log.e(TAG, missionsList.get(position).getMission().getIdm());
+                            String mCrc = userLogin.getPassword() + sSys + sLang + sGame + missionsList.get(position).getMission().getIdm() + sLogin + sHash;
                             sCrcLabo = MD5Cipher.md5(mCrc);
 
-                            missionLaboViewModel.getLaboMission(sSys, sLang, sGame, allListMissions.get(position).getMission().getIdm(), sLogin, sHash, sCrcLabo);
+                            missionLaboViewModel.getLaboMission(sSys, sLang, sGame, missionsList.get(position).getMission().getIdm(), sLogin, sHash, sCrcLabo);
                             missionLaboViewModel.getLaboMissionLiveData().observe(getViewLifecycleOwner(), new Observer<MissionLabo>() {
                                 @Override
                                 public void onChanged(MissionLabo missionLabo) {
@@ -187,7 +192,9 @@ public class MissionsFragment extends Fragment {
                                             fragment.setArguments(bundle);
                                             getActivity().getSupportFragmentManager().beginTransaction()
                                                     .replace(R.id.parent_fragment_container, fragment).commit();
+                                            missionLaboViewModel.getLaboMissionLiveData().removeObservers(_lifecycleOwner);
                                         }else{
+                                            missionLaboViewModel.getLaboMissionLiveData().removeObservers(_lifecycleOwner);
                                             showDialog("Misja Laboratoryjna", missionLabo.getMissionLaboModel().getComment());
                                         }
 
@@ -195,11 +202,11 @@ public class MissionsFragment extends Fragment {
                                 }
                             });
                         }
-                        if (allListMissions.get(position).getMission().getType().equals("fast")) {
-                            Log.e(TAG, allListMissions.get(position).getMission().getIdm());
-                            String mCrc = userLogin.getPassword() + sSys + sLang + sGame + allListMissions.get(position).getMission().getIdm() + sLogin + sHash;
+                        if (missionsList.get(position).getMission().getType().equals("fast")) {
+                            Log.e(TAG, missionsList.get(position).getMission().getIdm());
+                            String mCrc = userLogin.getPassword() + sSys + sLang + sGame + missionsList.get(position).getMission().getIdm() + sLogin + sHash;
                             sCrcFast = MD5Cipher.md5(mCrc);
-                            missionFastViewModel.getFastMission(sSys, sLang, sGame, allListMissions.get(position).getMission().getIdm(), sLogin, sHash, sCrcFast);
+                            missionFastViewModel.getFastMission(sSys, sLang, sGame, missionsList.get(position).getMission().getIdm(), sLogin, sHash, sCrcFast);
                             missionFastViewModel.getMissionFastLiveData().observe(getViewLifecycleOwner(), new Observer<MissionFast>() {
                                 @Override
                                 public void onChanged(MissionFast missionFast) {
@@ -218,7 +225,9 @@ public class MissionsFragment extends Fragment {
                                             fragment.setArguments(bundle);
                                             getActivity().getSupportFragmentManager().beginTransaction()
                                                     .replace(R.id.parent_fragment_container, fragment).commit();
+                                            missionFastViewModel.getMissionFastLiveData().removeObservers(_lifecycleOwner);
                                         }else{
+                                            missionFastViewModel.getMissionFastLiveData().removeObservers(_lifecycleOwner);
                                             showDialog("Misja Błyskawiczna", missionFast.getMissionFast().getComment());
                                         }
 
@@ -232,45 +241,60 @@ public class MissionsFragment extends Fragment {
                     emptyMissionsText.setVisibility(View.VISIBLE);
                 }
             }
-        });
-    }
 
 
 
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
-        BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_missions);
-        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
-        constraintLayout = v.findViewById(R.id.fragment_missions_constraint);
-        emptyMissionsText = v.findViewById(R.id.empty_missions_text);
+    public void onCreate(@Nullable  Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         sessionManagement = new SessionManagement(getContext());
-        textView = (TextView) v.findViewById(R.id.mission_name_text);
+
         sGame = sessionManagement.getGame();
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
         sLogin = sessionManagement.getLogin();
         sHash = sessionManagement.getHash();
 
+        missionsViewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
+        missionLaboViewModel = new ViewModelProvider(this).get(MissionLaboViewModel.class);
+        missionSpecViewModel = new ViewModelProvider(this).get(MissionsSpecViewModel.class);
+        missionFastViewModel = new ViewModelProvider(this).get(MissionFastViewModel.class);
+
+        searchAllMissions(sGame);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_list_missions, container, false);
+        _lifecycleOwner = getViewLifecycleOwner();
+
+        constraintLayout = v.findViewById(R.id.fragment_missions_constraint);
+        emptyMissionsText = v.findViewById(R.id.empty_missions_text);
+
+        textView = (TextView) v.findViewById(R.id.mission_name_text);
+
         recyclerView = v.findViewById(R.id.missions_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        textView.setText("Dostępne Misje");
-        missionsViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
-        missionsViewModel.init();
-        missionLaboViewModel = ViewModelProviders.of(this).get(MissionLaboViewModel.class);
-        missionLaboViewModel.init();
-        missionSpecViewModel = ViewModelProviders.of(this).get(MissionsSpecViewModel.class);
-        missionSpecViewModel.init();
-        missionFastViewModel = ViewModelProviders.of(this).get(MissionFastViewModel.class);
-        missionFastViewModel.init();
+        BottomNavigationView bottomNavigationView = v.findViewById(R.id.top_navigation_missions);
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.item_missions_menu_allround);
 
-        initMissions("Dostępne Misje", missionsViewModel.getAllActiveMissionListLiveData());
-        searchAllMissions(sGame);
         checkMode();
+
+        missionsViewModel.getAllActiveMissionListLiveData().observe(_lifecycleOwner, new Observer<List<ListMission>>() {
+            @Override
+            public void onChanged(List<ListMission> listMissions) {
+                if (listMissions != null){
+                    initMissions("Dostępne Misje", listMissions);
+                }
+                missionsViewModel.getAllActiveMissionListLiveData().removeObservers(_lifecycleOwner);
+            }
+        });
+
         return v;
 
     }
@@ -295,10 +319,6 @@ public class MissionsFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
-                                //TODO W JAKIŚ SPOSÓB TO ROZWIĄZAĆ
-                                Fragment fragment = new MissionsFragment();
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, fragment)
-                                        .commit();
                             }
                         });
                         builder.show();

@@ -33,6 +33,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,6 +94,7 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    //TODO: Poprawić ściąganie powiadomień tj. wszystkie daty zapisywać do listy, później brać pojedynczo i przed wysłaniem powiadomienia sprawdzić czy nadal istnieje
 
     private final String TAG = HomeActivity.class.getSimpleName();
     private final UserLogin userLogin = new UserLogin();
@@ -139,8 +141,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         super.onCreate(savedInstanceState);
 
-        missionsViewModel = ViewModelProviders.of(this).get(MissionsViewModel.class);
-        missionsViewModel.init();
+        missionsViewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
+
         missionsViewModel.getAllActiveMissionListLiveData().observe(this, new Observer<List<ListMission>>() {
             @Override
             public void onChanged(List<ListMission> listMissions) {
@@ -150,8 +152,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        missionSpecViewModel = ViewModelProviders.of(this).get(MissionsSpecViewModel.class);
-        missionSpecViewModel.init();
+        missionSpecViewModel = new ViewModelProvider(this).get(MissionsSpecViewModel.class);
         missionSpecViewModel.getMissionSpecLiveData().observe(this, new Observer<MissionSpec>() {
             @Override
             public void onChanged(MissionSpec missionSpec) {
@@ -165,8 +166,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        missionFastViewModel = ViewModelProviders.of(this).get(MissionFastViewModel.class);
-        missionFastViewModel.init();
+        missionFastViewModel = new ViewModelProvider(this).get(MissionFastViewModel.class);
         missionFastViewModel.getMissionFastLiveData().observe(this, new Observer<MissionFast>() {
             @Override
             public void onChanged(MissionFast missionFastModel) {
@@ -179,8 +179,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        missionLaboViewModel = ViewModelProviders.of(this).get(MissionLaboViewModel.class);
-        missionLaboViewModel.init();
+        missionLaboViewModel = new ViewModelProvider(this).get(MissionLaboViewModel.class);
         missionLaboViewModel.getLaboMissionLiveData().observe(this, new Observer<MissionLabo>() {
             @Override
             public void onChanged(MissionLabo missionLabo) {
@@ -342,7 +341,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         final BottomSheetDialog bottomSheetDialogHeader = new BottomSheetDialog(this);
         bottomSheetDialogHeader.setContentView(R.layout.bottom_sheet_header);
         LinearLayout logoutBottomSheet = bottomSheetDialogHeader.findViewById(R.id.logout_bottom_sheet);
-        LinearLayout badgesStyle1 = bottomSheetDialogHeader.findViewById(R.id.badges_style_1);
         LinearLayout appTheme = bottomSheetDialogHeader.findViewById(R.id.app_theme);
         logoutBottomSheet.setOnClickListener(v -> {
             logout();
@@ -379,6 +377,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         String dateToSplit = simpleDateFormat.format(entry);
         Log.e("StartAlarm", "" + dateToSplit);
+        Log.e("StartAlarm", "" + notifTitle);
+        Log.e("StartAlarm", "" + notifContent);
         String[] splitedDateFull = dateToSplit.split(" ");
         String[] splitedDate = splitedDateFull[0].split("-");
         String[] splitedHours = splitedDateFull[1].split(":");
@@ -661,7 +661,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     } catch (ParseException ignored) {
                     }
 
-                    //TODO:Fix treeMap
                     //Stworzenie osobnej mapy do posortowania i wyciągnięcia najwcześniejszej daty.
                     TreeMap<Date, String> m1 = new TreeMap(notificationMissionsStart);
                     if (!sortData(m1).isEmpty()) {

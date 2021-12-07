@@ -32,11 +32,8 @@ public class MissionsRepository {
     String date = simpleDateFormat.format(currentDate);;
     private static final String TAG = MissionsRepository.class.getSimpleName();
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
-    public MutableLiveData<Missions> missionsListMutableLiveData;
+
     public MutableLiveData<List<ListMission>> allMissionsListMutableLiveData;
-    public MutableLiveData<List<ListMission>> specMissionsListMutableLiveData;
-    public MutableLiveData<List<ListMission>> laboMissionsListMutableLiveData;
-    public MutableLiveData<List<ListMission>> fastMissionsListMutableLiveData;
 
     private List<ListMission> allList;
     private List<ListMission> specList;
@@ -46,11 +43,8 @@ public class MissionsRepository {
     private final ExecutorService executorService;
 
     public MissionsRepository(){
-        missionsListMutableLiveData = new MutableLiveData<>();
+
         allMissionsListMutableLiveData = new MutableLiveData<>();
-        specMissionsListMutableLiveData = new MutableLiveData<>();
-        laboMissionsListMutableLiveData = new MutableLiveData<>();
-        fastMissionsListMutableLiveData = new MutableLiveData<>();
 
         allList = new ArrayList<>();
         specList = new ArrayList<>();
@@ -67,9 +61,9 @@ public class MissionsRepository {
                 public void onResponse(Call<Missions> call, Response<Missions> response) {
                     if (response.body() != null){
                         try{
-                        missionsListMutableLiveData.setValue(response.body());
+
                         Date dateTimeNow = simpleDateFormat.parse(date);
-                        for (int i = 0; i<missionsListMutableLiveData.getValue().getListMissions().size(); i++){
+                        for (int i = 0; i<response.body().getListMissions().size(); i++){
                             Date dateTimeStart = simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStart());
                             Date dateTimeEnd = simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStop());
                             if (dateTimeNow.after(dateTimeStart)) {
@@ -77,38 +71,29 @@ public class MissionsRepository {
                                     allList.add(response.body().getListMissions().get(i));
                                     allMissionsListMutableLiveData.setValue(allList);
                                 }}
+
                             if (response.body().getListMissions().get(i).getMission().getType().equals("labo")) {
                                 if (dateTimeNow.after(dateTimeStart)) {
                                     if (dateTimeNow.before(dateTimeEnd)) {
                                         laboList.add(response.body().getListMissions().get(i));
-                                        laboMissionsListMutableLiveData.setValue(laboList);
                                     }}}
+
                             if (response.body().getListMissions().get(i).getMission().getType().equals("fast")) {
                                 if (dateTimeNow.after(dateTimeStart)) {
                                     if (dateTimeNow.before(dateTimeEnd)) {
                                         fastList.add(response.body().getListMissions().get(i));
-                                        fastMissionsListMutableLiveData.setValue(fastList);
                                     }}}
+
                             if (response.body().getListMissions().get(i).getMission().getType().equals("spec")) {
                                 if (dateTimeNow.after(dateTimeStart)) {
                                     if (dateTimeNow.before(dateTimeEnd)) {
                                         specList.add(response.body().getListMissions().get(i));
-                                        specMissionsListMutableLiveData.setValue(specList);
                                     }}}
 
                         }
                         if (allMissionsListMutableLiveData.getValue() == null){
                             allMissionsListMutableLiveData.setValue(null);
                         }
-                            if (laboMissionsListMutableLiveData.getValue() == null){
-                                laboMissionsListMutableLiveData.setValue(null);
-                            }
-                            if (specMissionsListMutableLiveData.getValue() == null){
-                                specMissionsListMutableLiveData.setValue(null);
-                            }
-                            if (fastMissionsListMutableLiveData.getValue() == null){
-                                fastMissionsListMutableLiveData.setValue(null);
-                            }
 
                     }catch (ParseException e) {
                             Log.e(TAG, "catch error");
@@ -126,24 +111,9 @@ public class MissionsRepository {
     }
 
 
-    public LiveData<Missions> getMissionsResponseLiveData(){
-        return missionsListMutableLiveData;
-    }
 
     public LiveData<List<ListMission>> getAllMissionsResponseLiveData(){
         return allMissionsListMutableLiveData;
-    }
-
-    public LiveData<List<ListMission>> getLaboMissionsResponseLiveData() {
-        return laboMissionsListMutableLiveData;
-    }
-
-    public LiveData<List<ListMission>> getSpecMissionsResponseLiveData(){
-        return specMissionsListMutableLiveData;
-    }
-
-    public LiveData<List<ListMission>> getFastMissionsResponseLiveData(){
-        return fastMissionsListMutableLiveData;
     }
 
     public List<ListMission> getSpecMissionsList(){

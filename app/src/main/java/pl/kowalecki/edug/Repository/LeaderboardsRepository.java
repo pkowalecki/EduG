@@ -1,7 +1,5 @@
 package pl.kowalecki.edug.Repository;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -10,12 +8,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import pl.kowalecki.edug.Model.Attendances.ExtraAttendance;
 import pl.kowalecki.edug.Model.Leaderboards.ExtraLeaderboard;
 import pl.kowalecki.edug.Model.Leaderboards.ListLeaderboards;
 import pl.kowalecki.edug.Retrofit.ApiRequest;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
-import pl.kowalecki.edug.ViewModel.LeaderboardsViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,17 +19,16 @@ import retrofit2.Response;
 public class LeaderboardsRepository {
 
     private static final String TAG = LeaderboardsRepository.class.getSimpleName();
+    private final ExecutorService executorService;
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
-
     private MutableLiveData<List<ExtraLeaderboard>> specListMutable;
     private List<ExtraLeaderboard> specList;
     private List<ExtraLeaderboard> laboList;
     private List<ExtraLeaderboard> fastList;
     private List<ExtraLeaderboard> topList;
-    private final ExecutorService executorService;
 
 
-    public LeaderboardsRepository(){
+    public LeaderboardsRepository() {
         executorService = Executors.newSingleThreadExecutor();
         specListMutable = new MutableLiveData<>();
         specList = new ArrayList<>();
@@ -43,7 +38,7 @@ public class LeaderboardsRepository {
     }
 
 
-    public void getLeaderboards(String sGame){
+    public void getLeaderboards(String sGame) {
         executorService.execute(() -> {
             apiRequest.extraLeaderboards(sGame).enqueue(new Callback<ListLeaderboards>() {
                 @Override
@@ -66,6 +61,7 @@ public class LeaderboardsRepository {
                         }
                     }
                 }
+
                 @Override
                 public void onFailure(Call<ListLeaderboards> call, Throwable t) {
                 }
