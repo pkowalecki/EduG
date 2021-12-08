@@ -1,5 +1,6 @@
 package pl.kowalecki.edug.Model.Games;
 
+
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -7,38 +8,16 @@ import com.google.gson.annotations.SerializedName;
 @Generated("jsonschema2pojo")
 public class ListGames {
 
-    @SerializedName("idg")
+    @SerializedName("game")
     @Expose
-    private String idg;
-    @SerializedName("active")
-    @Expose
-    private String active;
-    @SerializedName("missions")
-    @Expose
-    private String missions;
+    private GamesModel game;
 
-    public String getIdg() {
-        return idg;
+    public GamesModel getGame() {
+        return game;
     }
 
-    public void setIdg(String idg) {
-        this.idg = idg;
-    }
-
-    public String getActive() {
-        return active;
-    }
-
-    public void setActive(String active) {
-        this.active = active;
-    }
-
-    public String getMissions() {
-        return missions;
-    }
-
-    public void setMissions(String missions) {
-        this.missions = missions;
+    public void setGame(GamesModel game) {
+        this.game = game;
     }
 
 }

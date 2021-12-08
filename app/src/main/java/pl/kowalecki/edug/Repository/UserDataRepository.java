@@ -18,10 +18,12 @@ public class UserDataRepository {
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
     ExecutorService executorService;
     private MutableLiveData<UserData> userDataMutableLiveData;
+    UserData userData;
 
     public UserDataRepository() {
         userDataMutableLiveData = new MutableLiveData<>();
         executorService = Executors.newSingleThreadExecutor();
+        userData = new UserData();
     }
 
     public void callUserData(String sSys, String sLang, String sGame, String sLogin, String sHash, String sCrc) {
@@ -31,6 +33,7 @@ public class UserDataRepository {
                 public void onResponse(Call<UserData> call, Response<UserData> response) {
                     if (response.body() != null){
                         userDataMutableLiveData.setValue(response.body());
+
                     }
                 }
 

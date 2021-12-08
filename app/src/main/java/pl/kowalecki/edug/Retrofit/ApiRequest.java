@@ -1,23 +1,18 @@
 package pl.kowalecki.edug.Retrofit;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.kowalecki.edug.Model.Achievements.ListAchievements;
 import pl.kowalecki.edug.Model.Attendances.ListAttendances;
 import pl.kowalecki.edug.Model.Badges.ListBadge;
-import pl.kowalecki.edug.Model.Files.FileData;
 import pl.kowalecki.edug.Model.Files.FilesList;
-import pl.kowalecki.edug.Model.Files.ListFile;
+import pl.kowalecki.edug.Model.Games.GamesList;
 import pl.kowalecki.edug.Model.Leaderboards.ListLeaderboards;
 import pl.kowalecki.edug.Model.MissionFast.MissionFast;
 import pl.kowalecki.edug.Model.MissionLabo.MissionLabo;
 import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
-import pl.kowalecki.edug.Model.Missions.ListMission;
 import pl.kowalecki.edug.Model.Missions.Missions;
+import pl.kowalecki.edug.Model.User.LoginResult;
 import pl.kowalecki.edug.Model.User.UserData;
-import pl.kowalecki.edug.ResObj;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -25,8 +20,13 @@ import retrofit2.http.Query;
 
 public interface ApiRequest {
 
+    @GET("list_games.php")
+    Call<GamesList> listGames();
+
+//    @GET("user_login.php")
+//    Call <ResObj> login(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
     @GET("user_login.php")
-    Call <ResObj> login(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
+    Call <LoginResult> login(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);
 
     @GET("user_account.php")
     Call <UserData> userAccount(@Query("sys") String sys, @Query("lang") String lang, @Query("game") String game, @Query("login") String login, @Query("hash") String hash, @Query("crc") String crc);

@@ -184,7 +184,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         initializeCountDrawer();
 
-        checkMissionsNotifications(sGame);
         setSupportActionBar(toolbar);
         bottomNavigationMenu(5); // liczba elementów, które znajdują się w menu dolnym
 
@@ -196,6 +195,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onChanged(UserData userDataM) {
                 if (userDataM != null){
                     initPoints(userDataM);
+                    userData.setUserAccount(userDataM.getUserAccount());
                 }
                 userDataViewModel.getUserDataLiveData().removeObserver(this);
             }

@@ -26,7 +26,6 @@ import pl.kowalecki.edug.Activities.MainActivity;
 import pl.kowalecki.edug.Model.User.UserAccount;
 
 import pl.kowalecki.edug.Model.User.UserData;
-import pl.kowalecki.edug.Model.WebServiceData;
 import pl.kowalecki.edug.Retrofit.ApiRequest;
 import pl.kowalecki.edug.TestRetrofit.ServiceGenerator;
 import retrofit2.Call;

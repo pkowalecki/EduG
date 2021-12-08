@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 public class SessionManagement {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    String APP_LANGUAGE = "session_language";
-    String APP_BADGES_STYLE = "session_badges_style";
     String SHARED_PREF_NAME= "AppKey";
     String SESSION_SYS = "session_sys";
     String SESSION_LANG = "session_lang";
