@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import pl.kowalecki.edug.Model.MissionSpec.Answers2;
 import pl.kowalecki.edug.Model.MissionSpec.Answers3;
 import pl.kowalecki.edug.Model.MissionSpec.Answers4;
 import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
+import pl.kowalecki.edug.Model.MissionSpec.MissionSpecModel;
 import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
@@ -53,6 +57,7 @@ public class SpecialMissionFragment extends Fragment {
     SessionManagement sessionManagement;
     Context context;
     MissionsSpecViewModel missionsSpecViewModel;
+    LifecycleOwner _lifecycleOwner;
 
     private String sSys, sLang, sGame, sLogin, sHash;
     private static final String arg_codename = "arg_codename";
@@ -150,7 +155,7 @@ public class SpecialMissionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_special_mission, container, false);
-
+        _lifecycleOwner = getViewLifecycleOwner();
         linearQ1 = v.findViewById(R.id.linear_q1);
         linearQ2 = v.findViewById(R.id.linear_q2);
         linearQ3 = v.findViewById(R.id.linear_q3);
@@ -387,6 +392,15 @@ public class SpecialMissionFragment extends Fragment {
 
             }else{
                 missionsSpecViewModel.setSpecMission(sSys, sLang, sGame, mMissionNumber,str1, str2, str3, str4, sLogin, sHash, mCrc);
+                missionsSpecViewModel.getMissionSpecModelResultLiveData().observe(_lifecycleOwner, new Observer<MissionSpecModel>() {
+                    @Override
+                    public void onChanged(MissionSpecModel missionSpecModel) {
+                        if (missionSpecModel.getResult()){
+                            Toast.makeText(context, "Odpowiedź została wysłana", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(context, MainActivity.class));
+                        }
+                    }
+                });
             }
 
         });

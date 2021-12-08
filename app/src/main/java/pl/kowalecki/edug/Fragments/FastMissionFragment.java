@@ -21,6 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -28,6 +30,7 @@ import com.squareup.picasso.Picasso;
 
 import pl.kowalecki.edug.Activities.MainActivity;
 import pl.kowalecki.edug.Cipher.MD5Cipher;
+import pl.kowalecki.edug.Model.MissionFast.MissionFast;
 import pl.kowalecki.edug.Model.User.UserLogin;
 import pl.kowalecki.edug.R;
 import pl.kowalecki.edug.Retrofit.ApiRequest;
@@ -42,6 +45,7 @@ public class FastMissionFragment extends Fragment {
     Context context;
     SessionManagement sessionManagement;
     MissionFastViewModel missionFastViewModel;
+    LifecycleOwner _lifecycleOwner;
     private final UserLogin userLogin = new UserLogin();
 
     private static final String arg_codename = "arg_codename";
@@ -91,7 +95,7 @@ public class FastMissionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_fast_mission, container, false);
-
+        _lifecycleOwner = getViewLifecycleOwner();
         answerInputField = (TextInputLayout) v.findViewById(R.id.answerField);
 
 
@@ -132,11 +136,19 @@ public class FastMissionFragment extends Fragment {
                 builder.setNegativeButton("Ok", null);
                 builder.create().show();
             } else {
-                Log.e("FastMisisonsFragment", "Answer: " + answer);
                 sCrc = MD5Cipher.md5(userLogin.getPassword() + sSys + sLang + sGame + mMissionNumber + answer + sLogin + sHash);
-                Toast.makeText(context, "Odpowiedź została wysłana", Toast.LENGTH_SHORT).show();
+
                 missionFastViewModel.setFastMission(sSys, sLang, sGame, mMissionNumber, answer, sLogin, sHash, sCrc);
-                startActivity(new Intent(context, MainActivity.class));
+                missionFastViewModel.getMissionFastLiveDataResponse().observe(_lifecycleOwner, new Observer<MissionFast>() {
+                    @Override
+                    public void onChanged(MissionFast missionFast) {
+                        if (missionFast.getMissionFast().getResult()){
+                            Toast.makeText(context, "Odpowiedź została wysłana", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(context, MainActivity.class));
+                        }
+                    }
+                });
+
             }
         });
         checkMode();

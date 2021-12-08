@@ -17,6 +17,7 @@ import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
 import pl.kowalecki.edug.Model.MissionSpec.MissionSpecModel;
 import pl.kowalecki.edug.Retrofit.ApiRequest;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
+import pl.kowalecki.edug.ViewModel.MissionsSpecViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,12 +27,14 @@ public class MissionsSpecRepository {
     private static final String TAG = MissionsSpecRepository.class.getSimpleName();
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
     private MutableLiveData<MissionSpec> missionSpecMutableLiveData;
+    private MutableLiveData<MissionSpecModel> missionSpecModelMutableLiveData;
 
     ExecutorService executorService;
 
     public MissionsSpecRepository() {
 
         missionSpecMutableLiveData = new MutableLiveData<>();
+        missionSpecModelMutableLiveData = new MutableLiveData<>();
         executorService = Executors.newSingleThreadExecutor();
     }
 
@@ -41,7 +44,6 @@ public class MissionsSpecRepository {
                     .enqueue(new Callback<MissionSpec>() {
                         @Override
                         public void onResponse(Call<MissionSpec> call, Response<MissionSpec> response) {
-
                             if (response.body() != null) {
                                 missionSpecMutableLiveData.setValue(response.body());
                             }
@@ -65,7 +67,9 @@ public class MissionsSpecRepository {
                     .enqueue(new Callback<MissionSpec>() {
                         @Override
                         public void onResponse(Call<MissionSpec> call, Response<MissionSpec> response) {
-
+                            if (response.body() != null){
+                                missionSpecModelMutableLiveData.setValue(response.body().getMissionSpecModel());
+                            }
                         }
 
                         @Override
@@ -77,10 +81,15 @@ public class MissionsSpecRepository {
 
     }
 
+
+
     public LiveData<MissionSpec> getMissionSpecLiveData() {
         return missionSpecMutableLiveData;
     }
 
+    public MutableLiveData<MissionSpecModel> getMissionSpecModelMutableLiveData() {
+        return missionSpecModelMutableLiveData;
+    }
 }
 
 

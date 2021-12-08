@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import pl.kowalecki.edug.Model.MissionFast.MissionFast;
+import pl.kowalecki.edug.Model.MissionFast.MissionFastModel;
 import pl.kowalecki.edug.Retrofit.ApiRequest;
 import pl.kowalecki.edug.Retrofit.ServiceGenerator;
 import retrofit2.Call;
@@ -21,11 +22,13 @@ public class MissionsFastRepository {
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
     ExecutorService executorService;
     private MutableLiveData<MissionFast> missionFastMutableLiveData;
+    private MutableLiveData<MissionFastModel> missionFastResponseMutableLiveData;
 
 
     public MissionsFastRepository() {
         missionFastMutableLiveData = new MutableLiveData<>();
         executorService = Executors.newSingleThreadExecutor();
+        missionFastResponseMutableLiveData = new MutableLiveData<>();
     }
 
     public void callFastMission(String sSys, String sLang, String sGame, String mMission, String sLogin, String sHash, String sCrc) {
@@ -55,8 +58,9 @@ public class MissionsFastRepository {
                     .enqueue(new Callback<MissionFast>() {
                         @Override
                         public void onResponse(Call<MissionFast> call, Response<MissionFast> response) {
-                            Log.i("respo", response.body().toString());
-                            Log.i("url", call.request().url().toString());
+                            if (response.body()!= null){
+                                missionFastResponseMutableLiveData.setValue(response.body().getMissionFast());
+                            }
                         }
 
                         @Override
@@ -67,9 +71,11 @@ public class MissionsFastRepository {
 
     }
 
-    public LiveData<MissionFast> getFastMissionLiveData() {
+    public MutableLiveData<MissionFast> getFastMissionLiveData() {
         return missionFastMutableLiveData;
     }
 
-
+    public MutableLiveData<MissionFastModel> getMissionFastResponseMutableLiveData() {
+        return missionFastResponseMutableLiveData;
+    }
 }

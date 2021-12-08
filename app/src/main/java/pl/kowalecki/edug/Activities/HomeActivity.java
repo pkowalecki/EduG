@@ -205,7 +205,24 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onChanged(List<ListMission> listMissions) {
                 if (listMissions != null){
-
+                    for (int i = 0; i< listMissions.size(); i++){
+                        if (listMissions.get(i).getMission().getType().equals("labo")){
+                            laboText.setText(String.valueOf(listMissions.size()));
+                        }else{
+                            laboText.setText("0");
+                        }
+                        if (listMissions.get(i).getMission().getType().equals("spec")){
+                            specText.setText(String.valueOf(listMissions.size()));
+                        }else{
+                            specText.setText("0");
+                        }
+                        if (listMissions.get(i).getMission().getType().equals("fast")){
+                            instantText.setText(String.valueOf(listMissions.size()));
+                        }else{
+                            instantText.setText("0");
+                        }
+                    }
+                    missionsViewModel.getAllActiveMissionListLiveData().removeObservers(_lifecycleOwner);
                 }
             }
         });
