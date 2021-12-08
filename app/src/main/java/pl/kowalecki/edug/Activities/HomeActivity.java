@@ -32,6 +32,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -73,6 +74,7 @@ import pl.kowalecki.edug.Model.MissionSpec.Answers3;
 import pl.kowalecki.edug.Model.MissionSpec.Answers4;
 import pl.kowalecki.edug.Model.MissionSpec.MissionSpec;
 import pl.kowalecki.edug.Model.Missions.ListMission;
+import pl.kowalecki.edug.Model.Missions.Mission;
 import pl.kowalecki.edug.Model.Missions.Missions;
 import pl.kowalecki.edug.Model.User.UserAccount;
 import pl.kowalecki.edug.Model.User.UserData;
@@ -87,6 +89,7 @@ import pl.kowalecki.edug.ViewModel.MissionFastViewModel;
 import pl.kowalecki.edug.ViewModel.MissionLaboViewModel;
 import pl.kowalecki.edug.ViewModel.MissionsSpecViewModel;
 import pl.kowalecki.edug.ViewModel.MissionsViewModel;
+import pl.kowalecki.edug.ViewModel.UserDataViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,7 +98,8 @@ import retrofit2.Response;
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //TODO: Poprawić ściąganie powiadomień tj. wszystkie daty zapisywać do listy, później brać pojedynczo i przed wysłaniem powiadomienia sprawdzić czy nadal istnieje
-
+    Context context;
+    LifecycleOwner _lifecycleOwner;
     private final String TAG = HomeActivity.class.getSimpleName();
     private final UserLogin userLogin = new UserLogin();
     private final UserAccount userAccount = new UserAccount();
@@ -125,119 +129,149 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private MissionFastViewModel missionFastViewModel;
     private MissionsSpecViewModel missionSpecViewModel;
     private MissionLaboViewModel missionLaboViewModel;
+    private UserDataViewModel userDataViewModel;
     private BottomSheetAdapter missionsAdapter;
     private RecyclerView recyclerView;
     MissionSpec missionSpec1 = new MissionSpec();
     MissionFast missionFast1 = new MissionFast();
     MissionLabo missionLabo1 = new MissionLabo();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sessionManagement = new SessionManagement(this);
+        context = getApplicationContext();
+        sessionManagement = new SessionManagement(context);
         if (sessionManagement.loadNightModeState()) {
             setTheme(R.style.DarkTheme_AppTheme);
         } else {
             setTheme(R.style.AppTheme);
         }
         super.onCreate(savedInstanceState);
-
-        missionsViewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
-
-        missionsViewModel.getAllActiveMissionListLiveData().observe(this, new Observer<List<ListMission>>() {
-            @Override
-            public void onChanged(List<ListMission> listMissions) {
-                laboText.setText(String.valueOf(missionsViewModel.getLaboMissionList().size()));
-                instantText.setText(String.valueOf(missionsViewModel.getFastMissionList().size()));
-                specText.setText(String.valueOf(missionsViewModel.getSpecMissionList().size()));
-            }
-        });
-
-        missionSpecViewModel = new ViewModelProvider(this).get(MissionsSpecViewModel.class);
-        missionSpecViewModel.getMissionSpecLiveData().observe(this, new Observer<MissionSpec>() {
-            @Override
-            public void onChanged(MissionSpec missionSpec) {
-                if (missionSpec !=null) {
-                    missionSpec1.setMissionSpecModel(missionSpec.getMissionSpecModel());
-                    if (missionSpec.getMissionSpecModel().getResult()){startSpecMission(missionSpec);}
-                    else{
-                        showDialogFinished("Misja Specjalna", missionSpec.getMissionSpecModel().getComment());
-                    }
-
-                }
-            }
-        });
-        missionFastViewModel = new ViewModelProvider(this).get(MissionFastViewModel.class);
-        missionFastViewModel.getMissionFastLiveData().observe(this, new Observer<MissionFast>() {
-            @Override
-            public void onChanged(MissionFast missionFastModel) {
-                if (missionFastModel != null){
-                    missionFast1.setMissionFast(missionFastModel.getMissionFast());
-                    if (missionFastModel.getMissionFast().getResult()){startFastMission(missionFastModel);}
-                    else{
-                        showDialogFinished("Misja Błyskawiczna", missionFastModel.getMissionFast().getComment());
-                    }
-                }
-            }
-        });
-        missionLaboViewModel = new ViewModelProvider(this).get(MissionLaboViewModel.class);
-        missionLaboViewModel.getLaboMissionLiveData().observe(this, new Observer<MissionLabo>() {
-            @Override
-            public void onChanged(MissionLabo missionLabo) {
-                if (missionLabo != null){
-                    missionLabo1.setMissionLaboModel(missionLabo.getMissionLaboModel());
-                    if (missionLabo.getMissionLaboModel().getResult()){
-                        startLaboMission(missionLabo);
-                    }else{
-                        showDialogFinished("Misja Laboratoryjna", missionLabo.getMissionLaboModel().getComment());
-                    }
-                }
-            }
-        });
-        checkMissionsNotifications(sGame);
         setContentView(R.layout.activity_home);
-        navigationView = findViewById(R.id.nav_view);
-        sessionManagement = new SessionManagement(getApplicationContext());
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        specText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.spec_mission_item)));
-        laboText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.labor_mission_item)));
-        instantText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.instant_mission_item)));
-        TextView hazardText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.hazard_mission_item)));
-        TextView lastText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.last_mission_item)));
-        mDrawerLayout = findViewById(R.id.drawerLayout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navbar_open_pl, R.string.navbar_close_pl);
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
-        bottomNavigationMenu(5); // liczba elementów, które znajdują się w menu dolnym
-
+        executorService = Executors.newSingleThreadExecutor();
         sSys = sessionManagement.getSys();
         sLang = sessionManagement.getLang();
         sGame = sessionManagement.getGame();
         sLogin = sessionManagement.getLogin();
         sHash = sessionManagement.getHash();
         sCrc = sessionManagement.getCRC();
-        callService(sSys, sLang, sGame, sLogin, sHash, sCrc);
-        navigationView.setNavigationItemSelectedListener(this);
+        date = simpleDateFormat.format(currentDate);
+
+        navigationView = findViewById(R.id.nav_view);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.image_gravatar);
         String avatarLogin = MD5Cipher.md5(sLogin);
+        specText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.spec_mission_item)));
+        laboText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.labor_mission_item)));
+        instantText = (TextView) (MenuItemCompat.getActionView(navigationView.getMenu().findItem(R.id.instant_mission_item)));
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navbar_open_pl, R.string.navbar_close_pl);
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        navigationView.setNavigationItemSelectedListener(this);
+
         Picasso.get().load("https://gravatar.com/avatar/" + avatarLogin + "?d=wavatar").into(imageView);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.parent_fragment_container, new MissionsFragment()).commit();
             navigationView.setCheckedItem(R.id.main_menu);
         }
-        date = simpleDateFormat.format(currentDate);
-        searchAllMissions(sGame);
+        userDataViewModel = new ViewModelProvider(this).get(UserDataViewModel.class);
+        missionsViewModel = new ViewModelProvider(this).get(MissionsViewModel.class);
+        missionSpecViewModel = new ViewModelProvider(this).get(MissionsSpecViewModel.class);
+        missionFastViewModel = new ViewModelProvider(this).get(MissionFastViewModel.class);
+        missionLaboViewModel = new ViewModelProvider(this).get(MissionLaboViewModel.class);
+
         initializeCountDrawer();
+
+        checkMissionsNotifications(sGame);
+        setSupportActionBar(toolbar);
+        bottomNavigationMenu(5); // liczba elementów, które znajdują się w menu dolnym
+
+        callUserData(sSys, sLang, sGame, sLogin, sHash, sCrc);
+        searchAllMissions(sGame);
+
+        userDataViewModel.getUserDataLiveData().observe(this, new Observer<UserData>() {
+            @Override
+            public void onChanged(UserData userDataM) {
+                if (userDataM != null){
+                    initPoints(userDataM);
+                }
+                userDataViewModel.getUserDataLiveData().removeObserver(this);
+            }
+        });
+
+        missionsViewModel.getAllActiveMissionListLiveData().observe(this, new Observer<List<ListMission>>() {
+            @Override
+            public void onChanged(List<ListMission> listMissions) {
+                if (listMissions != null){
+
+                }
+            }
+        });
 
         //Usuwanie kanałów powiadomień
 //        notificationManagerCompat.deleteNotificationChannel("channel200");
 //        Log.e(TAG, "" + notificationManagerCompat.getNotificationChannels());
+    }
 
+    private void initPoints(UserData userData) {
+
+        navigationView = findViewById(R.id.nav_view);
+        userName = navigationView.getHeaderView(0).findViewById(R.id.user_name);
+        userInfo = navigationView.getHeaderView(0).findViewById(R.id.user_info);
+
+        userAccount.setCountMission(userData.getUserAccount().getCountMission());
+        userAccount.setCountAvatar(userData.getUserAccount().getCountAvatar());
+        userAccount.setCountBitcoin(userData.getUserAccount().getCountBitcoin());
+        userAccount.setCountExacoin(userData.getUserAccount().getCountExacoin());
+        userAccount.setCountPoint(userData.getUserAccount().getCountPoint());
+        userAccount.setCountBadgesStyle(userData.getUserAccount().getCountBadgesStyle());
+        userAccount.setResult(userData.getUserAccount().getResult());
+        userAccount.setAgentNumber(userData.getUserAccount().getAgentNumber());
+        userAccount.setAgentName(userData.getUserAccount().getAgentName());
+        userAccount.setAgentEmail(userData.getUserAccount().getAgentEmail());
+        userAccount.setGroupName(userData.getUserAccount().getGroupName());
+
+        userName.setText(userAccount.getAgentName());
+        userInfo.setText("AGENT " + " " + userData.getUserAccount().getAgentNumber() + " [" + userData.getUserAccount().getGroupName() + "] " + sGame);
+
+
+        if (userAccount.getCountMission() == 0)
+            bottomNavigation.setNotification("0", 0);
+        else
+            bottomNavigation.setNotification(String.valueOf(userAccount.getCountMission()), 0);
+
+        if (userAccount.getCountAvatar() == 0) bottomNavigation.setNotification("0", 1);
+        else
+            bottomNavigation.setNotification(String.valueOf(userAccount.getCountAvatar()), 1);
+
+        if (userAccount.getCountBitcoin() == 0)
+            bottomNavigation.setNotification("0", 2);
+        else
+            bottomNavigation.setNotification(String.valueOf(userAccount.getCountBitcoin()), 2);
+
+        if (userAccount.getCountExacoin() == 0)
+            bottomNavigation.setNotification("0", 3);
+        else
+            bottomNavigation.setNotification(String.valueOf(userAccount.getCountExacoin()), 3);
+
+        if (userAccount.getCountPoint() == 0) bottomNavigation.setNotification("0", 4);
+        else
+            bottomNavigation.setNotification(String.valueOf(userAccount.getCountPoint()), 4);
+    }
+
+    private void callUserData(String sSys, String sLang, String sGame, String sLogin, String sHash, String sCrc) {
+        userDataViewModel.getUserData(sSys, sLang, sGame, sLogin, sHash, sCrc);
+    }
+
+    private void searchAllMissions(String sGame) {
+        missionsViewModel.getAllMissions(sGame);
     }
 
 
     private void startSpecMission(MissionSpec missionSpecModelToFragment) {
+
         ArrayList<Answers1> answers1s = new ArrayList<>();
         ArrayList<Answers2> answers2s = new ArrayList<>();
         ArrayList<Answers3> answers3s = new ArrayList<>();
@@ -299,11 +333,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 .replace(R.id.parent_fragment_container, fragment).commit();
 
     }
-
-    private void searchAllMissions(String sGame) {
-        missionsViewModel.getAllMissions(sGame);
-    }
-
 
     @Override
     protected void onResume() {
@@ -368,64 +397,70 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startAlarmBefore(Date entry, String notifTitle, String notifContent) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiverBefore.class);
-        intent.putExtra("NOTIF_TITLE_BEFORE", notifTitle);
-        intent.putExtra("NOTIF_CONTENT_BEFORE", notifContent);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-        Calendar cal = Calendar.getInstance();
+        executorService.execute(() -> {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlertReceiverBefore.class);
+            intent.putExtra("NOTIF_TITLE_BEFORE", notifTitle);
+            intent.putExtra("NOTIF_CONTENT_BEFORE", notifContent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+            Calendar cal = Calendar.getInstance();
 
-        String dateToSplit = simpleDateFormat.format(entry);
-        Log.e("StartAlarm", "" + dateToSplit);
-        Log.e("StartAlarm", "" + notifTitle);
-        Log.e("StartAlarm", "" + notifContent);
-        String[] splitedDateFull = dateToSplit.split(" ");
-        String[] splitedDate = splitedDateFull[0].split("-");
-        String[] splitedHours = splitedDateFull[1].split(":");
+            String dateToSplit = simpleDateFormat.format(entry);
+            Log.e("StartAlarm", "" + dateToSplit);
+            Log.e("StartAlarm", "" + notifTitle);
+            Log.e("StartAlarm", "" + notifContent);
+            String[] splitedDateFull = dateToSplit.split(" ");
+            String[] splitedDate = splitedDateFull[0].split("-");
+            String[] splitedHours = splitedDateFull[1].split(":");
 
-        int monthToCalendar = Integer.parseInt(splitedDate[1]) - 1;
+            int monthToCalendar = Integer.parseInt(splitedDate[1]) - 1;
 
-        cal.set(Calendar.YEAR, Integer.parseInt(splitedDate[0]));
-        cal.set(Calendar.MONTH, monthToCalendar);
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitedDate[2]));
-        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(splitedHours[0]));
-        cal.set(Calendar.MINUTE, Integer.parseInt(splitedHours[1]));
-        cal.set(Calendar.SECOND, Integer.parseInt(splitedHours[2]));
+            cal.set(Calendar.YEAR, Integer.parseInt(splitedDate[0]));
+            cal.set(Calendar.MONTH, monthToCalendar);
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitedDate[2]));
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(splitedHours[0]));
+            cal.set(Calendar.MINUTE, Integer.parseInt(splitedHours[1]));
+            cal.set(Calendar.SECOND, Integer.parseInt(splitedHours[2]));
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
 //        alarmManager.setExact(AlarmManager.RTC_WAKEUP, _triggerReminder, pendingIntent);
+        });
+
     }
 
     private void startAlarmAfter(Date entry, String notifTitle, String notifContent) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiverAfter.class);
-        intent.putExtra("NOTIF_TITLE_AFTER", notifTitle);
-        intent.putExtra("NOTIF_CONTENT_AFTER", notifContent);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 2, intent, 0);
+        executorService.execute(() -> {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlertReceiverAfter.class);
+            intent.putExtra("NOTIF_TITLE_AFTER", notifTitle);
+            intent.putExtra("NOTIF_CONTENT_AFTER", notifContent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 2, intent, 0);
 
-        Calendar cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
 
-        String dateToSplit = simpleDateFormat.format(entry);
+            String dateToSplit = simpleDateFormat.format(entry);
 
-        String[] splitedDateFull = dateToSplit.split(" ");
-        String[] splitedDate = splitedDateFull[0].split("-");
-        String[] splitedHours = splitedDateFull[1].split(":");
+            String[] splitedDateFull = dateToSplit.split(" ");
+            String[] splitedDate = splitedDateFull[0].split("-");
+            String[] splitedHours = splitedDateFull[1].split(":");
 
-        int monthToCalendar = Integer.parseInt(splitedDate[1]) - 1;
-        int timeBeforeEnd = Integer.parseInt(splitedHours[1]) - 15;
-        cal.set(Calendar.YEAR, Integer.parseInt(splitedDate[0]));
-        cal.set(Calendar.MONTH, monthToCalendar);
-        cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitedDate[2]));
-        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(splitedHours[0]));
-        cal.set(Calendar.MINUTE, timeBeforeEnd);
-        cal.set(Calendar.SECOND, Integer.parseInt(splitedHours[2]));
+            int monthToCalendar = Integer.parseInt(splitedDate[1]) - 1;
+            int timeBeforeEnd = Integer.parseInt(splitedHours[1]) - 15;
+            cal.set(Calendar.YEAR, Integer.parseInt(splitedDate[0]));
+            cal.set(Calendar.MONTH, monthToCalendar);
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splitedDate[2]));
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(splitedHours[0]));
+            cal.set(Calendar.MINUTE, timeBeforeEnd);
+            cal.set(Calendar.SECOND, Integer.parseInt(splitedHours[2]));
 
-        Log.e("EndAlarm", "" + cal.getTime());
-        if (cal.getTimeInMillis() > System.currentTimeMillis()) {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-        }
+            Log.e("EndAlarm", "" + cal.getTime());
+            if (cal.getTimeInMillis() > System.currentTimeMillis()) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+            }
 
 //        alarmManager.setExact(AlarmManager.RTC_WAKEUP, _triggerReminder, pendingIntent);
+        });
+
     }
 
     @Override
@@ -441,70 +476,122 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.spec_mission_item:
+                missionSpecViewModel.getMissionSpecLiveData().observe(this, new Observer<MissionSpec>() {
+                    @Override
+                    public void onChanged(MissionSpec missionSpec) {
+                        if (missionSpec !=null) {
+                            missionSpec1.setMissionSpecModel(missionSpec.getMissionSpecModel());
+                            if (missionSpec.getMissionSpecModel().getResult()){startSpecMission(missionSpec);}
+                            else{
+                                showDialogFinished("Misja Specjalna", missionSpec.getMissionSpecModel().getComment());
+                            }
+                            missionSpecViewModel.getMissionSpecLiveData().removeObserver(this);
+                        }
+                    }
+                });
+
                 missionsAdapter = new BottomSheetAdapter();
                 recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(missionsAdapter);
-                missionsAdapter.setResults(missionsViewModel.getSpecMissionList(), "Misja Specjalna");
-                if (missionSpec1 != null) {
+                if (missionsViewModel.getSpecMissionList().size() != 0) {
+                    recyclerView.setAdapter(missionsAdapter);
+                    missionsAdapter.setResults(missionsViewModel.getSpecMissionList(), "Misja Specjalna");
                     missionsAdapter.setOnItemClickListener(position -> {
                         String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + missionsViewModel.getSpecMissionList().get(position).getMission().getIdm() + sLogin + sHash;
                         sCrcSpec = MD5Cipher.md5(mCrcSpec);
                         bottomSheetDialog.dismiss();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         missionSpecViewModel.getSpecMission(sSys, sLang, sGame, missionsViewModel.getSpecMissionList().get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
+                        bottomSheetDialog.dismiss();
                     });
+                    bottomSheetDialog = new BottomSheetDialog(HomeActivity.this);
+                    bottomSheetDialog.setContentView(view);
+                    bottomSheetDialog.show();
                 } else {
                     emptyMissionDialog();
                 }
-        bottomSheetDialog = new BottomSheetDialog(HomeActivity.this);
-        bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
+
                 break;
 
             case R.id.labor_mission_item:
+
+                missionLaboViewModel.getLaboMissionLiveData().observe(this, new Observer<MissionLabo>() {
+                    @Override
+                    public void onChanged(MissionLabo missionLabo) {
+                        if (missionLabo != null){
+                            missionLabo1.setMissionLaboModel(missionLabo.getMissionLaboModel());
+                            if (missionLabo.getMissionLaboModel().getResult()){
+                                startLaboMission(missionLabo);
+                            }else{
+                                showDialogFinished("Misja Laboratoryjna", missionLabo.getMissionLaboModel().getComment());
+                            }
+                            missionLaboViewModel.getLaboMissionLiveData().removeObserver(this);
+
+                        }
+                    }
+                });
+
                 missionsAdapter = new BottomSheetAdapter();
                 recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(missionsAdapter);
-                missionsAdapter.setResults(missionsViewModel.getLaboMissionList(), "Misja Laboratoryjna");
-                if(missionLabo1 != null){
+
+                if(missionsViewModel.getLaboMissionList() != null){
+                    Log.e("Labo", "Labo jest");
+                    recyclerView.setAdapter(missionsAdapter);
+                    missionsAdapter.setResults(missionsViewModel.getLaboMissionList(), "Misja Laboratoryjna");
                     missionsAdapter.setOnItemClickListener(position -> {
                         String mCrc = userLogin.getPassword() + sSys + sLang + sGame + missionsViewModel.getLaboMissionList().get(position).getMission().getIdm() + sLogin + sHash;
                         sCrcLabo = MD5Cipher.md5(mCrc);
-                        bottomSheetDialog.dismiss();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         missionLaboViewModel.getLaboMission(sSys, sLang, sGame, missionsViewModel.getLaboMissionList().get(position).getMission().getIdm(), sLogin, sHash, sCrcLabo);
+                        bottomSheetDialog.dismiss();
                     });
-                }else{
-                    emptyMissionDialog();
-                }
                     bottomSheetDialog = new BottomSheetDialog(this);
                     bottomSheetDialog.setContentView(view);
                     bottomSheetDialog.show();
+                }else{
+                    emptyMissionDialog();
+                }
                 break;
 
             case R.id.instant_mission_item:
+
+                missionFastViewModel.getMissionFastLiveData().observe(this, new Observer<MissionFast>() {
+                    @Override
+                    public void onChanged(MissionFast missionFastModel) {
+                        if (missionFastModel != null){
+                            missionFast1.setMissionFast(missionFastModel.getMissionFast());
+                            if (missionFastModel.getMissionFast().getResult()){startFastMission(missionFastModel);}
+                            else{
+                                showDialogFinished("Misja Błyskawiczna", missionFastModel.getMissionFast().getComment());
+                            }
+                            missionFastViewModel.getMissionFastLiveData().removeObserver(this);
+                        }
+                    }
+                });
+
                 Log.e(TAG, "fast klik");
                 missionsAdapter = new BottomSheetAdapter();
                 recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(missionsAdapter);
-                missionsAdapter.setResults(missionsViewModel.getFastMissionList(), "Misja Błyskawiczna");
-                if (missionFast1 != null){
+
+                if (missionsViewModel.getFastMissionList().size() != 0){
+                    recyclerView.setAdapter(missionsAdapter);
+                    missionsAdapter.setResults(missionsViewModel.getFastMissionList(), "Misja Błyskawiczna");
                     missionsAdapter.setOnItemClickListener(position -> {
                         String mCrcFast = userLogin.getPassword() + sSys + sLang + sGame + missionsViewModel.getFastMissionList().get(position).getMission().getIdm() + sLogin + sHash;
                         sCrcFast = MD5Cipher.md5(mCrcFast);
                         bottomSheetDialog.dismiss();
                         mDrawerLayout.closeDrawer(GravityCompat.START);
                         missionFastViewModel.getFastMission(sSys, sLang, sGame, missionsViewModel.getFastMissionList().get(position).getMission().getIdm(), sLogin, sHash, sCrcFast);
+                        bottomSheetDialog.dismiss();
                     });
-                }else {
-                    emptyMissionDialog();
-                }
                     bottomSheetDialog = new BottomSheetDialog(this);
                     bottomSheetDialog.setContentView(view);
                     bottomSheetDialog.show();
+                }else {
+                    emptyMissionDialog();
+                }
                 break;
 
             case R.id.badges_item:
@@ -619,6 +706,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private String parseImageColor(int edug_points_bar_bottombar) {
+
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(edug_points_bar_bottombar, typedValue, true);
         int backgroundColor = ContextCompat.getColor(this, typedValue.resourceId);
@@ -649,7 +737,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     try {
                         Date dateTimeNow = simpleDateFormat.parse(date);
                         for (int i = 0; i < res.getListMissions().size(); i++) {
-
                             if (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(response.body().getListMissions().get(i).getMission().getStart()).after(dateTimeNow)) {
                                 notificationMissionsStart.put(simpleDateFormat.parse(response.body().getListMissions().get(i).getMission().getStart()), response.body().getListMissions().get(i).getMission().getIdm());
                             }
@@ -662,14 +749,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                     //Stworzenie osobnej mapy do posortowania i wyciągnięcia najwcześniejszej daty.
-                    TreeMap<Date, String> m1 = new TreeMap(notificationMissionsStart);
-                    if (!sortData(m1).isEmpty()) {
-                        startAlarmBefore(sortData(m1).firstKey(), "Dostępna nowa misja", "Rozpocznij misję " + sortData(m1).firstEntry().getValue() + " Agencie");
-                    }
-                    TreeMap<Date, String> m2 = new TreeMap(notificationMissionsFinish);
-                    if (!sortData(m2).isEmpty()) {
-                        startAlarmAfter(sortData(m2).firstKey(), "Czas dobiega końca", "Do końca misji " + sortData(m2).firstEntry().getValue() + " pozozstało 15 minut, pospiesz się Agencie");
-                    }
+                        TreeMap<Date, String> m1 = new TreeMap(notificationMissionsStart);
+                        if (!sortData(m1).isEmpty()) {
+                            startAlarmBefore(sortData(m1).firstKey(), "Dostępna nowa misja", "Rozpocznij misję " + sortData(m1).firstEntry().getValue() + " Agencie");
+                        }
+                        TreeMap<Date, String> m2 = new TreeMap(notificationMissionsFinish);
+                        if (!sortData(m2).isEmpty()) {
+                            startAlarmAfter(sortData(m2).firstKey(), "Czas dobiega końca", "Do końca misji " + sortData(m2).firstEntry().getValue() + " pozozstało 15 minut, pospiesz się Agencie");
+                        }
 
                 }
 
@@ -712,69 +799,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 .setMessage("Aktualnie nie masz żadnej misji do wykonania, Agencie")
                 .setNegativeButton("OK", (dialog, which) -> dialog.cancel())
                 .show();
-    }
-
-    public void callService(String sSys, String sLang, String sGame, String sLogin, String sHash, String sCrc) {
-        executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(()-> {
-            apiRequest.userAccount(sSys, sLang, sGame, sLogin, sHash, sCrc).enqueue(new Callback<UserData>() {
-                @Override
-                public void onResponse(Call<UserData> call, Response<UserData> response) {
-                    navigationView = findViewById(R.id.nav_view);
-                    userName = navigationView.getHeaderView(0).findViewById(R.id.user_name);
-                    userInfo = navigationView.getHeaderView(0).findViewById(R.id.user_info);
-                    userData = response.body();
-                    Log.e(TAG, response.body() + " ");
-
-                    userAccount.setCountMission(userData.getUserAccount().getCountMission());
-                    userAccount.setCountAvatar(userData.getUserAccount().getCountAvatar());
-                    userAccount.setCountBitcoin(userData.getUserAccount().getCountBitcoin());
-                    userAccount.setCountExacoin(userData.getUserAccount().getCountExacoin());
-                    userAccount.setCountPoint(userData.getUserAccount().getCountPoint());
-                    userAccount.setCountBadgesStyle(userData.getUserAccount().getCountBadgesStyle());
-                    userAccount.setResult(userData.getUserAccount().getResult());
-                    userAccount.setAgentNumber(userData.getUserAccount().getAgentNumber());
-                    userAccount.setAgentName(userData.getUserAccount().getAgentName());
-                    userAccount.setAgentEmail(userData.getUserAccount().getAgentEmail());
-                    userAccount.setGroupName(userData.getUserAccount().getGroupName());
-
-                    userName.setText(userAccount.getAgentName());
-                    userInfo.setText("AGENT " + " " + userData.getUserAccount().getAgentNumber() + " [" + userData.getUserAccount().getGroupName() + "] " + sGame);
-
-
-                    if (userAccount.getCountMission() == 0)
-                        bottomNavigation.setNotification("0", 0);
-                    else
-                        bottomNavigation.setNotification(String.valueOf(userAccount.getCountMission()), 0);
-
-                    if (userAccount.getCountAvatar() == 0) bottomNavigation.setNotification("0", 1);
-                    else
-                        bottomNavigation.setNotification(String.valueOf(userAccount.getCountAvatar()), 1);
-
-                    if (userAccount.getCountBitcoin() == 0)
-                        bottomNavigation.setNotification("0", 2);
-                    else
-                        bottomNavigation.setNotification(String.valueOf(userAccount.getCountBitcoin()), 2);
-
-                    if (userAccount.getCountExacoin() == 0)
-                        bottomNavigation.setNotification("0", 3);
-                    else
-                        bottomNavigation.setNotification(String.valueOf(userAccount.getCountExacoin()), 3);
-
-                    if (userAccount.getCountPoint() == 0) bottomNavigation.setNotification("0", 4);
-                    else
-                        bottomNavigation.setNotification(String.valueOf(userAccount.getCountPoint()), 4);
-
-                }
-
-                @Override
-                public void onFailure(Call<UserData> call, Throwable t) {
-
-                }
-            });
-
-        });
-
     }
 
 }

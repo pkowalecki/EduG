@@ -6,13 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import java.util.List;
+
 import pl.kowalecki.edug.Model.MissionLabo.MissionLabo;
+import pl.kowalecki.edug.Model.MissionLabo.MissionLaboModel;
 import pl.kowalecki.edug.Repository.MissionsLaboRepository;
 
 public class MissionLaboViewModel extends AndroidViewModel {
 
     private MissionsLaboRepository missionsLaboRepository;
     private LiveData<MissionLabo> missionLaboLiveData;
+    private MissionLabo missionLabo;
 
     public MissionLaboViewModel(@NonNull Application application) {
         super(application);
@@ -27,5 +31,9 @@ public class MissionLaboViewModel extends AndroidViewModel {
 
     public LiveData<MissionLabo> getLaboMissionLiveData() {
         return missionLaboLiveData;
+    }
+
+    public MissionLabo getMissionLabo() {
+        return missionLabo;
     }
 }

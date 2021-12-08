@@ -95,9 +95,7 @@ public class MissionsRepository {
                             allMissionsListMutableLiveData.setValue(null);
                         }
 
-                    }catch (ParseException e) {
-                            Log.e(TAG, "catch error");
-                            e.printStackTrace();
+                    }catch (ParseException ignored) {
                         }}
                 }
 

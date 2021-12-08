@@ -18,11 +18,13 @@ public class MissionsLaboRepository {
     private final static String TAG = MissionsLaboRepository.class.getSimpleName();
     ApiRequest apiRequest = ServiceGenerator.getRetrofit().create(ApiRequest.class);
     public MutableLiveData<MissionLabo> missionLaboMutableLiveData;
+    MissionLabo missionLabo;
     private final ExecutorService executorService;
 
     public MissionsLaboRepository(){
         missionLaboMutableLiveData = new MutableLiveData<>();
         executorService = Executors.newSingleThreadExecutor();
+        missionLabo = new MissionLabo();
     }
 
     public void callLaboMission(String sSys, String sLang, String sGame, String mMission, String sLogin, String sHash, String sCrc){
@@ -31,6 +33,7 @@ public class MissionsLaboRepository {
                 @Override
                 public void onResponse(Call<MissionLabo> call, Response<MissionLabo> response) {
                     if (response.body() != null){
+                        missionLabo.setMissionLaboModel(response.body().getMissionLaboModel());
                         missionLaboMutableLiveData.setValue(response.body());
                     }
 
@@ -53,4 +56,7 @@ public class MissionsLaboRepository {
         return missionLaboMutableLiveData;
     }
 
+    public MissionLabo getMissionLabo() {
+        return missionLabo;
+    }
 }

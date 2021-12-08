@@ -48,6 +48,8 @@ import retrofit2.Response;
 
 public class SpecialMissionFragment extends Fragment {
 
+    //TODO: Przetestować misję gdy będzie dostępna
+
     SessionManagement sessionManagement;
     Context context;
     MissionsSpecViewModel missionsSpecViewModel;
