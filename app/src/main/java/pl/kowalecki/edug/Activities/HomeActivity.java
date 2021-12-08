@@ -135,7 +135,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     MissionSpec missionSpec1 = new MissionSpec();
     MissionFast missionFast1 = new MissionFast();
     MissionLabo missionLabo1 = new MissionLabo();
-
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +147,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             setTheme(R.style.AppTheme);
         }
         super.onCreate(savedInstanceState);
+        builder = new AlertDialog.Builder(this);
         setContentView(R.layout.activity_home);
         executorService = Executors.newSingleThreadExecutor();
         sSys = sessionManagement.getSys();
@@ -226,6 +227,56 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+
+            missionLaboViewModel.getLaboMissionLiveData().observe(this, new Observer<MissionLabo>() {
+                @Override
+                public void onChanged(MissionLabo missionLabo) {
+                    if (missionLabo != null){
+                        missionLabo1.setMissionLaboModel(missionLabo.getMissionLaboModel());
+                        if (missionLabo.getMissionLaboModel().getResult()){
+                            startLaboMission(missionLabo);
+                        }else{
+                            showDialogFinished("Misja Laboratoryjna", missionLabo.getMissionLaboModel().getComment());
+                        }
+                        missionLaboViewModel.getLaboMissionLiveData().removeObserver(this);
+
+                    }
+                }
+            });
+
+
+
+            missionSpecViewModel.getMissionSpecLiveData().observe(this, new Observer<MissionSpec>() {
+                @Override
+                public void onChanged(MissionSpec missionSpec) {
+                    if (missionSpec !=null) {
+                        missionSpec1.setMissionSpecModel(missionSpec.getMissionSpecModel());
+                        if (missionSpec.getMissionSpecModel().getResult()){startSpecMission(missionSpec);}
+                        else{
+                            showDialogFinished("Misja Specjalna", missionSpec.getMissionSpecModel().getComment());
+                        }
+                        missionSpecViewModel.getMissionSpecLiveData().removeObserver(this);
+                    }
+                }
+            });
+
+
+            missionFastViewModel.getMissionFastLiveData().observe(this, new Observer<MissionFast>() {
+                @Override
+                public void onChanged(MissionFast missionFastModel) {
+                    if (missionFastModel != null){
+                        missionFast1.setMissionFast(missionFastModel.getMissionFast());
+                        if (missionFastModel.getMissionFast().getResult()){startFastMission(missionFastModel);}
+                        else{
+                            showDialogFinished("Misja Błyskawiczna", missionFastModel.getMissionFast().getComment());
+                        }
+                        missionFastViewModel.getMissionFastLiveData().removeObserver(this);
+                    }
+                }
+            });
+
+
 
         //Usuwanie kanałów powiadomień
 //        notificationManagerCompat.deleteNotificationChannel("channel200");
@@ -493,122 +544,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.spec_mission_item:
-                missionSpecViewModel.getMissionSpecLiveData().observe(this, new Observer<MissionSpec>() {
-                    @Override
-                    public void onChanged(MissionSpec missionSpec) {
-                        if (missionSpec !=null) {
-                            missionSpec1.setMissionSpecModel(missionSpec.getMissionSpecModel());
-                            if (missionSpec.getMissionSpecModel().getResult()){startSpecMission(missionSpec);}
-                            else{
-                                showDialogFinished("Misja Specjalna", missionSpec.getMissionSpecModel().getComment());
-                            }
-                            missionSpecViewModel.getMissionSpecLiveData().removeObserver(this);
-                        }
-                    }
-                });
-
-                missionsAdapter = new BottomSheetAdapter();
-                recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                if (missionsViewModel.getSpecMissionList().size() != 0) {
-                    recyclerView.setAdapter(missionsAdapter);
-                    missionsAdapter.setResults(missionsViewModel.getSpecMissionList(), "Misja Specjalna");
-                    missionsAdapter.setOnItemClickListener(position -> {
-                        String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + missionsViewModel.getSpecMissionList().get(position).getMission().getIdm() + sLogin + sHash;
-                        sCrcSpec = MD5Cipher.md5(mCrcSpec);
-                        bottomSheetDialog.dismiss();
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                        missionSpecViewModel.getSpecMission(sSys, sLang, sGame, missionsViewModel.getSpecMissionList().get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
-                        bottomSheetDialog.dismiss();
-                    });
-                    bottomSheetDialog = new BottomSheetDialog(HomeActivity.this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
-                } else {
-                    emptyMissionDialog();
-                }
-
+                initView("spec", "Misja Specjalna", missionsViewModel.getSpecMissionList(), view);
                 break;
 
             case R.id.labor_mission_item:
-
-                missionLaboViewModel.getLaboMissionLiveData().observe(this, new Observer<MissionLabo>() {
-                    @Override
-                    public void onChanged(MissionLabo missionLabo) {
-                        if (missionLabo != null){
-                            missionLabo1.setMissionLaboModel(missionLabo.getMissionLaboModel());
-                            if (missionLabo.getMissionLaboModel().getResult()){
-                                startLaboMission(missionLabo);
-                            }else{
-                                showDialogFinished("Misja Laboratoryjna", missionLabo.getMissionLaboModel().getComment());
-                            }
-                            missionLaboViewModel.getLaboMissionLiveData().removeObserver(this);
-
-                        }
-                    }
-                });
-
-                missionsAdapter = new BottomSheetAdapter();
-                recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                if(missionsViewModel.getLaboMissionList() != null){
-                    Log.e("Labo", "Labo jest");
-                    recyclerView.setAdapter(missionsAdapter);
-                    missionsAdapter.setResults(missionsViewModel.getLaboMissionList(), "Misja Laboratoryjna");
-                    missionsAdapter.setOnItemClickListener(position -> {
-                        String mCrc = userLogin.getPassword() + sSys + sLang + sGame + missionsViewModel.getLaboMissionList().get(position).getMission().getIdm() + sLogin + sHash;
-                        sCrcLabo = MD5Cipher.md5(mCrc);
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                        missionLaboViewModel.getLaboMission(sSys, sLang, sGame, missionsViewModel.getLaboMissionList().get(position).getMission().getIdm(), sLogin, sHash, sCrcLabo);
-                        bottomSheetDialog.dismiss();
-                    });
-                    bottomSheetDialog = new BottomSheetDialog(this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
-                }else{
-                    emptyMissionDialog();
-                }
+                initView("labo", "Misja Laboratoryjna", missionsViewModel.getLaboMissionList(), view);
                 break;
 
             case R.id.instant_mission_item:
-
-                missionFastViewModel.getMissionFastLiveData().observe(this, new Observer<MissionFast>() {
-                    @Override
-                    public void onChanged(MissionFast missionFastModel) {
-                        if (missionFastModel != null){
-                            missionFast1.setMissionFast(missionFastModel.getMissionFast());
-                            if (missionFastModel.getMissionFast().getResult()){startFastMission(missionFastModel);}
-                            else{
-                                showDialogFinished("Misja Błyskawiczna", missionFastModel.getMissionFast().getComment());
-                            }
-                            missionFastViewModel.getMissionFastLiveData().removeObserver(this);
-                        }
-                    }
-                });
-
-                Log.e(TAG, "fast klik");
-                missionsAdapter = new BottomSheetAdapter();
-                recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-                if (missionsViewModel.getFastMissionList().size() != 0){
-                    recyclerView.setAdapter(missionsAdapter);
-                    missionsAdapter.setResults(missionsViewModel.getFastMissionList(), "Misja Błyskawiczna");
-                    missionsAdapter.setOnItemClickListener(position -> {
-                        String mCrcFast = userLogin.getPassword() + sSys + sLang + sGame + missionsViewModel.getFastMissionList().get(position).getMission().getIdm() + sLogin + sHash;
-                        sCrcFast = MD5Cipher.md5(mCrcFast);
-                        bottomSheetDialog.dismiss();
-                        mDrawerLayout.closeDrawer(GravityCompat.START);
-                        missionFastViewModel.getFastMission(sSys, sLang, sGame, missionsViewModel.getFastMissionList().get(position).getMission().getIdm(), sLogin, sHash, sCrcFast);
-                        bottomSheetDialog.dismiss();
-                    });
-                    bottomSheetDialog = new BottomSheetDialog(this);
-                    bottomSheetDialog.setContentView(view);
-                    bottomSheetDialog.show();
-                }else {
-                    emptyMissionDialog();
-                }
+                initView("fast", "Misja Błyskawiczna", missionsViewModel.getFastMissionList(), view);
                 break;
 
             case R.id.badges_item:
@@ -646,6 +590,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 //        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initView(String type, String misja, List<ListMission> missionList, View view) {
+        executorService.execute(() -> {
+            missionsAdapter = new BottomSheetAdapter();
+            recyclerView = view.findViewById(R.id.missions_bottom_recyclerView);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            if (missionList.size() != 0) {
+                recyclerView.setAdapter(missionsAdapter);
+                missionsAdapter.setResults(missionList, misja);
+                missionsAdapter.setOnItemClickListener(position -> {
+                    String mCrcSpec = userLogin.getPassword() + sSys + sLang + sGame + missionList.get(position).getMission().getIdm() + sLogin + sHash;
+                    sCrcSpec = MD5Cipher.md5(mCrcSpec);
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                    if (type.equals("spec"))missionSpecViewModel.getSpecMission(sSys, sLang, sGame, missionList.get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
+                    if (type.equals("labo"))missionLaboViewModel.getLaboMission(sSys, sLang, sGame, missionList.get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
+                    if (type.equals("fast"))missionFastViewModel.getFastMission(sSys, sLang, sGame, missionList.get(position).getMission().getIdm(), sLogin, sHash, sCrcSpec);
+                    bottomSheetDialog.dismiss();
+                });
+                runOnUiThread(() -> {
+                    bottomSheetDialog = new BottomSheetDialog(HomeActivity.this);
+                    bottomSheetDialog.setContentView(view);
+                    bottomSheetDialog.show();
+                });
+
+            } else {
+               runOnUiThread(this::emptyMissionDialog);
+            }
+        });
+
     }
 
     private void initializeCountDrawer() {
@@ -797,7 +771,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showDialogFinished(String title, String comment) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title)
                 .setMessage(comment)
                 .setCancelable(true)
