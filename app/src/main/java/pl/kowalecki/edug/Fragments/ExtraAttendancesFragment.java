@@ -109,10 +109,10 @@ public class ExtraAttendancesFragment extends Fragment {
                             }
                             break;
                         case R.id.menu_labo_attendances:
-                            textView.setText("Misje Laboratoryjne ");
+                            textView.setText("Misje Laboratoryjne");
                             if (attendancesLaboDate.size() == 0){
                                 emptyText.setVisibility(View.VISIBLE);
-                                mRecycleView.setVisibility(View.VISIBLE);
+                                mRecycleView.setVisibility(View.GONE);
                             }else{
                                 emptyText.setVisibility(View.GONE);
                                 mRecycleView.setVisibility(View.VISIBLE);
@@ -120,7 +120,6 @@ public class ExtraAttendancesFragment extends Fragment {
                                 mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
                                 mRecycleView.setLayoutManager(mLayoutManager);
                                 mRecycleView.setAdapter(mAdapter);
-
                             }
                             break;
                     }
@@ -145,7 +144,7 @@ public class ExtraAttendancesFragment extends Fragment {
                     }
                 }
 
-                textView.setText("Misje Laboratoryjne ");
+                textView.setText("Misje Laboratoryjne");
                 if (attendancesLaboDate.size() == 0){
                     mRecycleView.setVisibility(View.GONE);
                     emptyText.setVisibility(View.VISIBLE);
@@ -156,12 +155,8 @@ public class ExtraAttendancesFragment extends Fragment {
                     mAdapter = new ExtraAttendancesAdapter(attendancesLaboDate);
                     mRecycleView.setLayoutManager(mLayoutManager);
                     mRecycleView.setAdapter(mAdapter);
-
                 }
             }
-
-
-
 
             @Override
             public void onFailure(Call<ListAttendances> call, Throwable t) {

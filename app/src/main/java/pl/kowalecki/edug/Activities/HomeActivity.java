@@ -143,7 +143,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         checkMissionsNotifications(sGame);
         setContentView(R.layout.activity_home);
-        ImageButton collapsibleMenuButton = findViewById(R.id.collapsible_menu_imagebutton);
         navigationView = findViewById(R.id.nav_view);
         sessionManagement = new SessionManagement(getApplicationContext());
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -228,7 +227,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         final BottomSheetDialog bottomSheetDialogHeader = new BottomSheetDialog(this);
         bottomSheetDialogHeader.setContentView(R.layout.bottom_sheet_header);
         LinearLayout logoutBottomSheet = bottomSheetDialogHeader.findViewById(R.id.logout_bottom_sheet);
-        LinearLayout badgesStyle1 = bottomSheetDialogHeader.findViewById(R.id.badges_style_1);
         LinearLayout appTheme = bottomSheetDialogHeader.findViewById(R.id.app_theme);
         logoutBottomSheet.setOnClickListener(v -> {
             logout();

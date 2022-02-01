@@ -44,7 +44,7 @@ public class ExtraAttendancesAdapter extends RecyclerView.Adapter<ExtraAttendanc
         String currentDate = mAttendancesDate.get(position);
         String points = mAttendancesDate.get(position);
         holder.mClassDate.setText(currentDate);
-        holder.mPoints.setText("3");
+        holder.mPoints.setText("2");
     }
 
     @Override

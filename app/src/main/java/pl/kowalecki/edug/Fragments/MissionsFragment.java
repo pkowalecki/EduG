@@ -52,7 +52,6 @@ public class MissionsFragment extends Fragment {
     List<MissionFast> missionFastList = new ArrayList<>();
     List<MissionSpec> missionSpecList = new ArrayList<>();
     List<MissionLabo> missionLaboList = new ArrayList<>();
-
     SessionManagement sessionManagement;
     UserService userService = ServiceGenerator.getRetrofit().create(UserService.class);
     TextView textView, emptyMissionsText;
@@ -105,6 +104,7 @@ public class MissionsFragment extends Fragment {
         return v;
 
     }
+
 
     private void checkMode() {
         if (sessionManagement.loadNightModeState()){
@@ -220,7 +220,6 @@ public class MissionsFragment extends Fragment {
                                     Log.e(TAG, "Position" + position);
                                     String mCrc = userLogin.getPassword() + sSys + sLang + sGame + laboActive.get(position) + sLogin + sHash;
                                     sCrcLabo = MD5Cipher.md5(mCrc);
-
                                     callLaboMission(sSys, sLang, sGame, laboActive.get(position), sLogin, sHash, sCrcLabo, position, mMenu);
                                 });
                             }

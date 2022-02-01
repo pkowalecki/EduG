@@ -84,7 +84,7 @@ public class LeaderboardFragment extends Fragment {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                     switch (menuItem.getItemId()){
                         case R.id.item_ranking_menu_special:
-                            textView.setText("Misja Specjalna");
+                            textView.setText("Agent Specjalny");
                             if (specLeaderboardsArrayListIdu.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
                                 emptyText.setVisibility(View.VISIBLE);
@@ -99,7 +99,7 @@ public class LeaderboardFragment extends Fragment {
 
                             break;
                         case R.id.item_ranking_menu_labor:
-                            textView.setText("Misja Laboratoryjna");
+                            textView.setText("Agent Laboratoryjny");
                             if (laboLeaderboardsArrayListIdu.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
                                 emptyText.setVisibility(View.VISIBLE);
@@ -113,7 +113,7 @@ public class LeaderboardFragment extends Fragment {
                             }
                             break;
                         case R.id.item_ranking_menu_instant:
-                            textView.setText("Misja Błyskawiczna");
+                            textView.setText("Agent Błyskawiczny");
                             if (fastLeaderboardsArrayListIdu.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
                                 emptyText.setVisibility(View.VISIBLE);
@@ -129,7 +129,7 @@ public class LeaderboardFragment extends Fragment {
 
                             break;
                         case R.id.item_ranking_menu_allround:
-                            textView.setText("Wszechagent");
+                            textView.setText("Agent Wszechstronny");
                             if (fullLeaderboardsArrayListIdu.size() == 0){
                                 mRecyclerView.setVisibility(View.GONE);
                                 emptyText.setVisibility(View.VISIBLE);
@@ -177,7 +177,7 @@ public class LeaderboardFragment extends Fragment {
 
                 }
 
-                textView.setText("Misja Specjalna");
+                textView.setText("Agent Specjalny");
                 if (specLeaderboardsArrayListIdu.size() == 0){
                     mRecyclerView.setVisibility(View.GONE);
                     emptyText.setVisibility(View.VISIBLE);

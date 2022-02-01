@@ -51,32 +51,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/badges_style_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <ImageView
-
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:contentDescription="@string/bottom_header_badges_image"
-            android:src="@drawable/ic_badges"
-            app:tint="?attr/card_view_text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="@string/edug_motyw_odznak_1"
-            android:textColor="?attr/card_view_text"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/app_theme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
